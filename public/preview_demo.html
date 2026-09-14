@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Textile Planning Solution</title>
+  <title>Textile Planning Solution - Source File Upload</title>
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
   <style>
     @keyframes pulse-ring {
@@ -23,37 +23,51 @@
     .sidebar-transition {
       transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0b1120;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #23354d;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #334e73;
+    }
   </style>
 </head>
-<body class="bg-[#f8fafc] text-slate-800 antialiased font-sans h-screen flex overflow-hidden select-none" id="appBody">
+<body class="bg-[#0b1120] text-slate-200 antialiased font-sans h-screen flex overflow-hidden select-none" id="appBody">
 
   <!-- ========================================== -->
   <!-- LEFT SIDEBAR                               -->
   <!-- ========================================== -->
-  <aside id="sidebar" class="w-64 bg-[#e9eef2] border-r border-slate-300/80 flex flex-col flex-shrink-0 sidebar-transition z-30">
+  <aside id="sidebar" class="w-64 bg-[#0f172a] border-r border-[#1e293b] flex flex-col flex-shrink-0 sidebar-transition z-30">
     
     <!-- Brand Header -->
-    <div class="h-14 px-5 flex items-center border-b border-slate-300/80 bg-[#dfe5eb]">
-      <h1 class="text-[#2e7d32] font-extrabold text-base tracking-tight cursor-pointer" onclick="switchView('welcome')">
-        Textile Planning Solution
+    <div class="h-14 px-5 flex items-center border-b border-[#1e293b] bg-[#0c1322]">
+      <h1 class="text-emerald-400 font-extrabold text-base tracking-tight cursor-pointer flex items-center gap-2" onclick="switchView('welcome')">
+        <span>🧵</span> Textile Planning Solution
       </h1>
     </div>
 
-    <!-- User Profile Card -->
-    <div class="p-3 border-b border-slate-300/70 bg-[#e4ebf0]">
-      <div class="flex items-center justify-between p-2 rounded-lg bg-slate-200/60 border border-slate-300/60 shadow-xs">
+    <!-- User Profile Card (Matches Screenshot) -->
+    <div class="p-3 border-b border-[#1e293b] bg-[#0d1527]">
+      <div class="flex items-center justify-between p-2 rounded-lg bg-[#141e33] border border-[#1e2d4a]">
         <div class="flex items-center gap-2.5 overflow-hidden">
-          <div class="w-8 h-8 rounded-full bg-slate-800 text-white flex items-center justify-center flex-shrink-0">
+          <div class="w-8 h-8 rounded-full bg-slate-700 text-white flex items-center justify-center flex-shrink-0">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
             </svg>
           </div>
           <div class="truncate">
-            <div class="font-bold text-xs text-slate-800 truncate" id="currentUserDisplay">Shimul (Admin)</div>
+            <div class="font-bold text-xs text-white truncate" id="currentUserDisplay">Shimul (Admin)</div>
           </div>
         </div>
         <!-- Red Logout Action Icon -->
-        <button onclick="handleLogout()" title="Logout" class="text-rose-500 hover:text-rose-700 p-1.5 rounded hover:bg-rose-50 transition flex-shrink-0">
+        <button onclick="handleLogout()" title="Logout" class="text-rose-400 hover:text-rose-300 p-1.5 rounded hover:bg-rose-950/40 transition flex-shrink-0">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
             <polyline points="16 17 21 12 16 7"></polyline>
@@ -63,85 +77,103 @@
       </div>
     </div>
 
-    <!-- Navigation Menu Items (Strictly Main Menus Only - No Submenus) -->
-    <nav class="flex-1 overflow-y-auto py-3 px-2 space-y-0.5 text-xs font-medium text-slate-700">
+    <!-- Navigation Menu Items -->
+    <nav class="flex-1 overflow-y-auto py-3 px-2 space-y-1 text-xs font-medium text-slate-300">
 
-      <!-- 1. Data Management -->
-      <button onclick="switchView('data_management')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
-        <div class="flex items-center gap-3">
-          <span class="text-slate-800 text-sm">🗄️</span>
-          <span class="group-hover:text-slate-950">Data Management</span>
+      <!-- 1. DATA MANAGEMENT (Accordion with Submenus as in Screenshot) -->
+      <div class="space-y-0.5">
+        <button onclick="toggleSubmenu('dataMgmtSubmenu', 'dataMgmtChevron')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-[#1e293b] transition group text-left">
+          <div class="flex items-center gap-3">
+            <span class="text-slate-300 text-sm">🗄️</span>
+            <span class="text-slate-200 group-hover:text-white font-semibold">Data Management</span>
+          </div>
+          <!-- Chevron down (v) as in screenshot -->
+          <svg id="dataMgmtChevron" class="w-3.5 h-3.5 text-slate-400 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+        
+        <!-- Submenus (Expanded by default) -->
+        <div id="dataMgmtSubmenu" class="pl-7 pr-2 space-y-1 py-1">
+          <!-- Submenu: Source File Upload (Active Highlight) -->
+          <button id="subBtn_source_upload" onclick="switchView('source_file_upload')" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition text-emerald-400 bg-[#162238] border border-emerald-500/40 shadow-xs">
+            <span>Source File Upload</span>
+          </button>
+          <!-- Submenu: Setup (Dropdowns) -->
+          <button id="subBtn_setup_dropdowns" onclick="switchView('setup_dropdowns')" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-[#162032] transition">
+            <span>Setup (Dropdowns)</span>
+          </button>
         </div>
-      </button>
+      </div>
 
       <!-- 2. Order Management -->
-      <button onclick="switchView('order_management')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
+      <button onclick="switchView('order_management')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-[#1e293b] transition group text-left">
         <div class="flex items-center gap-3">
-          <span class="text-slate-800 text-sm">📋</span>
-          <span class="group-hover:text-slate-950">Order Management</span>
+          <span class="text-slate-300 text-sm">📋</span>
+          <span class="group-hover:text-white">Order Management</span>
         </div>
-        <span class="text-slate-500 text-[11px] font-bold">&lt;</span>
+        <span class="text-slate-500 text-[11px] font-bold">&gt;</span>
       </button>
 
       <!-- 3. Report -->
-      <button onclick="switchView('report')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
+      <button onclick="switchView('report')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-[#1e293b] transition group text-left">
         <div class="flex items-center gap-3">
-          <span class="text-slate-800 text-sm">📑</span>
-          <span class="group-hover:text-slate-950">Report</span>
+          <span class="text-slate-300 text-sm">📑</span>
+          <span class="group-hover:text-white">Report</span>
         </div>
-        <span class="text-slate-500 text-[11px] font-bold">&lt;</span>
+        <span class="text-slate-500 text-[11px] font-bold">&gt;</span>
       </button>
 
       <!-- 4. Plan Filter -->
-      <button onclick="switchView('plan_filter')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
+      <button onclick="switchView('plan_filter')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-[#1e293b] transition group text-left">
         <div class="flex items-center gap-3">
-          <span class="text-slate-800 text-sm">🌪️</span>
-          <span class="group-hover:text-slate-950">Plan Filter</span>
+          <span class="text-slate-300 text-sm">🌪️</span>
+          <span class="group-hover:text-white">Plan Filter</span>
         </div>
-        <span class="text-slate-500 text-[11px] font-bold">&lt;</span>
+        <span class="text-slate-500 text-[11px] font-bold">&gt;</span>
       </button>
 
       <!-- 5. Plan Vs Actual Tracking -->
-      <button onclick="switchView('plan_vs_actual')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
+      <button onclick="switchView('plan_vs_actual')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-[#1e293b] transition group text-left">
         <div class="flex items-center gap-3">
-          <span class="text-slate-800 text-sm">⚖️</span>
-          <span class="group-hover:text-slate-950">Plan Vs Actual Tracking</span>
+          <span class="text-slate-300 text-sm">⚖️</span>
+          <span class="group-hover:text-white">Plan Vs Actual Tracking</span>
         </div>
-        <span class="text-slate-500 text-[11px] font-bold">&lt;</span>
+        <span class="text-slate-500 text-[11px] font-bold">&gt;</span>
       </button>
 
       <!-- 6. Tracking Report -->
-      <button onclick="switchView('tracking_report')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
+      <button onclick="switchView('tracking_report')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-[#1e293b] transition group text-left">
         <div class="flex items-center gap-3">
-          <span class="text-slate-800 text-sm">📑</span>
-          <span class="group-hover:text-slate-950">Tracking Report</span>
+          <span class="text-slate-300 text-sm">📑</span>
+          <span class="group-hover:text-white">Tracking Report</span>
         </div>
-        <span class="text-slate-500 text-[11px] font-bold">&lt;</span>
+        <span class="text-slate-500 text-[11px] font-bold">&gt;</span>
       </button>
 
       <!-- 7. Plan Vs Actual Tracking Filter -->
-      <button onclick="switchView('tracking_filter')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
+      <button onclick="switchView('tracking_filter')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-[#1e293b] transition group text-left">
         <div class="flex items-center gap-3">
-          <span class="text-slate-800 text-sm">🌪️</span>
-          <span class="group-hover:text-slate-950">Plan Vs Actual Tracking Filter</span>
+          <span class="text-slate-300 text-sm">🌪️</span>
+          <span class="group-hover:text-white">Plan Vs Actual Tracking Filter</span>
         </div>
-        <span class="text-slate-500 text-[11px] font-bold">&lt;</span>
+        <span class="text-slate-500 text-[11px] font-bold">&gt;</span>
       </button>
 
       <!-- 8. Load Calculation -->
-      <button onclick="switchView('load_calculation')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
+      <button onclick="switchView('load_calculation')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-[#1e293b] transition group text-left">
         <div class="flex items-center gap-3">
-          <span class="text-slate-800 text-sm">🧮</span>
-          <span class="group-hover:text-slate-950">Load Calculation</span>
+          <span class="text-slate-300 text-sm">🧮</span>
+          <span class="group-hover:text-white">Load Calculation</span>
         </div>
-        <span class="text-slate-500 text-[11px] font-bold">&lt;</span>
+        <span class="text-slate-500 text-[11px] font-bold">&gt;</span>
       </button>
 
       <!-- 9. Manage Users -->
-      <button onclick="switchView('manage_users')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
+      <button onclick="switchView('manage_users')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-[#1e293b] transition group text-left">
         <div class="flex items-center gap-3">
-          <span class="text-slate-800 text-sm">👥</span>
-          <span class="group-hover:text-slate-950">Manage Users</span>
+          <span class="text-slate-300 text-sm">👥</span>
+          <span class="group-hover:text-white">Manage Users</span>
         </div>
       </button>
 
@@ -151,27 +183,26 @@
   <!-- ========================================== -->
   <!-- MAIN CONTENT AREA (Right)                  -->
   <!-- ========================================== -->
-  <div class="flex-1 flex flex-col min-w-0 overflow-hidden bg-[#f4f7f9]">
+  <div class="flex-1 flex flex-col min-w-0 overflow-hidden bg-[#0b1120]">
 
     <!-- Top App Navbar -->
-    <header class="h-14 bg-white border-b border-slate-200/90 flex items-center justify-between px-6 z-20">
+    <header class="h-14 bg-[#0f172a] border-b border-[#1e293b] flex items-center justify-between px-6 z-20">
       <div class="flex items-center gap-4">
         <!-- Hamburger Menu Toggle -->
-        <button onclick="toggleSidebar()" class="text-slate-600 hover:text-slate-900 p-1.5 rounded-lg hover:bg-slate-100 transition">
+        <button onclick="toggleSidebar()" class="text-slate-300 hover:text-white p-1.5 rounded-lg hover:bg-slate-800 transition">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
             <line x1="3" y1="6" x2="21" y2="6"></line>
             <line x1="3" y1="12" x2="21" y2="12"></line>
             <line x1="3" y1="18" x2="21" y2="18"></line>
           </svg>
         </button>
+        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Textile ERP &bull; Production Planning</span>
       </div>
 
-      <div class="flex items-center gap-4">
-        <!-- Dark Mode Toggle (Moon icon) -->
-        <button onclick="toggleDarkMode()" title="Toggle Dark/Light Mode" class="text-slate-600 hover:text-slate-900 p-2 rounded-full hover:bg-slate-100 transition">
-          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-          </svg>
+      <div class="flex items-center gap-3">
+        <!-- Quick Link to Welcome Screen -->
+        <button onclick="switchView('welcome')" class="text-xs bg-[#1e293b] hover:bg-[#283850] text-slate-200 px-3 py-1.5 rounded-lg border border-slate-700 transition">
+          Dashboard Home
         </button>
       </div>
     </header>
@@ -180,13 +211,130 @@
     <main class="flex-1 overflow-y-auto p-6 space-y-6">
 
       <!-- ========================================== -->
-      <!-- VIEW: WELCOME SCREEN (Matches Screenshot)   -->
+      <!-- VIEW: SOURCE FILE UPLOAD (Matches User Screenshot) -->
       <!-- ========================================== -->
-      <div id="viewWelcome" class="space-y-6">
+      <div id="viewSourceUpload" class="space-y-6">
+
+        <!-- Top Notification Banner -->
+        <div id="uploadToast" class="hidden rounded-xl p-3.5 text-xs font-semibold flex items-center justify-between shadow-md transition-all duration-300">
+          <div class="flex items-center gap-2" id="uploadToastContent"></div>
+          <button onclick="hideUploadToast()" class="text-slate-400 hover:text-white font-bold ml-4">&times;</button>
+        </div>
+
+        <!-- 1. Card: Upload Source Data -->
+        <div class="bg-[#0f172a] rounded-xl p-6 border border-[#1e293b] shadow-xl">
+          
+          <!-- Top Section Title with Green Cloud Icon -->
+          <div class="flex items-center gap-3 pb-4 border-b border-[#1e293b]">
+            <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.3" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+              </svg>
+            </div>
+            <h2 class="text-base font-bold tracking-tight text-white">Upload Source Data</h2>
+          </div>
+
+          <!-- Clickable Navigation Tabs (Horizontal) -->
+          <div class="flex items-center gap-6 overflow-x-auto pt-4 pb-2 border-b border-[#1e293b] text-xs font-semibold select-none">
+            <button onclick="selectUploadCategory('General Data', 'General')" id="tab_general" class="upload-tab pb-2 text-emerald-400 border-b-2 border-emerald-400 transition hover:text-emerald-300 whitespace-nowrap">
+              General Data
+            </button>
+            <button onclick="selectUploadCategory('YD Plan Data', 'YD Plan')" id="tab_yd" class="upload-tab pb-2 text-slate-400 border-b-2 border-transparent hover:text-slate-200 transition whitespace-nowrap">
+              YD Plan Data
+            </button>
+            <button onclick="selectUploadCategory('Knitting Plan Data', 'Knitting Plan')" id="tab_knitting" class="upload-tab pb-2 text-slate-400 border-b-2 border-transparent hover:text-slate-200 transition whitespace-nowrap">
+              Knitting Plan Data
+            </button>
+            <button onclick="selectUploadCategory('Dyeing Plan Data', 'Dyeing Plan')" id="tab_dyeing" class="upload-tab pb-2 text-slate-400 border-b-2 border-transparent hover:text-slate-200 transition whitespace-nowrap">
+              Dyeing Plan Data
+            </button>
+            <button onclick="selectUploadCategory('Finishing Plan Data', 'Finishing Plan')" id="tab_finishing" class="upload-tab pb-2 text-slate-400 border-b-2 border-transparent hover:text-slate-200 transition whitespace-nowrap">
+              Finishing Plan Data
+            </button>
+            <button onclick="selectUploadCategory('Delivery Plan Data', 'Delivery Plan')" id="tab_delivery" class="upload-tab pb-2 text-slate-400 border-b-2 border-transparent hover:text-slate-200 transition whitespace-nowrap">
+              Delivery Plan Data
+            </button>
+          </div>
+
+          <!-- Active Upload Action Bar -->
+          <div class="flex flex-wrap items-center justify-between gap-4 pt-5">
+            <!-- Left: Currently uploading label (Dynamically updates) -->
+            <div class="text-xs text-slate-400 font-medium flex items-center gap-1.5">
+              <span>Currently uploading for:</span>
+              <span id="currentUploadCategoryLabel" class="text-emerald-400 font-bold">General Data</span>
+            </div>
+
+            <!-- Right: File Selection Box & Upload Button -->
+            <div class="flex items-center gap-2.5">
+              <div class="flex items-center bg-[#131d2e] border border-[#26354a] rounded-lg px-2.5 py-1 text-xs">
+                <!-- Hidden Native File Input -->
+                <input type="file" id="sourceFileInput" accept=".xlsx, .xls, .csv" class="hidden" onchange="handleFileSelected(this)">
+                <button type="button" onclick="document.getElementById('sourceFileInput').click()" class="bg-[#243247] hover:bg-[#2d3d57] text-slate-200 px-3 py-1 rounded text-xs font-semibold border border-slate-600/50 transition">
+                  Browse...
+                </button>
+                <span id="selectedFileNameDisplay" class="text-slate-400 ml-3 text-xs max-w-[200px] truncate">No file selected.</span>
+              </div>
+
+              <!-- Blue Upload Button with Upload Icon -->
+              <button type="button" onclick="handleUploadFile()" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold px-4 py-1.5 rounded-lg text-xs flex items-center gap-1.5 shadow-sm transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.3" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+                </svg>
+                <span>Upload Data</span>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 2. Card: Uploaded Files Directory Section -->
+        <div class="bg-[#0f172a] rounded-xl p-6 border border-[#1e293b] shadow-xl">
+          
+          <!-- Directory Header with Green Document Icon -->
+          <div class="flex items-center justify-between pb-4 border-b border-[#1e293b]">
+            <div class="flex items-center gap-2">
+              <svg class="w-4 h-4 text-emerald-400" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zM6 4h7v5h5v11H6V4z"/>
+              </svg>
+              <h3 id="directoryCategoryTitle" class="text-xs font-bold text-slate-200">
+                Uploaded Files Directory (General)
+              </h3>
+            </div>
+            <div class="flex items-center gap-2">
+              <span id="directoryCountBadge" class="text-[11px] text-slate-400 bg-slate-800/80 px-2 py-0.5 rounded border border-slate-700">1 File</span>
+            </div>
+          </div>
+
+          <!-- Directory Table -->
+          <div class="overflow-x-auto mt-4">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr class="bg-[#111927] text-slate-300 border-b border-[#1e293b] font-semibold text-[11.5px]">
+                  <th class="py-3 px-4">File Category</th>
+                  <th class="py-3 px-4">File Name</th>
+                  <th class="py-3 px-4">Uploaded By</th>
+                  <th class="py-3 px-4">Date &amp; Time</th>
+                  <th class="py-3 px-4 text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody id="uploadedFilesTbody" class="divide-y divide-[#1e293b] text-slate-300 text-xs font-medium">
+                <!-- Dynamically Rendered -->
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- ========================================== -->
+      <!-- VIEW: WELCOME SCREEN (Scenic Banner & Bokeh) -->
+      <!-- ========================================== -->
+      <div id="viewWelcome" class="hidden space-y-6">
 
         <!-- Scenic Mountain Hero Banner -->
-        <div class="relative w-full h-52 rounded-2xl overflow-hidden shadow-sm border border-slate-200 flex items-center px-10"
-             style="background: linear-gradient(rgba(15, 23, 42, 0.48), rgba(15, 23, 42, 0.70)), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;">
+        <div class="relative w-full h-52 rounded-2xl overflow-hidden shadow-md border border-[#1e293b] flex items-center px-10"
+             style="background: linear-gradient(rgba(15, 23, 42, 0.55), rgba(15, 23, 42, 0.75)), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;">
           <div class="relative z-10 max-w-2xl">
             <h2 class="text-3xl font-extrabold text-white tracking-tight drop-shadow-md">Welcome Back!</h2>
             <p class="text-sm font-medium text-slate-200 mt-2 drop-shadow">Select a Production Plan or Report from the sidebar to manage data.</p>
@@ -194,24 +342,24 @@
         </div>
 
         <!-- Floating Pastel Bubbles & Target/Pulse Card -->
-        <div class="relative bg-white rounded-2xl p-16 shadow-sm border border-slate-200/80 min-h-[380px] flex flex-col items-center justify-center text-center overflow-hidden">
+        <div class="relative bg-[#0f172a] rounded-2xl p-16 shadow-lg border border-[#1e293b] min-h-[380px] flex flex-col items-center justify-center text-center overflow-hidden">
           
           <!-- Decorative Floating Pastel Bokeh Bubbles -->
-          <div class="bubble w-28 h-28 bg-emerald-200/40 -top-6 left-1/4"></div>
-          <div class="bubble w-24 h-24 bg-pink-200/40 top-12 left-1/3"></div>
-          <div class="bubble w-36 h-36 bg-purple-200/40 top-4 right-1/4"></div>
-          <div class="bubble w-20 h-20 bg-blue-200/40 top-20 right-1/3"></div>
-          <div class="bubble w-24 h-24 bg-amber-200/40 bottom-10 left-1/3"></div>
-          <div class="bubble w-32 h-32 bg-purple-200/40 -bottom-10 left-1/2"></div>
-          <div class="bubble w-28 h-28 bg-cyan-200/40 bottom-6 right-1/4"></div>
-          <div class="bubble w-16 h-16 bg-rose-200/40 top-1/2 left-20"></div>
+          <div class="bubble w-28 h-28 bg-emerald-500/10 -top-6 left-1/4"></div>
+          <div class="bubble w-24 h-24 bg-pink-500/10 top-12 left-1/3"></div>
+          <div class="bubble w-36 h-36 bg-purple-500/10 top-4 right-1/4"></div>
+          <div class="bubble w-20 h-20 bg-blue-500/10 top-20 right-1/3"></div>
+          <div class="bubble w-24 h-24 bg-amber-500/10 bottom-10 left-1/3"></div>
+          <div class="bubble w-32 h-32 bg-purple-500/10 -bottom-10 left-1/2"></div>
+          <div class="bubble w-28 h-28 bg-cyan-500/10 bottom-6 right-1/4"></div>
+          <div class="bubble w-16 h-16 bg-rose-500/10 top-1/2 left-20"></div>
 
           <!-- Central Target Radar Rings Graphic -->
           <div class="relative z-10 mb-6 flex items-center justify-center">
-            <div class="w-32 h-32 rounded-full border-2 border-dashed border-indigo-400/50 flex items-center justify-center animate-pulse-ring">
-              <div class="w-24 h-24 rounded-full border border-dashed border-purple-400/60 flex items-center justify-center">
-                <div class="w-16 h-16 rounded-full border border-blue-400/70 flex items-center justify-center bg-blue-50/40">
-                  <div class="w-4 h-4 rounded-full bg-blue-600 shadow-md ring-4 ring-blue-300/40"></div>
+            <div class="w-32 h-32 rounded-full border-2 border-dashed border-indigo-400/40 flex items-center justify-center animate-pulse-ring">
+              <div class="w-24 h-24 rounded-full border border-dashed border-purple-400/50 flex items-center justify-center">
+                <div class="w-16 h-16 rounded-full border border-blue-400/60 flex items-center justify-center bg-blue-900/20">
+                  <div class="w-4 h-4 rounded-full bg-blue-500 shadow-lg ring-4 ring-blue-400/30"></div>
                 </div>
               </div>
             </div>
@@ -219,8 +367,8 @@
 
           <!-- Text Messages -->
           <div class="relative z-10">
-            <h3 class="text-lg font-bold text-slate-800 tracking-tight">Your Planning Dashboard Is Ready!</h3>
-            <p class="text-xs text-slate-500 mt-1 font-medium">Navigate the sidebar to start planning</p>
+            <h3 class="text-lg font-bold text-white tracking-tight">Your Planning Dashboard Is Ready!</h3>
+            <p class="text-xs text-slate-400 mt-1 font-medium">Navigate the sidebar or click Source File Upload under Data Management.</p>
           </div>
         </div>
 
@@ -230,13 +378,13 @@
       <!-- VIEW: MANAGE USERS                         -->
       <!-- ========================================== -->
       <div id="viewManageUsers" class="hidden space-y-6">
-        <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-          <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-200">
+        <div class="bg-[#0f172a] rounded-xl p-6 shadow-xl border border-[#1e293b]">
+          <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-[#1e293b]">
             <div>
-              <h2 class="text-base font-extrabold text-slate-800">Manage Users</h2>
-              <p class="text-xs text-slate-500 mt-0.5">Setup user permissions for menus and buttons.</p>
+              <h2 class="text-base font-extrabold text-white">Manage Users</h2>
+              <p class="text-xs text-slate-400 mt-0.5">Setup user permissions for menus, submenus, and action buttons.</p>
             </div>
-            <button onclick="openUserModal()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-lg shadow-sm transition flex items-center gap-1.5">
+            <button onclick="openUserModal()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-4 py-2 rounded-lg shadow-sm transition flex items-center gap-1.5">
               <span>➕</span> Create New User
             </button>
           </div>
@@ -245,7 +393,7 @@
           <div class="overflow-x-auto mt-4">
             <table class="w-full text-left text-xs border-collapse">
               <thead>
-                <tr class="bg-slate-50 text-slate-600 border-b border-slate-200 font-bold">
+                <tr class="bg-[#111927] text-slate-300 border-b border-[#1e293b] font-bold">
                   <th class="py-3 px-3.5">Username</th>
                   <th class="py-3 px-3.5">Role</th>
                   <th class="py-3 px-3.5">Allowed Buyers</th>
@@ -254,7 +402,7 @@
                   <th class="py-3 px-3.5 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody id="userListTbody" class="divide-y divide-slate-100 font-medium text-slate-700">
+              <tbody id="userListTbody" class="divide-y divide-[#1e293b] font-medium text-slate-300">
                 <!-- Dynamically populated -->
               </tbody>
             </table>
@@ -263,9 +411,9 @@
       </div>
 
       <!-- Placeholder View for Other Menus -->
-      <div id="viewPlaceholder" class="hidden bg-white rounded-2xl p-10 shadow-sm border border-slate-200 text-center">
-        <h3 class="text-base font-bold text-slate-800" id="placeholderTitle">Section Content</h3>
-        <p class="text-xs text-slate-500 mt-1">Select an option from the sidebar or navigate back to the dashboard.</p>
+      <div id="viewPlaceholder" class="hidden bg-[#0f172a] rounded-xl p-10 shadow-xl border border-[#1e293b] text-center">
+        <h3 class="text-base font-bold text-white" id="placeholderTitle">Section Content</h3>
+        <p class="text-xs text-slate-400 mt-1">Select an option from the sidebar or navigate back to the dashboard.</p>
       </div>
 
     </main>
@@ -274,16 +422,16 @@
   <!-- ========================================== -->
   <!-- MODAL: CREATE / EDIT USER                  -->
   <!-- ========================================== -->
-  <div id="userModalOverlay" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
-    <div class="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden">
+  <div id="userModalOverlay" class="fixed inset-0 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
+    <div class="bg-[#0f172a] rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col shadow-2xl border border-[#1e293b] overflow-hidden text-slate-200">
       
       <!-- Modal Header -->
-      <div class="px-6 py-4 border-b border-slate-200 flex justify-between items-center bg-slate-50">
+      <div class="px-6 py-4 border-b border-[#1e293b] flex justify-between items-center bg-[#0d1527]">
         <div>
-          <h3 class="text-sm font-extrabold text-slate-800" id="modalHeading">Create New ERP User</h3>
-          <p class="text-[11px] text-slate-500">Configure credentials, buyer restrictions, and exact permissions.</p>
+          <h3 class="text-sm font-extrabold text-white" id="modalHeading">Create New ERP User</h3>
+          <p class="text-[11px] text-slate-400">Configure credentials, buyer restrictions, and exact permissions.</p>
         </div>
-        <button onclick="closeUserModal()" class="text-slate-400 hover:text-slate-700 text-xl font-bold leading-none">&times;</button>
+        <button onclick="closeUserModal()" class="text-slate-400 hover:text-white text-xl font-bold leading-none">&times;</button>
       </div>
 
       <!-- Modal Body -->
@@ -291,19 +439,19 @@
         
         <div class="grid grid-cols-2 gap-4">
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Username <span class="text-rose-500">*</span></label>
-            <input type="text" id="inpUsername" placeholder="e.g. planner_arif" class="w-full border border-slate-300 rounded-lg p-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+            <label class="block font-bold text-slate-300 mb-1">Username <span class="text-rose-500">*</span></label>
+            <input type="text" id="inpUsername" placeholder="e.g. planner_arif" class="w-full bg-[#131d2e] border border-[#26354a] rounded-lg p-2 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
           </div>
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Password <span class="text-rose-500">*</span></label>
-            <input type="password" id="inpPassword" placeholder="••••••••" class="w-full border border-slate-300 rounded-lg p-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+            <label class="block font-bold text-slate-300 mb-1">Password <span class="text-rose-500">*</span></label>
+            <input type="password" id="inpPassword" placeholder="••••••••" class="w-full bg-[#131d2e] border border-[#26354a] rounded-lg p-2 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
           </div>
         </div>
 
         <div class="grid grid-cols-2 gap-4">
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Role</label>
-            <select id="inpRole" class="w-full border border-slate-300 rounded-lg p-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-semibold">
+            <label class="block font-bold text-slate-300 mb-1">Role</label>
+            <select id="inpRole" class="w-full bg-[#131d2e] border border-[#26354a] rounded-lg p-2 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 font-semibold">
               <option value="Planner">Planner</option>
               <option value="Operator">Operator</option>
               <option value="Viewer">Viewer</option>
@@ -311,23 +459,23 @@
             </select>
           </div>
           <div>
-            <label class="block font-bold text-slate-700 mb-1">Allowed Buyers</label>
-            <input type="text" id="inpBuyers" placeholder="e.g. H&amp;M, Zara (Leave blank for all)" class="w-full border border-slate-300 rounded-lg p-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+            <label class="block font-bold text-slate-300 mb-1">Allowed Buyers</label>
+            <input type="text" id="inpBuyers" placeholder="e.g. H&amp;M, Zara (Leave blank for all)" class="w-full bg-[#131d2e] border border-[#26354a] rounded-lg p-2 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
           </div>
         </div>
 
-        <!-- PERMISSION LIST (Main Menus & Buttons Only) -->
-        <div class="pt-3 border-t border-slate-200">
+        <!-- PERMISSION LIST (Main Menus, Submenus & Buttons) -->
+        <div class="pt-3 border-t border-[#1e293b]">
           <div class="flex items-center justify-between mb-2">
-            <span class="text-xs font-extrabold text-slate-800">Menu &amp; Button Permissions</span>
+            <span class="text-xs font-extrabold text-white">Menu, Submenu &amp; Button Permissions</span>
             <div class="flex items-center gap-2 text-[11px]">
-              <button type="button" onclick="toggleAllPerms(true)" class="text-emerald-700 hover:underline font-semibold">Select All</button>
-              <span class="text-slate-300">|</span>
-              <button type="button" onclick="toggleAllPerms(false)" class="text-slate-500 hover:underline">Clear All</button>
+              <button type="button" onclick="toggleAllPerms(true)" class="text-emerald-400 hover:underline font-semibold">Select All</button>
+              <span class="text-slate-600">|</span>
+              <button type="button" onclick="toggleAllPerms(false)" class="text-slate-400 hover:underline">Clear All</button>
             </div>
           </div>
 
-          <div id="permissionCategoriesBox" class="space-y-4 bg-slate-50 p-4 rounded-xl border border-slate-200/80 max-h-60 overflow-y-auto">
+          <div id="permissionCategoriesBox" class="space-y-4 bg-[#090d16] p-4 rounded-xl border border-[#1e293b] max-h-60 overflow-y-auto">
             <!-- Dynamically populated -->
           </div>
         </div>
@@ -335,19 +483,23 @@
       </div>
 
       <!-- Modal Footer -->
-      <div class="px-6 py-3 border-t border-slate-200 bg-slate-50 flex justify-end gap-2.5">
-        <button onclick="closeUserModal()" class="px-4 py-2 rounded-lg border border-slate-300 text-slate-600 font-bold hover:bg-slate-100">Cancel</button>
-        <button onclick="saveUserFromModal()" class="px-5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold shadow-sm">Save User</button>
+      <div class="px-6 py-3 border-t border-[#1e293b] bg-[#0d1527] flex justify-end gap-2.5">
+        <button onclick="closeUserModal()" class="px-4 py-2 rounded-lg border border-slate-700 text-slate-300 font-bold hover:bg-slate-800">Cancel</button>
+        <button onclick="saveUserFromModal()" class="px-5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold shadow-sm">Save User</button>
       </div>
 
     </div>
   </div>
 
-  <!-- JAVASCRIPT -->
+  <!-- ========================================== -->
+  <!-- JAVASCRIPT LOGIC                           -->
+  <!-- ========================================== -->
   <script>
-    // System Permissions: Strictly the main menus and action buttons
+    // System Permissions: Includes Navigation Menus, Submenus & Action Buttons
     let systemPermissions = [
-      { id: 'menu:data_management', name: 'Data Management', category: 'Navigation Menus' },
+      { id: 'menu:data_management', name: 'Data Management (Main Menu)', category: 'Navigation Menus' },
+      { id: 'menu:source_upload', name: 'Source File Upload (Submenu)', category: 'Navigation Menus' },
+      { id: 'menu:setup_dropdowns', name: 'Setup (Dropdowns) (Submenu)', category: 'Navigation Menus' },
       { id: 'menu:order_management', name: 'Order Management', category: 'Navigation Menus' },
       { id: 'menu:report', name: 'Report', category: 'Navigation Menus' },
       { id: 'menu:plan_filter', name: 'Plan Filter', category: 'Navigation Menus' },
@@ -358,12 +510,262 @@
       { id: 'menu:manage_users', name: 'Manage Users', category: 'Navigation Menus' },
 
       // Action Buttons
+      { id: 'btn:upload_source_data', name: 'Upload Data Button', category: 'Action Buttons' },
+      { id: 'btn:delete_source_file', name: 'Delete Uploaded File Button', category: 'Action Buttons' },
       { id: 'btn:save_data', name: 'Save / Update Button', category: 'Action Buttons' },
-      { id: 'btn:upload_excel', name: 'Upload Spreadsheet Button', category: 'Action Buttons' },
       { id: 'btn:filter_data', name: 'Filter / Search Button', category: 'Action Buttons' }
     ];
 
-    // Mock Users Database
+    // Uploaded Files Directory Database (Initial seed matches user screenshot)
+    let uploadedFiles = [
+      {
+        id: 'seed-file-1',
+        category: 'General',
+        fileName: 'General Information & Planning.xlsx',
+        uploadedBy: 'mubarak',
+        dateTime: '9/14/2026, 9:49:22 AM'
+      }
+    ];
+
+    // Current Upload Category State
+    let currentCategory = {
+      fullName: 'General Data',
+      shortName: 'General'
+    };
+
+    let selectedFileObj = null;
+
+    // Switch Category Tabs
+    function selectUploadCategory(fullName, shortName) {
+      currentCategory = { fullName, shortName };
+
+      // Update Tabs styling
+      const tabs = [
+        { id: 'tab_general', name: 'General Data' },
+        { id: 'tab_yd', name: 'YD Plan Data' },
+        { id: 'tab_knitting', name: 'Knitting Plan Data' },
+        { id: 'tab_dyeing', name: 'Dyeing Plan Data' },
+        { id: 'tab_finishing', name: 'Finishing Plan Data' },
+        { id: 'tab_delivery', name: 'Delivery Plan Data' }
+      ];
+
+      tabs.forEach(t => {
+        const el = document.getElementById(t.id);
+        if (el) {
+          if (t.name === fullName) {
+            el.className = 'upload-tab pb-2 text-emerald-400 border-b-2 border-emerald-400 transition hover:text-emerald-300 whitespace-nowrap';
+          } else {
+            el.className = 'upload-tab pb-2 text-slate-400 border-b-2 border-transparent hover:text-slate-200 transition whitespace-nowrap';
+          }
+        }
+      });
+
+      // Update Labels
+      document.getElementById('currentUploadCategoryLabel').textContent = fullName;
+      document.getElementById('directoryCategoryTitle').textContent = `Uploaded Files Directory (${shortName})`;
+
+      // Render table filtered to current category
+      renderUploadedFilesTable();
+    }
+
+    // Handle File Selection
+    function handleFileSelected(input) {
+      if (input.files && input.files[0]) {
+        selectedFileObj = input.files[0];
+        document.getElementById('selectedFileNameDisplay').textContent = selectedFileObj.name;
+        document.getElementById('selectedFileNameDisplay').className = 'text-white font-medium ml-3 text-xs max-w-[200px] truncate';
+      } else {
+        selectedFileObj = null;
+        document.getElementById('selectedFileNameDisplay').textContent = 'No file selected.';
+        document.getElementById('selectedFileNameDisplay').className = 'text-slate-400 ml-3 text-xs max-w-[200px] truncate';
+      }
+    }
+
+    // Handle Upload Action
+    function handleUploadFile() {
+      if (!selectedFileObj) {
+        showUploadToast('Please click "Browse..." to select an Excel or CSV file first.', 'error');
+        return;
+      }
+
+      // Add to Uploaded Files list
+      const newFileEntry = {
+        id: 'file-' + Date.now(),
+        category: currentCategory.shortName,
+        fileName: selectedFileObj.name,
+        uploadedBy: 'Shimul', // Current active user
+        dateTime: new Date().toLocaleString()
+      };
+
+      uploadedFiles.unshift(newFileEntry);
+
+      showUploadToast(`"${selectedFileObj.name}" uploaded successfully for ${currentCategory.fullName}!`, 'success');
+
+      // Reset file chooser
+      selectedFileObj = null;
+      document.getElementById('sourceFileInput').value = '';
+      document.getElementById('selectedFileNameDisplay').textContent = 'No file selected.';
+      document.getElementById('selectedFileNameDisplay').className = 'text-slate-400 ml-3 text-xs max-w-[200px] truncate';
+
+      renderUploadedFilesTable();
+    }
+
+    // Render Uploaded Files Directory Table
+    function renderUploadedFilesTable() {
+      const tbody = document.getElementById('uploadedFilesTbody');
+      tbody.innerHTML = '';
+
+      // Filter files by current category, or if empty show helper
+      const filtered = uploadedFiles.filter(f => f.category === currentCategory.shortName);
+      
+      document.getElementById('directoryCountBadge').textContent = `${filtered.length} File${filtered.length === 1 ? '' : 's'}`;
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="5" class="py-8 text-center text-slate-500 font-medium">
+              No files uploaded yet for <span class="text-slate-400 font-semibold">${currentCategory.fullName}</span>. Click "Browse..." and "Upload Data" above to add files.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      filtered.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-[#131d2e] transition border-b border-[#1e293b]';
+
+        tr.innerHTML = `
+          <td class="py-3 px-4">
+            <span class="bg-[#1e1b4b] text-indigo-300 border border-indigo-500/40 px-2.5 py-0.5 rounded-full text-[11px] font-semibold">
+              ${item.category}
+            </span>
+          </td>
+          <td class="py-3 px-4 flex items-center gap-2">
+            <!-- Excel Icon (Green Sheet with X) -->
+            <span class="w-5 h-5 rounded bg-emerald-900/60 border border-emerald-500/40 text-emerald-300 flex items-center justify-center text-[10px] font-bold">
+              X
+            </span>
+            <span class="text-slate-200 font-medium">${item.fileName}</span>
+          </td>
+          <td class="py-3 px-4 text-slate-300">${item.uploadedBy}</td>
+          <td class="py-3 px-4 text-slate-400 text-[11.5px]">${item.dateTime}</td>
+          <td class="py-3 px-4 text-right">
+            <!-- Red Trashcan Delete Button -->
+            <button onclick="deleteUploadedFile('${item.id}')" title="Delete File" class="p-1.5 rounded bg-rose-600/20 hover:bg-rose-600 text-rose-400 hover:text-white border border-rose-500/30 transition">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+              </svg>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Delete Uploaded File
+    function deleteUploadedFile(fileId) {
+      if (!confirm('Are you sure you want to delete this uploaded file?')) return;
+      uploadedFiles = uploadedFiles.filter(f => f.id !== fileId);
+      renderUploadedFilesTable();
+      showUploadToast('File entry removed from directory.', 'info');
+    }
+
+    // Show Toast
+    function showUploadToast(msg, type = 'success') {
+      const toast = document.getElementById('uploadToast');
+      const content = document.getElementById('uploadToastContent');
+      toast.classList.remove('hidden');
+
+      if (type === 'success') {
+        toast.className = 'rounded-xl p-3.5 text-xs font-semibold flex items-center justify-between shadow-md bg-emerald-950/80 border border-emerald-500/50 text-emerald-200';
+        content.innerHTML = `<span>✅</span> <span>${msg}</span>`;
+      } else if (type === 'error') {
+        toast.className = 'rounded-xl p-3.5 text-xs font-semibold flex items-center justify-between shadow-md bg-rose-950/80 border border-rose-500/50 text-rose-200';
+        content.innerHTML = `<span>⚠️</span> <span>${msg}</span>`;
+      } else {
+        toast.className = 'rounded-xl p-3.5 text-xs font-semibold flex items-center justify-between shadow-md bg-blue-950/80 border border-blue-500/50 text-blue-200';
+        content.innerHTML = `<span>ℹ️</span> <span>${msg}</span>`;
+      }
+
+      setTimeout(() => {
+        hideUploadToast();
+      }, 5000);
+    }
+
+    function hideUploadToast() {
+      document.getElementById('uploadToast').classList.add('hidden');
+    }
+
+    // Sidebar Submenu Accordion Toggle
+    function toggleSubmenu(submenuId, chevronId) {
+      const sub = document.getElementById(submenuId);
+      const chev = document.getElementById(chevronId);
+      if (sub.classList.contains('hidden')) {
+        sub.classList.remove('hidden');
+        chev.style.transform = 'rotate(0deg)';
+      } else {
+        sub.classList.add('hidden');
+        chev.style.transform = 'rotate(-90deg)';
+      }
+    }
+
+    // Switch Main Views
+    function switchView(viewName) {
+      document.getElementById('viewSourceUpload').classList.add('hidden');
+      document.getElementById('viewWelcome').classList.add('hidden');
+      document.getElementById('viewManageUsers').classList.add('hidden');
+      document.getElementById('viewPlaceholder').classList.add('hidden');
+
+      // Update Submenu button active highlight
+      const subUpload = document.getElementById('subBtn_source_upload');
+      const subDropdowns = document.getElementById('subBtn_setup_dropdowns');
+
+      if (viewName === 'source_file_upload') {
+        document.getElementById('viewSourceUpload').classList.remove('hidden');
+        subUpload.className = 'w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition text-emerald-400 bg-[#162238] border border-emerald-500/40 shadow-xs';
+        subDropdowns.className = 'w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-[#162032] transition';
+        renderUploadedFilesTable();
+      } else if (viewName === 'setup_dropdowns') {
+        document.getElementById('placeholderTitle').textContent = 'Setup (Dropdowns)';
+        document.getElementById('viewPlaceholder').classList.remove('hidden');
+        subUpload.className = 'w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-[#162032] transition';
+        subDropdowns.className = 'w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition text-emerald-400 bg-[#162238] border border-emerald-500/40 shadow-xs';
+      } else if (viewName === 'welcome') {
+        document.getElementById('viewWelcome').classList.remove('hidden');
+        subUpload.className = 'w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-[#162032] transition';
+        subDropdowns.className = 'w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-[#162032] transition';
+      } else if (viewName === 'manage_users') {
+        document.getElementById('viewManageUsers').classList.remove('hidden');
+        renderUsers();
+      } else {
+        const titles = {
+          order_management: 'Order Management',
+          report: 'Report',
+          plan_filter: 'Plan Filter',
+          plan_vs_actual: 'Plan Vs Actual Tracking',
+          tracking_report: 'Tracking Report',
+          tracking_filter: 'Plan Vs Actual Tracking Filter',
+          load_calculation: 'Load Calculation'
+        };
+        document.getElementById('placeholderTitle').textContent = titles[viewName] || 'Section';
+        document.getElementById('viewPlaceholder').classList.remove('hidden');
+      }
+    }
+
+    // Sidebar Toggle
+    let sidebarOpen = true;
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      sidebarOpen = !sidebarOpen;
+      if (!sidebarOpen) {
+        sidebar.style.marginLeft = '-16rem';
+      } else {
+        sidebar.style.marginLeft = '0';
+      }
+    }
+
+    // Users Database
     let users = [
       {
         id: '1',
@@ -375,10 +777,10 @@
       },
       {
         id: '2',
-        username: 'Arif_Planner',
+        username: 'mubarak',
         role: 'Planner',
         allowedBuyers: ['H&M', 'Zara'],
-        permissions: ['menu:data_management', 'menu:order_management', 'menu:report', 'btn:save_data', 'btn:upload_excel'],
+        permissions: ['menu:data_management', 'menu:source_upload', 'btn:upload_source_data'],
         status: 'Active'
       }
     ];
@@ -389,28 +791,28 @@
 
       users.forEach(u => {
         const tr = document.createElement('tr');
-        tr.className = 'hover:bg-slate-50 transition border-b border-slate-100';
+        tr.className = 'hover:bg-[#131d2e] transition border-b border-[#1e293b]';
 
-        const buyerText = u.allowedBuyers.length ? u.allowedBuyers.join(', ') : '<span class="text-slate-400 font-normal">All Buyers</span>';
-        const permCount = u.permissions.includes('*') ? '<span class="bg-purple-100 text-purple-800 font-bold px-2 py-0.5 rounded text-[10px]">All (Admin)</span>' : `<span class="bg-slate-100 text-slate-800 px-2 py-0.5 rounded text-[10px] font-semibold">${u.permissions.length} items</span>`;
+        const buyerText = u.allowedBuyers.length ? u.allowedBuyers.join(', ') : '<span class="text-slate-500 font-normal">All Buyers</span>';
+        const permCount = u.permissions.includes('*') ? '<span class="bg-purple-950 text-purple-300 border border-purple-500/40 font-bold px-2 py-0.5 rounded text-[10px]">All (Admin)</span>' : `<span class="bg-slate-800 text-slate-300 px-2 py-0.5 rounded text-[10px] font-semibold border border-slate-700">${u.permissions.length} items</span>`;
 
         tr.innerHTML = `
-          <td class="py-3 px-3.5 font-bold text-slate-900">${u.username}</td>
+          <td class="py-3 px-3.5 font-bold text-white">${u.username}</td>
           <td class="py-3 px-3.5">
             <span class="px-2.5 py-0.5 rounded-full text-[10.5px] font-bold ${
-              u.role === 'Admin' ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800'
+              u.role === 'Admin' ? 'bg-purple-950 text-purple-300 border border-purple-500/40' : 'bg-blue-950 text-blue-300 border border-blue-500/40'
             }">${u.role}</span>
           </td>
-          <td class="py-3 px-3.5 text-slate-600">${buyerText}</td>
+          <td class="py-3 px-3.5 text-slate-300">${buyerText}</td>
           <td class="py-3 px-3.5">${permCount}</td>
           <td class="py-3 px-3.5">
-            <span class="text-emerald-700 font-bold flex items-center gap-1 text-[11px]">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> ${u.status}
+            <span class="text-emerald-400 font-bold flex items-center gap-1 text-[11px]">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> ${u.status}
             </span>
           </td>
           <td class="py-3 px-3.5 text-right">
-            <button onclick="editUser('${u.id}')" class="text-blue-600 hover:text-blue-800 font-bold mr-3">Edit</button>
-            ${u.username !== 'Shimul' ? `<button onclick="deleteUser('${u.id}')" class="text-rose-600 hover:text-rose-800 font-bold">Delete</button>` : ''}
+            <button onclick="editUser('${u.id}')" class="text-blue-400 hover:text-blue-300 font-bold mr-3">Edit</button>
+            ${u.username !== 'Shimul' ? `<button onclick="deleteUser('${u.id}')" class="text-rose-400 hover:text-rose-300 font-bold">Delete</button>` : ''}
           </td>
         `;
         tbody.appendChild(tr);
@@ -429,18 +831,18 @@
 
       Object.entries(grouped).forEach(([catName, perms]) => {
         const catCard = document.createElement('div');
-        catCard.className = 'bg-white p-3 rounded-lg border border-slate-200 shadow-xs';
-        catCard.innerHTML = `<h5 class="text-[11px] font-bold text-slate-800 uppercase tracking-wide border-b border-slate-100 pb-1 mb-2">${catName}</h5>`;
+        catCard.className = 'bg-[#111927] p-3 rounded-lg border border-[#1e293b]';
+        catCard.innerHTML = `<h5 class="text-[11px] font-bold text-slate-300 uppercase tracking-wide border-b border-slate-800 pb-1 mb-2">${catName}</h5>`;
 
         const grid = document.createElement('div');
-        grid.className = 'grid grid-cols-1 sm:grid-cols-2 gap-2 text-slate-700';
+        grid.className = 'grid grid-cols-1 sm:grid-cols-2 gap-2 text-slate-300';
 
         perms.forEach(p => {
           const checked = selectedList.includes('*') || selectedList.includes(p.id);
           const lbl = document.createElement('label');
-          lbl.className = 'flex items-center gap-2 text-[11px] font-medium hover:text-slate-950 cursor-pointer p-1 rounded hover:bg-slate-50 transition';
+          lbl.className = 'flex items-center gap-2 text-[11px] font-medium hover:text-white cursor-pointer p-1 rounded hover:bg-[#192438] transition';
           lbl.innerHTML = `
-            <input type="checkbox" value="${p.id}" class="perm-chk rounded border-slate-300 text-emerald-600 focus:ring-0 w-3.5 h-3.5" ${checked ? 'checked' : ''}>
+            <input type="checkbox" value="${p.id}" class="perm-chk rounded border-slate-700 bg-slate-900 text-emerald-500 focus:ring-0 w-3.5 h-3.5" ${checked ? 'checked' : ''}>
             <span>${p.name}</span>
           `;
           grid.appendChild(lbl);
@@ -453,47 +855,6 @@
 
     function toggleAllPerms(val) {
       document.querySelectorAll('.perm-chk').forEach(c => c.checked = val);
-    }
-
-    function switchView(viewName) {
-      document.getElementById('viewWelcome').classList.add('hidden');
-      document.getElementById('viewManageUsers').classList.add('hidden');
-      document.getElementById('viewPlaceholder').classList.add('hidden');
-
-      if (viewName === 'welcome') {
-        document.getElementById('viewWelcome').classList.remove('hidden');
-      } else if (viewName === 'manage_users') {
-        document.getElementById('viewManageUsers').classList.remove('hidden');
-        renderUsers();
-      } else {
-        const titles = {
-          data_management: 'Data Management',
-          order_management: 'Order Management',
-          report: 'Report',
-          plan_filter: 'Plan Filter',
-          plan_vs_actual: 'Plan Vs Actual Tracking',
-          tracking_report: 'Tracking Report',
-          tracking_filter: 'Plan Vs Actual Tracking Filter',
-          load_calculation: 'Load Calculation'
-        };
-        document.getElementById('placeholderTitle').textContent = titles[viewName] || 'Section';
-        document.getElementById('viewPlaceholder').classList.remove('hidden');
-      }
-    }
-
-    let sidebarOpen = true;
-    function toggleSidebar() {
-      const sidebar = document.getElementById('sidebar');
-      sidebarOpen = !sidebarOpen;
-      if (!sidebarOpen) {
-        sidebar.style.marginLeft = '-16rem';
-      } else {
-        sidebar.style.marginLeft = '0';
-      }
-    }
-
-    function toggleDarkMode() {
-      alert('Dark theme mode toggled');
     }
 
     function openUserModal() {
@@ -558,7 +919,8 @@
       switchView('welcome');
     }
 
-    // Launch
+    // Launch with Source File Upload view active
+    selectUploadCategory('General Data', 'General');
     renderUsers();
     renderPermissionTree();
   </script>
