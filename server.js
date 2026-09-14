@@ -1129,12 +1129,11 @@ app.post('/api/upload/file', optionalAuth, upload.single('file'), async (req, re
 
     const headersArray = Array.from(allHeadersSet);
 
-    // 2. Save UploadedFile metadata and binary base64
+    // 2. Save UploadedFile metadata
     const newFileDoc = new UploadedFile({
       fileName,
       category,
       fileSize: req.file.size,
-      fileData: req.file.buffer.toString('base64'),
       mimeType: req.file.mimetype || 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       totalRows,
       headers: headersArray,
@@ -1217,20 +1216,12 @@ app.get('/api/upload/files', async (req, res) => {
   }
 });
 
-// GET /api/upload/files/:id/download - Download original preserved Excel file
-app.get('/api/upload/files/:id/download', async (req, res) => {
-  try {
-    const fileDoc = await UploadedFile.findById(req.params.id);
-    if (!fileDoc || !fileDoc.fileData) {
-      return res.status(404).json({ success: false, message: 'File not found or file content unavailable.' });
-    }
-    const buffer = Buffer.from(fileDoc.fileData, 'base64');
-    res.setHeader('Content-Type', fileDoc.mimeType || 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-    res.setHeader('Content-Disposition', `attachment; filename="${encodeURIComponent(fileDoc.fileName)}"`);
-    return res.send(buffer);
-  } catch (error) {
-    return res.status(500).json({ success: false, message: 'Failed to download file.', error: error.message });
-  }
+// File download option has been permanently disabled for security
+app.get('/api/upload/files/:id/download', (req, res) => {
+  return res.status(403).json({
+    success: false,
+    message: 'File download is strictly disabled for security.'
+  });
 });
 
 // DELETE /api/upload/files/:id - Delete file and all its preserved data rows

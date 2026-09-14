@@ -1,4 +1,4 @@
-﻿const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
 const uploadedFileSchema = new mongoose.Schema({
   fileName: {
@@ -15,9 +15,6 @@ const uploadedFileSchema = new mongoose.Schema({
   fileSize: {
     type: Number,
     default: 0
-  },
-  fileData: {
-    type: String // Base64 encoded file buffer for persistent storage
   },
   mimeType: {
     type: String,
