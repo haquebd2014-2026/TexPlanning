@@ -4,12 +4,16 @@ require('dotenv').config();
 const User = require('../models/User');
 const UnifiedOrder = require('../models/UnifiedOrder');
 
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/texplanning';
+const rawMongoUri = process.env.MONGODB_URI || process.env.MONGO_URI || "mongodb+srv://haquebd2014-2026:Shimulbd2014%402026@cluster0.fo7s303.mongodb.net/textile_erp?retryWrites=true&w=majority&appName=Cluster0";
+const MONGO_URI = rawMongoUri.replace(
+  /^(mongodb(?:\+srv)?:\/\/[^:]+:)(.*)(@[^@]+)$/,
+  (match, prefix, password, host) => prefix + encodeURIComponent(decodeURIComponent(password)) + host
+);
 
 async function seedDatabase() {
   console.log('[Seed] Connecting to MongoDB...');
   await mongoose.connect(MONGO_URI);
-  console.log(`[Seed] Connected to ${MONGO_URI}`);
+  console.log('[Seed] Connected successfully to database');
 
   // 1. Seed Default Users
   console.log('[Seed] Seeding default users...');

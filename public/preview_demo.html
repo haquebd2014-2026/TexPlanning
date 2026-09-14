@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Textile Planning Solution</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    @keyframes pulse-ring {
+      0% { transform: scale(0.95); opacity: 0.8; }
+      50% { transform: scale(1.05); opacity: 0.4; }
+      100% { transform: scale(0.95); opacity: 0.8; }
+    }
+    .animate-pulse-ring {
+      animation: pulse-ring 3s ease-in-out infinite;
+    }
+    .bubble {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      filter: blur(1px);
+    }
+    .sidebar-transition {
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  </style>
+</head>
+<body class="bg-[#f8fafc] text-slate-800 antialiased font-sans h-screen flex overflow-hidden select-none" id="appBody">
+
+  <!-- ========================================== -->
+  <!-- LEFT SIDEBAR                               -->
+  <!-- ========================================== -->
+  <aside id="sidebar" class="w-64 bg-[#e9eef2] border-r border-slate-300/80 flex flex-col flex-shrink-0 sidebar-transition z-30">
+    
+    <!-- Brand Header -->
+    <div class="h-14 px-5 flex items-center border-b border-slate-300/80 bg-[#dfe5eb]">
+      <h1 class="text-[#2e7d32] font-extrabold text-base tracking-tight cursor-pointer" onclick="switchView('welcome')">
+        Textile Planning Solution
+      </h1>
+    </div>
+
+    <!-- User Profile Card -->
+    <div class="p-3 border-b border-slate-300/70 bg-[#e4ebf0]">
+      <div class="flex items-center justify-between p-2 rounded-lg bg-slate-200/60 border border-slate-300/60 shadow-xs">
+        <div class="flex items-center gap-2.5 overflow-hidden">
+          <div class="w-8 h-8 rounded-full bg-slate-800 text-white flex items-center justify-center flex-shrink-0">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+            </svg>
+          </div>
+          <div class="truncate">
+            <div class="font-bold text-xs text-slate-800 truncate" id="currentUserDisplay">Shimul (Admin)</div>
+          </div>
+        </div>
+        <!-- Red Logout Action Icon -->
+        <button onclick="handleLogout()" title="Logout" class="text-rose-500 hover:text-rose-700 p-1.5 rounded hover:bg-rose-50 transition flex-shrink-0">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Navigation Menu Items (Strictly Main Menus Only - No Submenus) -->
+    <nav class="flex-1 overflow-y-auto py-3 px-2 space-y-0.5 text-xs font-medium text-slate-700">
+
+      <!-- 1. Data Management -->
+      <button onclick="switchView('data_management')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
+        <div class="flex items-center gap-3">
+          <span class="text-slate-800 text-sm">🗄️</span>
+          <span class="group-hover:text-slate-950">Data Management</span>
+        </div>
+      </button>
+
+      <!-- 2. Order Management -->
+      <button onclick="switchView('order_management')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
+        <div class="flex items-center gap-3">
+          <span class="text-slate-800 text-sm">📋</span>
+          <span class="group-hover:text-slate-950">Order Management</span>
+        </div>
+        <span class="text-slate-500 text-[11px] font-bold">&lt;</span>
+      </button>
+
+      <!-- 3. Report -->
+      <button onclick="switchView('report')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
+        <div class="flex items-center gap-3">
+          <span class="text-slate-800 text-sm">📑</span>
+          <span class="group-hover:text-slate-950">Report</span>
+        </div>
+        <span class="text-slate-500 text-[11px] font-bold">&lt;</span>
+      </button>
+
+      <!-- 4. Plan Filter -->
+      <button onclick="switchView('plan_filter')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
+        <div class="flex items-center gap-3">
+          <span class="text-slate-800 text-sm">🌪️</span>
+          <span class="group-hover:text-slate-950">Plan Filter</span>
+        </div>
+        <span class="text-slate-500 text-[11px] font-bold">&lt;</span>
+      </button>
+
+      <!-- 5. Plan Vs Actual Tracking -->
+      <button onclick="switchView('plan_vs_actual')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
+        <div class="flex items-center gap-3">
+          <span class="text-slate-800 text-sm">⚖️</span>
+          <span class="group-hover:text-slate-950">Plan Vs Actual Tracking</span>
+        </div>
+        <span class="text-slate-500 text-[11px] font-bold">&lt;</span>
+      </button>
+
+      <!-- 6. Tracking Report -->
+      <button onclick="switchView('tracking_report')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
+        <div class="flex items-center gap-3">
+          <span class="text-slate-800 text-sm">📑</span>
+          <span class="group-hover:text-slate-950">Tracking Report</span>
+        </div>
+        <span class="text-slate-500 text-[11px] font-bold">&lt;</span>
+      </button>
+
+      <!-- 7. Plan Vs Actual Tracking Filter -->
+      <button onclick="switchView('tracking_filter')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
+        <div class="flex items-center gap-3">
+          <span class="text-slate-800 text-sm">🌪️</span>
+          <span class="group-hover:text-slate-950">Plan Vs Actual Tracking Filter</span>
+        </div>
+        <span class="text-slate-500 text-[11px] font-bold">&lt;</span>
+      </button>
+
+      <!-- 8. Load Calculation -->
+      <button onclick="switchView('load_calculation')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
+        <div class="flex items-center gap-3">
+          <span class="text-slate-800 text-sm">🧮</span>
+          <span class="group-hover:text-slate-950">Load Calculation</span>
+        </div>
+        <span class="text-slate-500 text-[11px] font-bold">&lt;</span>
+      </button>
+
+      <!-- 9. Manage Users -->
+      <button onclick="switchView('manage_users')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
+        <div class="flex items-center gap-3">
+          <span class="text-slate-800 text-sm">👥</span>
+          <span class="group-hover:text-slate-950">Manage Users</span>
+        </div>
+      </button>
+
+    </nav>
+  </aside>
+
+  <!-- ========================================== -->
+  <!-- MAIN CONTENT AREA (Right)                  -->
+  <!-- ========================================== -->
+  <div class="flex-1 flex flex-col min-w-0 overflow-hidden bg-[#f4f7f9]">
+
+    <!-- Top App Navbar -->
+    <header class="h-14 bg-white border-b border-slate-200/90 flex items-center justify-between px-6 z-20">
+      <div class="flex items-center gap-4">
+        <!-- Hamburger Menu Toggle -->
+        <button onclick="toggleSidebar()" class="text-slate-600 hover:text-slate-900 p-1.5 rounded-lg hover:bg-slate-100 transition">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <!-- Dark Mode Toggle (Moon icon) -->
+        <button onclick="toggleDarkMode()" title="Toggle Dark/Light Mode" class="text-slate-600 hover:text-slate-900 p-2 rounded-full hover:bg-slate-100 transition">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Scrollable Workspace Body -->
+    <main class="flex-1 overflow-y-auto p-6 space-y-6">
+
+      <!-- ========================================== -->
+      <!-- VIEW: WELCOME SCREEN (Matches Screenshot)   -->
+      <!-- ========================================== -->
+      <div id="viewWelcome" class="space-y-6">
+
+        <!-- Scenic Mountain Hero Banner -->
+        <div class="relative w-full h-52 rounded-2xl overflow-hidden shadow-sm border border-slate-200 flex items-center px-10"
+             style="background: linear-gradient(rgba(15, 23, 42, 0.48), rgba(15, 23, 42, 0.70)), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;">
+          <div class="relative z-10 max-w-2xl">
+            <h2 class="text-3xl font-extrabold text-white tracking-tight drop-shadow-md">Welcome Back!</h2>
+            <p class="text-sm font-medium text-slate-200 mt-2 drop-shadow">Select a Production Plan or Report from the sidebar to manage data.</p>
+          </div>
+        </div>
+
+        <!-- Floating Pastel Bubbles & Target/Pulse Card -->
+        <div class="relative bg-white rounded-2xl p-16 shadow-sm border border-slate-200/80 min-h-[380px] flex flex-col items-center justify-center text-center overflow-hidden">
+          
+          <!-- Decorative Floating Pastel Bokeh Bubbles -->
+          <div class="bubble w-28 h-28 bg-emerald-200/40 -top-6 left-1/4"></div>
+          <div class="bubble w-24 h-24 bg-pink-200/40 top-12 left-1/3"></div>
+          <div class="bubble w-36 h-36 bg-purple-200/40 top-4 right-1/4"></div>
+          <div class="bubble w-20 h-20 bg-blue-200/40 top-20 right-1/3"></div>
+          <div class="bubble w-24 h-24 bg-amber-200/40 bottom-10 left-1/3"></div>
+          <div class="bubble w-32 h-32 bg-purple-200/40 -bottom-10 left-1/2"></div>
+          <div class="bubble w-28 h-28 bg-cyan-200/40 bottom-6 right-1/4"></div>
+          <div class="bubble w-16 h-16 bg-rose-200/40 top-1/2 left-20"></div>
+
+          <!-- Central Target Radar Rings Graphic -->
+          <div class="relative z-10 mb-6 flex items-center justify-center">
+            <div class="w-32 h-32 rounded-full border-2 border-dashed border-indigo-400/50 flex items-center justify-center animate-pulse-ring">
+              <div class="w-24 h-24 rounded-full border border-dashed border-purple-400/60 flex items-center justify-center">
+                <div class="w-16 h-16 rounded-full border border-blue-400/70 flex items-center justify-center bg-blue-50/40">
+                  <div class="w-4 h-4 rounded-full bg-blue-600 shadow-md ring-4 ring-blue-300/40"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Text Messages -->
+          <div class="relative z-10">
+            <h3 class="text-lg font-bold text-slate-800 tracking-tight">Your Planning Dashboard Is Ready!</h3>
+            <p class="text-xs text-slate-500 mt-1 font-medium">Navigate the sidebar to start planning</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ========================================== -->
+      <!-- VIEW: MANAGE USERS                         -->
+      <!-- ========================================== -->
+      <div id="viewManageUsers" class="hidden space-y-6">
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+          <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-200">
+            <div>
+              <h2 class="text-base font-extrabold text-slate-800">Manage Users</h2>
+              <p class="text-xs text-slate-500 mt-0.5">Setup user permissions for menus and buttons.</p>
+            </div>
+            <button onclick="openUserModal()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-lg shadow-sm transition flex items-center gap-1.5">
+              <span>➕</span> Create New User
+            </button>
+          </div>
+
+          <!-- Users Table -->
+          <div class="overflow-x-auto mt-4">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr class="bg-slate-50 text-slate-600 border-b border-slate-200 font-bold">
+                  <th class="py-3 px-3.5">Username</th>
+                  <th class="py-3 px-3.5">Role</th>
+                  <th class="py-3 px-3.5">Allowed Buyers</th>
+                  <th class="py-3 px-3.5">Granted Permissions</th>
+                  <th class="py-3 px-3.5">Status</th>
+                  <th class="py-3 px-3.5 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="userListTbody" class="divide-y divide-slate-100 font-medium text-slate-700">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Placeholder View for Other Menus -->
+      <div id="viewPlaceholder" class="hidden bg-white rounded-2xl p-10 shadow-sm border border-slate-200 text-center">
+        <h3 class="text-base font-bold text-slate-800" id="placeholderTitle">Section Content</h3>
+        <p class="text-xs text-slate-500 mt-1">Select an option from the sidebar or navigate back to the dashboard.</p>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: CREATE / EDIT USER                  -->
+  <!-- ========================================== -->
+  <div id="userModalOverlay" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
+    <div class="bg-white rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden">
+      
+      <!-- Modal Header -->
+      <div class="px-6 py-4 border-b border-slate-200 flex justify-between items-center bg-slate-50">
+        <div>
+          <h3 class="text-sm font-extrabold text-slate-800" id="modalHeading">Create New ERP User</h3>
+          <p class="text-[11px] text-slate-500">Configure credentials, buyer restrictions, and exact permissions.</p>
+        </div>
+        <button onclick="closeUserModal()" class="text-slate-400 hover:text-slate-700 text-xl font-bold leading-none">&times;</button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-6 overflow-y-auto space-y-4 text-xs">
+        
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Username <span class="text-rose-500">*</span></label>
+            <input type="text" id="inpUsername" placeholder="e.g. planner_arif" class="w-full border border-slate-300 rounded-lg p-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Password <span class="text-rose-500">*</span></label>
+            <input type="password" id="inpPassword" placeholder="••••••••" class="w-full border border-slate-300 rounded-lg p-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Role</label>
+            <select id="inpRole" class="w-full border border-slate-300 rounded-lg p-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 font-semibold">
+              <option value="Planner">Planner</option>
+              <option value="Operator">Operator</option>
+              <option value="Viewer">Viewer</option>
+              <option value="Admin">Administrator</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Allowed Buyers</label>
+            <input type="text" id="inpBuyers" placeholder="e.g. H&amp;M, Zara (Leave blank for all)" class="w-full border border-slate-300 rounded-lg p-2 text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+          </div>
+        </div>
+
+        <!-- PERMISSION LIST (Main Menus & Buttons Only) -->
+        <div class="pt-3 border-t border-slate-200">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-extrabold text-slate-800">Menu &amp; Button Permissions</span>
+            <div class="flex items-center gap-2 text-[11px]">
+              <button type="button" onclick="toggleAllPerms(true)" class="text-emerald-700 hover:underline font-semibold">Select All</button>
+              <span class="text-slate-300">|</span>
+              <button type="button" onclick="toggleAllPerms(false)" class="text-slate-500 hover:underline">Clear All</button>
+            </div>
+          </div>
+
+          <div id="permissionCategoriesBox" class="space-y-4 bg-slate-50 p-4 rounded-xl border border-slate-200/80 max-h-60 overflow-y-auto">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="px-6 py-3 border-t border-slate-200 bg-slate-50 flex justify-end gap-2.5">
+        <button onclick="closeUserModal()" class="px-4 py-2 rounded-lg border border-slate-300 text-slate-600 font-bold hover:bg-slate-100">Cancel</button>
+        <button onclick="saveUserFromModal()" class="px-5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold shadow-sm">Save User</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    // System Permissions: Strictly the main menus and action buttons
+    let systemPermissions = [
+      { id: 'menu:data_management', name: 'Data Management', category: 'Navigation Menus' },
+      { id: 'menu:order_management', name: 'Order Management', category: 'Navigation Menus' },
+      { id: 'menu:report', name: 'Report', category: 'Navigation Menus' },
+      { id: 'menu:plan_filter', name: 'Plan Filter', category: 'Navigation Menus' },
+      { id: 'menu:plan_vs_actual', name: 'Plan Vs Actual Tracking', category: 'Navigation Menus' },
+      { id: 'menu:tracking_report', name: 'Tracking Report', category: 'Navigation Menus' },
+      { id: 'menu:tracking_filter', name: 'Plan Vs Actual Tracking Filter', category: 'Navigation Menus' },
+      { id: 'menu:load_calculation', name: 'Load Calculation', category: 'Navigation Menus' },
+      { id: 'menu:manage_users', name: 'Manage Users', category: 'Navigation Menus' },
+
+      // Action Buttons
+      { id: 'btn:save_data', name: 'Save / Update Button', category: 'Action Buttons' },
+      { id: 'btn:upload_excel', name: 'Upload Spreadsheet Button', category: 'Action Buttons' },
+      { id: 'btn:filter_data', name: 'Filter / Search Button', category: 'Action Buttons' }
+    ];
+
+    // Mock Users Database
+    let users = [
+      {
+        id: '1',
+        username: 'Shimul',
+        role: 'Admin',
+        allowedBuyers: [],
+        permissions: ['*'],
+        status: 'Active'
+      },
+      {
+        id: '2',
+        username: 'Arif_Planner',
+        role: 'Planner',
+        allowedBuyers: ['H&M', 'Zara'],
+        permissions: ['menu:data_management', 'menu:order_management', 'menu:report', 'btn:save_data', 'btn:upload_excel'],
+        status: 'Active'
+      }
+    ];
+
+    function renderUsers() {
+      const tbody = document.getElementById('userListTbody');
+      tbody.innerHTML = '';
+
+      users.forEach(u => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-50 transition border-b border-slate-100';
+
+        const buyerText = u.allowedBuyers.length ? u.allowedBuyers.join(', ') : '<span class="text-slate-400 font-normal">All Buyers</span>';
+        const permCount = u.permissions.includes('*') ? '<span class="bg-purple-100 text-purple-800 font-bold px-2 py-0.5 rounded text-[10px]">All (Admin)</span>' : `<span class="bg-slate-100 text-slate-800 px-2 py-0.5 rounded text-[10px] font-semibold">${u.permissions.length} items</span>`;
+
+        tr.innerHTML = `
+          <td class="py-3 px-3.5 font-bold text-slate-900">${u.username}</td>
+          <td class="py-3 px-3.5">
+            <span class="px-2.5 py-0.5 rounded-full text-[10.5px] font-bold ${
+              u.role === 'Admin' ? 'bg-purple-100 text-purple-800' : 'bg-blue-100 text-blue-800'
+            }">${u.role}</span>
+          </td>
+          <td class="py-3 px-3.5 text-slate-600">${buyerText}</td>
+          <td class="py-3 px-3.5">${permCount}</td>
+          <td class="py-3 px-3.5">
+            <span class="text-emerald-700 font-bold flex items-center gap-1 text-[11px]">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> ${u.status}
+            </span>
+          </td>
+          <td class="py-3 px-3.5 text-right">
+            <button onclick="editUser('${u.id}')" class="text-blue-600 hover:text-blue-800 font-bold mr-3">Edit</button>
+            ${u.username !== 'Shimul' ? `<button onclick="deleteUser('${u.id}')" class="text-rose-600 hover:text-rose-800 font-bold">Delete</button>` : ''}
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function renderPermissionTree(selectedList = []) {
+      const container = document.getElementById('permissionCategoriesBox');
+      container.innerHTML = '';
+
+      const grouped = {};
+      systemPermissions.forEach(p => {
+        if (!grouped[p.category]) grouped[p.category] = [];
+        grouped[p.category].push(p);
+      });
+
+      Object.entries(grouped).forEach(([catName, perms]) => {
+        const catCard = document.createElement('div');
+        catCard.className = 'bg-white p-3 rounded-lg border border-slate-200 shadow-xs';
+        catCard.innerHTML = `<h5 class="text-[11px] font-bold text-slate-800 uppercase tracking-wide border-b border-slate-100 pb-1 mb-2">${catName}</h5>`;
+
+        const grid = document.createElement('div');
+        grid.className = 'grid grid-cols-1 sm:grid-cols-2 gap-2 text-slate-700';
+
+        perms.forEach(p => {
+          const checked = selectedList.includes('*') || selectedList.includes(p.id);
+          const lbl = document.createElement('label');
+          lbl.className = 'flex items-center gap-2 text-[11px] font-medium hover:text-slate-950 cursor-pointer p-1 rounded hover:bg-slate-50 transition';
+          lbl.innerHTML = `
+            <input type="checkbox" value="${p.id}" class="perm-chk rounded border-slate-300 text-emerald-600 focus:ring-0 w-3.5 h-3.5" ${checked ? 'checked' : ''}>
+            <span>${p.name}</span>
+          `;
+          grid.appendChild(lbl);
+        });
+
+        catCard.appendChild(grid);
+        container.appendChild(catCard);
+      });
+    }
+
+    function toggleAllPerms(val) {
+      document.querySelectorAll('.perm-chk').forEach(c => c.checked = val);
+    }
+
+    function switchView(viewName) {
+      document.getElementById('viewWelcome').classList.add('hidden');
+      document.getElementById('viewManageUsers').classList.add('hidden');
+      document.getElementById('viewPlaceholder').classList.add('hidden');
+
+      if (viewName === 'welcome') {
+        document.getElementById('viewWelcome').classList.remove('hidden');
+      } else if (viewName === 'manage_users') {
+        document.getElementById('viewManageUsers').classList.remove('hidden');
+        renderUsers();
+      } else {
+        const titles = {
+          data_management: 'Data Management',
+          order_management: 'Order Management',
+          report: 'Report',
+          plan_filter: 'Plan Filter',
+          plan_vs_actual: 'Plan Vs Actual Tracking',
+          tracking_report: 'Tracking Report',
+          tracking_filter: 'Plan Vs Actual Tracking Filter',
+          load_calculation: 'Load Calculation'
+        };
+        document.getElementById('placeholderTitle').textContent = titles[viewName] || 'Section';
+        document.getElementById('viewPlaceholder').classList.remove('hidden');
+      }
+    }
+
+    let sidebarOpen = true;
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      sidebarOpen = !sidebarOpen;
+      if (!sidebarOpen) {
+        sidebar.style.marginLeft = '-16rem';
+      } else {
+        sidebar.style.marginLeft = '0';
+      }
+    }
+
+    function toggleDarkMode() {
+      alert('Dark theme mode toggled');
+    }
+
+    function openUserModal() {
+      document.getElementById('modalHeading').textContent = 'Create New ERP User';
+      document.getElementById('inpUsername').value = '';
+      document.getElementById('inpPassword').value = '';
+      document.getElementById('inpRole').value = 'Planner';
+      document.getElementById('inpBuyers').value = '';
+      renderPermissionTree();
+      document.getElementById('userModalOverlay').classList.remove('hidden');
+    }
+
+    function closeUserModal() {
+      document.getElementById('userModalOverlay').classList.add('hidden');
+    }
+
+    function saveUserFromModal() {
+      const username = document.getElementById('inpUsername').value.trim();
+      if (!username) {
+        alert('Please enter a username.');
+        return;
+      }
+      const role = document.getElementById('inpRole').value;
+      const buyersRaw = document.getElementById('inpBuyers').value.trim();
+      const allowedBuyers = buyersRaw ? buyersRaw.split(',').map(x => x.trim()) : [];
+
+      const selected = [];
+      document.querySelectorAll('.perm-chk:checked').forEach(c => selected.push(c.value));
+
+      users.push({
+        id: String(Date.now()),
+        username,
+        role,
+        allowedBuyers,
+        permissions: role === 'Admin' ? ['*'] : selected,
+        status: 'Active'
+      });
+
+      renderUsers();
+      closeUserModal();
+    }
+
+    function editUser(id) {
+      const u = users.find(x => x.id === id);
+      if (!u) return;
+      document.getElementById('modalHeading').textContent = `Edit User: ${u.username}`;
+      document.getElementById('inpUsername').value = u.username;
+      document.getElementById('inpRole').value = u.role;
+      document.getElementById('inpBuyers').value = u.allowedBuyers.join(', ');
+      renderPermissionTree(u.permissions);
+      document.getElementById('userModalOverlay').classList.remove('hidden');
+    }
+
+    function deleteUser(id) {
+      if (!confirm('Are you sure you want to delete this user?')) return;
+      users = users.filter(x => x.id !== id);
+      renderUsers();
+    }
+
+    function handleLogout() {
+      alert('Simulating user logout...');
+      switchView('welcome');
+    }
+
+    // Launch
+    renderUsers();
+    renderPermissionTree();
+  </script>
+</body>
+</html>

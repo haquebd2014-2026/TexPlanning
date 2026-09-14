@@ -435,6 +435,7 @@
     async function initAuth() {
       let token = getToken();
       if (!token) {
+        // Attempt quick auto-auth with default admin credentials
         try {
           const res = await fetch('/api/auth/login', {
             method: 'POST',

@@ -39,12 +39,19 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ['Admin', 'User', 'Viewer'],
     default: 'User'
   },
   allowedBuyers: {
     type: [String],
     default: []
+  },
+  permissions: {
+    type: [String],
+    default: []
+  },
+  status: {
+    type: String,
+    default: 'Active'
   }
 }, {
   timestamps: true
@@ -382,10 +389,10 @@ app.use('/uploads', express.static(uploadDir));
 // 5. AUTHENTICATION ROUTES (/api/auth)
 // ==========================================
 
-// POST /api/auth/register (Admin only)
-app.post('/api/auth/register', authenticateToken, requireAdmin, async (req, res) => {
+// POST /api/auth/register & POST /api/auth/users (Admin only)
+const handleCreateUser = async (req, res) => {
   try {
-    const { username, password, role, allowedBuyers } = req.body;
+    const { username, password, role, allowedBuyers, permissions, status } = req.body;
     if (!username || !password) {
       return res.status(400).json({ success: false, message: 'Username and password are required.' });
     }
@@ -399,25 +406,32 @@ app.post('/api/auth/register', authenticateToken, requireAdmin, async (req, res)
       username: username.toLowerCase().trim(),
       password,
       role: role || 'User',
-      allowedBuyers: Array.isArray(allowedBuyers) ? allowedBuyers : []
+      allowedBuyers: Array.isArray(allowedBuyers) ? allowedBuyers : [],
+      permissions: Array.isArray(permissions) ? permissions : (role === 'Admin' ? ['*'] : []),
+      status: status || 'Active'
     });
 
     await newUser.save();
 
     return res.status(201).json({
       success: true,
-      message: 'User registered successfully.',
+      message: 'User created successfully.',
       user: {
         id: newUser._id,
         username: newUser.username,
         role: newUser.role,
-        allowedBuyers: newUser.allowedBuyers
+        allowedBuyers: newUser.allowedBuyers,
+        permissions: newUser.permissions,
+        status: newUser.status
       }
     });
   } catch (error) {
-    return res.status(500).json({ success: false, message: 'Failed to register user.', error: error.message });
+    return res.status(500).json({ success: false, message: 'Failed to create user.', error: error.message });
   }
-});
+};
+
+app.post('/api/auth/register', authenticateToken, requireAdmin, handleCreateUser);
+app.post('/api/auth/users', authenticateToken, requireAdmin, handleCreateUser);
 
 // POST /api/auth/login
 app.post('/api/auth/login', async (req, res) => {
@@ -442,7 +456,8 @@ app.post('/api/auth/login', async (req, res) => {
       id: user._id,
       username: user.username,
       role: user.role,
-      allowedBuyers: user.allowedBuyers
+      allowedBuyers: user.allowedBuyers,
+      permissions: user.permissions || (user.role === 'Admin' ? ['*'] : [])
     };
 
     const token = jwt.sign(payload, JWT_SECRET, { expiresIn });
@@ -458,7 +473,8 @@ app.post('/api/auth/login', async (req, res) => {
         id: user._id,
         username: user.username,
         role: user.role,
-        allowedBuyers: user.allowedBuyers
+        allowedBuyers: user.allowedBuyers,
+        permissions: user.permissions || (user.role === 'Admin' ? ['*'] : [])
       }
     });
   } catch (error) {
@@ -475,6 +491,67 @@ app.get('/api/auth/users', authenticateToken, requireAdmin, async (req, res) => 
     return res.status(500).json({ success: false, message: 'Failed to retrieve users.', error: error.message });
   }
 });
+
+// PUT /api/auth/users/:id & PUT /api/auth/user/:id (Admin only)
+const handleUpdateUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { role, allowedBuyers, permissions, status, password } = req.body;
+
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found.' });
+    }
+
+    if (role !== undefined) user.role = role;
+    if (allowedBuyers !== undefined) user.allowedBuyers = Array.isArray(allowedBuyers) ? allowedBuyers : [];
+    if (permissions !== undefined) user.permissions = Array.isArray(permissions) ? permissions : [];
+    if (status !== undefined) user.status = status;
+    if (password) user.password = password; // pre-save will hash
+
+    await user.save();
+
+    return res.status(200).json({
+      success: true,
+      message: 'User updated successfully.',
+      user: {
+        id: user._id,
+        username: user.username,
+        role: user.role,
+        allowedBuyers: user.allowedBuyers,
+        permissions: user.permissions,
+        status: user.status
+      }
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: 'Failed to update user.', error: error.message });
+  }
+};
+
+app.put('/api/auth/users/:id', authenticateToken, requireAdmin, handleUpdateUser);
+app.put('/api/auth/user/:id', authenticateToken, requireAdmin, handleUpdateUser);
+
+// DELETE /api/auth/users/:id & DELETE /api/auth/user/:id (Admin only)
+const handleDeleteUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (req.user && (req.user.id === id || req.user._id === id)) {
+      return res.status(400).json({ success: false, message: 'Cannot delete your own active account.' });
+    }
+
+    const deleted = await User.findByIdAndDelete(id);
+    if (!deleted) {
+      return res.status(404).json({ success: false, message: 'User not found.' });
+    }
+
+    return res.status(200).json({ success: true, message: `User ${deleted.username} deleted.` });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: 'Failed to delete user.', error: error.message });
+  }
+};
+
+app.delete('/api/auth/users/:id', authenticateToken, requireAdmin, handleDeleteUser);
+app.delete('/api/auth/user/:id', authenticateToken, requireAdmin, handleDeleteUser);
 
 // GET /api/auth/me (Current user)
 app.get('/api/auth/me', authenticateToken, async (req, res) => {
