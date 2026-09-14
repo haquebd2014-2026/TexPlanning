@@ -1,0 +1,6 @@
+Order No,Buyer,Style,Item,Order Qty,Yarn Count,Knit Qty,Knit Status,Color,Dye Qty,Dye Status,Ex-Factory Date,Delivery Qty,Delivery Status
+ORD-2026-001,H&M,HM-POLO-88,Single Jersey 100% Cotton,5000,26s Combed,5200,Completed,Navy Blue,5150,Completed,2026-10-15,5000,Completed
+ORD-2026-002,Zara,ZR-TEE-09,1x1 Rib 95/5 Cotton Spandex,3500,30s Compact,3600,Completed,Olive Green,3400,In Progress,2026-10-22,2500,In Progress
+ORD-2026-003,Target,TG-HOODIE-21,Fleece 80/20 Cotton Poly,8000,20s/10s Poly-Cotton,7500,In Progress,Heather Grey,6000,In Progress,2026-11-05,4200,In Progress
+ORD-2026-004,Next,NX-CREW-14,Interlock 100% Cotton,4200,40s/2 Combed,4300,Completed,Classic Black,4250,Completed,2026-10-30,4100,In Progress
+ORD-2026-005,Marks & Spencer,MS-SLUB-02,Single Jersey Slub Cotton,2800,24s Slub,1200,In Progress,Optical White,800,Pending,2026-11-18,0,Pending

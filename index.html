@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TexPlanning ERP - Unified Single-Screen Planning</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-brand">
+      <div class="brand-logo">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+          <polyline points="2 17 12 22 22 17"></polyline>
+          <polyline points="2 12 12 17 22 12"></polyline>
+        </svg>
+      </div>
+      <div>
+        <h1 class="brand-title">TexPlanning ERP</h1>
+        <span class="brand-subtitle">Unified Planning & Execution Dashboard</span>
+      </div>
+    </div>
+
+    <div class="nav-center">
+      <div class="system-status-pill">
+        <span class="status-dot online"></span>
+        <span id="systemStatusText">System Online</span>
+      </div>
+    </div>
+
+    <div class="nav-user" id="userNavSection">
+      <!-- Populated dynamically by app.js -->
+      <button class="btn btn-primary" id="openLoginBtn">Login</button>
+    </div>
+  </header>
+
+  <!-- Main Dashboard Container -->
+  <main class="main-container">
+
+    <!-- KPI Summary Row -->
+    <section class="kpi-row">
+      <div class="kpi-card">
+        <span class="kpi-label">Total Active Orders</span>
+        <span class="kpi-value" id="kpiTotalOrders">0</span>
+      </div>
+      <div class="kpi-card kpi-knitting">
+        <span class="kpi-label">Knitting Stage Active</span>
+        <span class="kpi-value" id="kpiKnittingActive">0</span>
+      </div>
+      <div class="kpi-card kpi-dyeing">
+        <span class="kpi-label">Dyeing Stage Active</span>
+        <span class="kpi-value" id="kpiDyeingActive">0</span>
+      </div>
+      <div class="kpi-card kpi-delivery">
+        <span class="kpi-label">Pending Deliveries</span>
+        <span class="kpi-value" id="kpiPendingDelivery">0</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Total Allocated Qty (Kg)</span>
+        <span class="kpi-value" id="kpiTotalQty">0</span>
+      </div>
+    </section>
+
+    <!-- Excel Upload Dropzone & Controls Section -->
+    <section class="action-panel">
+      <div class="panel-header">
+        <h2>Spreadsheet Importer & Planning Controls</h2>
+        <div class="panel-actions">
+          <button class="btn btn-outline" id="toggleUploadBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="17 8 12 3 7 8"></polyline>
+              <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+            Excel Importer
+          </button>
+          <button class="btn btn-secondary" id="refreshBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="23 4 23 10 17 10"></polyline>
+              <polyline points="1 20 1 14 7 14"></polyline>
+              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+            </svg>
+            Refresh Data
+          </button>
+        </div>
+      </div>
+
+      <!-- Collapsible Excel Dropzone Area -->
+      <div class="upload-dropzone-wrapper" id="uploadWrapper">
+        <div class="upload-dropzone" id="dropzone">
+          <input type="file" id="excelFileInput" accept=".xlsx, .xls" hidden>
+          <div class="dropzone-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="1.8">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+          </div>
+          <div class="dropzone-text">
+            <strong>Drag and drop production Excel file here</strong>, or <span class="browse-link" id="browseBtn">browse files</span>
+            <p class="dropzone-hint">Supports multi-sheet planning files (.xlsx, .xls up to 50MB)</p>
+          </div>
+        </div>
+
+        <div class="upload-progress-bar-container" id="uploadProgressContainer" style="display: none;">
+          <div class="upload-progress-bar" id="uploadProgressBar"></div>
+          <span class="upload-status-text" id="uploadStatusText">Uploading spreadsheet...</span>
+        </div>
+
+        <div class="upload-alert" id="uploadAlert" style="display: none;"></div>
+      </div>
+
+      <!-- Filters and Search Bar -->
+      <div class="filters-bar">
+        <div class="filter-group search-box">
+          <input type="text" id="searchInput" placeholder="Search order #, style, notes..." />
+        </div>
+        <div class="filter-group">
+          <select id="buyerFilter">
+            <option value="">All Buyers</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <select id="statusFilter">
+            <option value="">All Statuses</option>
+            <option value="Pending">Pending</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Completed">Completed</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" id="applyFiltersBtn">Filter</button>
+        <button class="btn btn-ghost" id="resetFiltersBtn">Reset</button>
+      </div>
+    </section>
+
+    <!-- Master Unified Table Section -->
+    <section class="table-section">
+      <div class="table-container">
+        <table class="unified-table" id="masterTable">
+          <thead>
+            <!-- Primary Stage Header Level -->
+            <tr class="header-group-row">
+              <th colspan="4" class="th-group th-general">Order & General Info</th>
+              <th colspan="4" class="th-group th-knitting">Knitting Stage (Blue)</th>
+              <th colspan="4" class="th-group th-dyeing">Dyeing Stage (Purple)</th>
+              <th colspan="4" class="th-group th-delivery">Delivery Stage (Green)</th>
+              <th class="th-group th-actions">Action</th>
+            </tr>
+            <!-- Detailed Column Header Level -->
+            <tr class="header-sub-row">
+              <!-- General Info -->
+              <th>Order #</th>
+              <th>Buyer</th>
+              <th>Style / Season</th>
+              <th>Order Qty / Ship</th>
+
+              <!-- Knitting Plan -->
+              <th>Knit Qty (Kg)</th>
+              <th>Yarn Inhouse</th>
+              <th>Knit Start/End</th>
+              <th>Knit Status</th>
+
+              <!-- Dyeing Plan -->
+              <th>Dye Qty (Kg)</th>
+              <th>Unit / Process</th>
+              <th>Dye Start/End</th>
+              <th>Dye Status</th>
+
+              <!-- Delivery Plan -->
+              <th>Target Date</th>
+              <th>Delivered Qty</th>
+              <th>Balance</th>
+              <th>Delivery Status</th>
+
+              <!-- Actions -->
+              <th>Quick Save</th>
+            </tr>
+          </thead>
+          <tbody id="ordersTableBody">
+            <tr>
+              <td colspan="17" class="loading-state">
+                <div class="spinner"></div>
+                <span>Loading orders from unified database...</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination Controls Footer -->
+      <div class="pagination-footer">
+        <div class="pagination-info" id="paginationInfo">
+          Showing 0 of 0 orders
+        </div>
+        <div class="pagination-controls">
+          <button class="btn btn-sm btn-outline" id="prevPageBtn" disabled>&laquo; Previous</button>
+          <span class="page-indicator" id="pageIndicator">Page 1 of 1</span>
+          <button class="btn btn-sm btn-outline" id="nextPageBtn" disabled>Next &raquo;</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Authentication Modal -->
+  <div class="modal-overlay" id="loginModal" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Login to TexPlanning</h3>
+        <button class="modal-close" id="closeLoginModalBtn">&times;</button>
+      </div>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="loginUsername">Username</label>
+          <input type="text" id="loginUsername" placeholder="e.g. admin" required />
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" placeholder="Enter password" required />
+        </div>
+        <div class="form-error" id="loginError" style="display: none;"></div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
