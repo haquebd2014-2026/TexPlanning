@@ -266,6 +266,39 @@ unifiedOrderSchema.pre('save', function (next) {
 
 const UnifiedOrder = mongoose.models.UnifiedOrder || mongoose.model('UnifiedOrder', unifiedOrderSchema);
 
+// --- Uploaded File Schema (Permanent storage of binary files & metadata in MongoDB) ---
+const uploadedFileSchema = new mongoose.Schema({
+  fileName: { type: String, required: true, trim: true },
+  category: { type: String, required: true, trim: true, index: true },
+  fileSize: { type: Number, default: 0 },
+  fileData: { type: String }, // Base64 encoded file buffer for persistent storage
+  mimeType: { type: String, default: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' },
+  totalRows: { type: Number, default: 0 },
+  headers: { type: [String], default: [] },
+  uploadedBy: { type: String, default: 'Shimul' }
+}, { timestamps: true });
+
+const UploadedFile = mongoose.models.UploadedFile || mongoose.model('UploadedFile', uploadedFileSchema);
+
+// --- Source Data Record Schema (100% preservation of all rows, columns & custom inputs) ---
+const sourceDataRecordSchema = new mongoose.Schema({
+  fileId: { type: mongoose.Schema.Types.ObjectId, ref: 'UploadedFile', index: true },
+  fileName: { type: String, trim: true },
+  category: { type: String, required: true, trim: true, index: true },
+  sheetName: { type: String, default: 'Sheet1' },
+  rowNumber: { type: Number, default: 0 },
+  recordId: { type: String, required: true, trim: true, index: true },
+  headers: { type: [String], default: [] },
+  data: { type: mongoose.Schema.Types.Mixed, default: {} },
+  additionalData: { type: mongoose.Schema.Types.Mixed, default: {} },
+  updatedBy: { type: String, default: 'Shimul' }
+}, { timestamps: true });
+
+sourceDataRecordSchema.index({ category: 1, recordId: 1 });
+sourceDataRecordSchema.index({ recordId: 1 });
+
+const SourceDataRecord = mongoose.models.SourceDataRecord || mongoose.model('SourceDataRecord', sourceDataRecordSchema);
+
 // ==========================================
 // 2. AUTHENTICATION & SECURITY MIDDLEWARE
 // ==========================================
@@ -1015,6 +1048,293 @@ app.post('/api/orders/upload-excel', authenticateToken, upload.single('file'), a
       message: 'Failed to process spreadsheet upload.',
       error: error.message
     });
+  }
+});
+
+// ==========================================
+// 6B. UNIVERSAL SOURCE DATA PRESERVATION ROUTES
+// ==========================================
+
+function optionalAuth(req, res, next) {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.startsWith('Bearer ')
+    ? authHeader.substring(7)
+    : authHeader;
+  if (!token) return next();
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    req.user = decoded;
+  } catch (e) {}
+  next();
+}
+
+// POST /api/upload/file - Ingest file, store permanently in MongoDB, preserve all rows & dynamic columns
+app.post('/api/upload/file', optionalAuth, upload.single('file'), async (req, res) => {
+  try {
+    if (!req.file || !req.file.buffer) {
+      return res.status(400).json({ success: false, message: 'No file uploaded or file is empty.' });
+    }
+
+    const category = req.body.category || 'General Data';
+    const uploadedBy = req.user?.username || req.body.uploadedBy || 'Shimul';
+    const fileName = req.file.originalname;
+
+    // 1. Parse spreadsheet from memory
+    const workbook = xlsx.read(req.file.buffer, {
+      type: 'buffer',
+      cellDates: true,
+      cellNF: false,
+      cellText: false
+    });
+
+    if (!workbook.SheetNames || workbook.SheetNames.length === 0) {
+      return res.status(400).json({ success: false, message: 'Uploaded file contains no readable sheets.' });
+    }
+
+    const allHeadersSet = new Set();
+    const recordsToInsert = [];
+    let totalRows = 0;
+
+    for (const sheetName of workbook.SheetNames) {
+      const sheet = workbook.Sheets[sheetName];
+      if (!sheet) continue;
+
+      const rawRows = xlsx.utils.sheet_to_json(sheet, { defval: '', raw: false });
+      if (!rawRows || rawRows.length === 0) continue;
+
+      for (let i = 0; i < rawRows.length; i++) {
+        const row = rawRows[i];
+        totalRows++;
+
+        const rowHeaders = Object.keys(row);
+        rowHeaders.forEach(h => allHeadersSet.add(h));
+
+        // Locate Record ID (e.g. Order No, PO No, Job No, Style, Batch No, or Row index)
+        const recordIdVal = row['Order No'] || row['Order'] || row['Order Number'] || row['PO No'] || row['PO'] || row['Job No'] || row['Style'] || row['Batch No'] || row['orderno'] || `ROW-${i + 1}`;
+        const recordId = String(recordIdVal).trim();
+
+        recordsToInsert.push({
+          fileName,
+          category,
+          sheetName,
+          rowNumber: i + 1,
+          recordId,
+          headers: rowHeaders,
+          data: row,
+          additionalData: {},
+          updatedBy: uploadedBy
+        });
+      }
+    }
+
+    const headersArray = Array.from(allHeadersSet);
+
+    // 2. Save UploadedFile metadata and binary base64
+    const newFileDoc = new UploadedFile({
+      fileName,
+      category,
+      fileSize: req.file.size,
+      fileData: req.file.buffer.toString('base64'),
+      mimeType: req.file.mimetype || 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      totalRows,
+      headers: headersArray,
+      uploadedBy
+    });
+    await newFileDoc.save();
+
+    // 3. Attach fileId to each record and save to SourceDataRecord
+    if (recordsToInsert.length > 0) {
+      recordsToInsert.forEach(r => { r.fileId = newFileDoc._id; });
+      await SourceDataRecord.insertMany(recordsToInsert, { ordered: false });
+    }
+
+    // 4. Also perform UnifiedOrder upsert if applicable
+    try {
+      const orderEntries = {};
+      for (const rec of recordsToInsert) {
+        const r = rec.data;
+        const oNo = rec.recordId;
+        if (!oNo || oNo.startsWith('ROW-')) continue;
+        const buyer = r['Buyer'] || r['buyer'] || r['Customer'] || 'Unknown Buyer';
+        const style = r['Style'] || r['style'] || '';
+        if (!orderEntries[oNo]) {
+          orderEntries[oNo] = {
+            orderNo: oNo,
+            buyer,
+            style,
+            overallStatus: 'In Progress',
+            totalOrderQty: Number(r['Order Qty'] || r['totalorderqty'] || 0) || 0
+          };
+        }
+      }
+      const orderList = Object.values(orderEntries);
+      if (orderList.length > 0) {
+        const ops = orderList.map(o => ({
+          updateOne: {
+            filter: { orderNo: o.orderNo },
+            update: { $set: o },
+            upsert: true
+          }
+        }));
+        await UnifiedOrder.bulkWrite(ops, { ordered: false });
+      }
+    } catch (upsertErr) {
+      console.warn('Note: UnifiedOrder sync warning:', upsertErr.message);
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: `File "${fileName}" and all ${totalRows} data rows preserved successfully in MongoDB.`,
+      file: {
+        id: newFileDoc._id,
+        fileName: newFileDoc.fileName,
+        category: newFileDoc.category,
+        fileSize: newFileDoc.fileSize,
+        uploadedBy: newFileDoc.uploadedBy,
+        totalRows,
+        headers: headersArray,
+        createdAt: newFileDoc.createdAt
+      }
+    });
+  } catch (error) {
+    console.error('Upload error:', error);
+    return res.status(500).json({ success: false, message: 'Failed to process and preserve file.', error: error.message });
+  }
+});
+
+// GET /api/upload/files - List preserved files
+app.get('/api/upload/files', async (req, res) => {
+  try {
+    const { category } = req.query;
+    const filter = {};
+    if (category) {
+      filter.category = new RegExp(category.trim(), 'i');
+    }
+    const files = await UploadedFile.find(filter).select('-fileData').sort({ createdAt: -1 });
+    return res.status(200).json({ success: true, count: files.length, files });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: 'Failed to retrieve uploaded files.', error: error.message });
+  }
+});
+
+// GET /api/upload/files/:id/download - Download original preserved Excel file
+app.get('/api/upload/files/:id/download', async (req, res) => {
+  try {
+    const fileDoc = await UploadedFile.findById(req.params.id);
+    if (!fileDoc || !fileDoc.fileData) {
+      return res.status(404).json({ success: false, message: 'File not found or file content unavailable.' });
+    }
+    const buffer = Buffer.from(fileDoc.fileData, 'base64');
+    res.setHeader('Content-Type', fileDoc.mimeType || 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    res.setHeader('Content-Disposition', `attachment; filename="${encodeURIComponent(fileDoc.fileName)}"`);
+    return res.send(buffer);
+  } catch (error) {
+    return res.status(500).json({ success: false, message: 'Failed to download file.', error: error.message });
+  }
+});
+
+// DELETE /api/upload/files/:id - Delete file and all its preserved data rows
+app.delete('/api/upload/files/:id', optionalAuth, async (req, res) => {
+  try {
+    const fileDoc = await UploadedFile.findByIdAndDelete(req.params.id);
+    if (!fileDoc) {
+      return res.status(404).json({ success: false, message: 'File not found.' });
+    }
+    const deletedRecords = await SourceDataRecord.deleteMany({ fileId: req.params.id });
+    return res.status(200).json({
+      success: true,
+      message: `File "${fileDoc.fileName}" and ${deletedRecords.deletedCount} preserved rows deleted successfully.`
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: 'Failed to delete file.', error: error.message });
+  }
+});
+
+// GET /api/data/columns - Distinct column headings by category or system-wide
+app.get('/api/data/columns', async (req, res) => {
+  try {
+    const { category } = req.query;
+    const filter = category ? { category: new RegExp(category.trim(), 'i') } : {};
+    const sampleDocs = await SourceDataRecord.find(filter).select('headers').limit(100);
+    const colSet = new Set();
+    sampleDocs.forEach(d => (d.headers || []).forEach(h => colSet.add(h)));
+    return res.status(200).json({ success: true, columns: Array.from(colSet) });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: 'Failed to retrieve columns.', error: error.message });
+  }
+});
+
+// GET /api/data/records - Query preserved rows by ID, column, search, category
+app.get('/api/data/records', async (req, res) => {
+  try {
+    const { category, recordId, fileId, search, column, value } = req.query;
+    const page = Math.max(1, parseInt(req.query.page, 10) || 1);
+    const limit = Math.max(1, Math.min(200, parseInt(req.query.limit, 10) || 50));
+    const skip = (page - 1) * limit;
+
+    const filter = {};
+    if (category) filter.category = new RegExp(category.trim(), 'i');
+    if (recordId) filter.recordId = new RegExp(recordId.trim(), 'i');
+    if (fileId) filter.fileId = fileId;
+    if (column && value) {
+      filter[`data.${column}`] = new RegExp(value.trim(), 'i');
+    }
+    if (search) {
+      filter.$or = [
+        { recordId: new RegExp(search.trim(), 'i') },
+        { fileName: new RegExp(search.trim(), 'i') }
+      ];
+    }
+
+    const total = await SourceDataRecord.countDocuments(filter);
+    const records = await SourceDataRecord.find(filter)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    return res.status(200).json({
+      success: true,
+      pagination: { total, page, limit, totalPages: Math.ceil(total / limit) },
+      records
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: 'Failed to query preserved records.', error: error.message });
+  }
+});
+
+// PUT /api/data/records/:recordId/additional - Attach user custom inputs against ID / column header
+app.put('/api/data/records/:recordId/additional', optionalAuth, async (req, res) => {
+  try {
+    const { recordId } = req.params;
+    const { additionalData, field, value, category } = req.body;
+    const updatedBy = req.user?.username || req.body.updatedBy || 'Shimul';
+
+    const filter = { recordId };
+    if (category) filter.category = new RegExp(category.trim(), 'i');
+
+    const updateFields = { updatedBy, updatedAt: new Date() };
+
+    if (additionalData && typeof additionalData === 'object') {
+      for (const [k, v] of Object.entries(additionalData)) {
+        updateFields[`additionalData.${k}`] = v;
+      }
+    } else if (field && value !== undefined) {
+      updateFields[`additionalData.${field}`] = value;
+    }
+
+    const result = await SourceDataRecord.updateMany(filter, { $set: updateFields });
+    if (result.matchedCount === 0) {
+      return res.status(404).json({ success: false, message: `No record found with ID "${recordId}".` });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: `Additional data saved for Record ID "${recordId}".`,
+      matchedCount: result.matchedCount,
+      modifiedCount: result.modifiedCount
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: 'Failed to update additional data.', error: error.message });
   }
 });
 

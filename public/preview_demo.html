@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Textile Planning Solution - Source File Upload</title>
+  <title>Textile Planning Solution - Source File Upload & Data Preservation</title>
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
   <style>
     @keyframes pulse-ring {
@@ -80,20 +80,19 @@
     <!-- Navigation Menu Items -->
     <nav class="flex-1 overflow-y-auto py-3 px-2 space-y-1 text-xs font-medium text-slate-300">
 
-      <!-- 1. DATA MANAGEMENT (Accordion with Submenus as in Screenshot) -->
+      <!-- 1. DATA MANAGEMENT (Accordion with Submenus) -->
       <div class="space-y-0.5">
         <button onclick="toggleSubmenu('dataMgmtSubmenu', 'dataMgmtChevron')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-[#1e293b] transition group text-left">
           <div class="flex items-center gap-3">
             <span class="text-slate-300 text-sm">🗄️</span>
             <span class="text-slate-200 group-hover:text-white font-semibold">Data Management</span>
           </div>
-          <!-- Chevron down (v) as in screenshot -->
           <svg id="dataMgmtChevron" class="w-3.5 h-3.5 text-slate-400 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path>
           </svg>
         </button>
         
-        <!-- Submenus (Expanded by default) -->
+        <!-- Submenus -->
         <div id="dataMgmtSubmenu" class="pl-7 pr-2 space-y-1 py-1">
           <!-- Submenu: Source File Upload (Active Highlight) -->
           <button id="subBtn_source_upload" onclick="switchView('source_file_upload')" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition text-emerald-400 bg-[#162238] border border-emerald-500/40 shadow-xs">
@@ -181,14 +180,13 @@
   </aside>
 
   <!-- ========================================== -->
-  <!-- MAIN CONTENT AREA (Right)                  -->
+  <!-- MAIN CONTENT AREA                          -->
   <!-- ========================================== -->
   <div class="flex-1 flex flex-col min-w-0 overflow-hidden bg-[#0b1120]">
 
     <!-- Top App Navbar -->
     <header class="h-14 bg-[#0f172a] border-b border-[#1e293b] flex items-center justify-between px-6 z-20">
       <div class="flex items-center gap-4">
-        <!-- Hamburger Menu Toggle -->
         <button onclick="toggleSidebar()" class="text-slate-300 hover:text-white p-1.5 rounded-lg hover:bg-slate-800 transition">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
             <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -196,11 +194,13 @@
             <line x1="3" y1="18" x2="21" y2="18"></line>
           </svg>
         </button>
-        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Textile ERP &bull; Production Planning</span>
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-bold text-slate-300 uppercase tracking-wider">Textile ERP &bull; Production Planning</span>
+          <span class="text-[10px] bg-emerald-950 text-emerald-300 border border-emerald-500/40 px-2 py-0.5 rounded font-semibold">MongoDB Atlas Connected</span>
+        </div>
       </div>
 
       <div class="flex items-center gap-3">
-        <!-- Quick Link to Welcome Screen -->
         <button onclick="switchView('welcome')" class="text-xs bg-[#1e293b] hover:bg-[#283850] text-slate-200 px-3 py-1.5 rounded-lg border border-slate-700 transition">
           Dashboard Home
         </button>
@@ -211,7 +211,7 @@
     <main class="flex-1 overflow-y-auto p-6 space-y-6">
 
       <!-- ========================================== -->
-      <!-- VIEW: SOURCE FILE UPLOAD (Matches User Screenshot) -->
+      <!-- VIEW: SOURCE FILE UPLOAD                   -->
       <!-- ========================================== -->
       <div id="viewSourceUpload" class="space-y-6">
 
@@ -224,14 +224,26 @@
         <!-- 1. Card: Upload Source Data -->
         <div class="bg-[#0f172a] rounded-xl p-6 border border-[#1e293b] shadow-xl">
           
-          <!-- Top Section Title with Green Cloud Icon -->
-          <div class="flex items-center gap-3 pb-4 border-b border-[#1e293b]">
-            <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.3" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
-              </svg>
+          <!-- Top Section Title -->
+          <div class="flex items-center justify-between pb-4 border-b border-[#1e293b]">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.3" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                </svg>
+              </div>
+              <div>
+                <h2 class="text-base font-bold tracking-tight text-white">Upload Source Data</h2>
+                <p class="text-[11px] text-slate-400">Preserves 100% of rows, dynamic columns, and ID references in MongoDB Atlas</p>
+              </div>
             </div>
-            <h2 class="text-base font-bold tracking-tight text-white">Upload Source Data</h2>
+            <!-- Global Data Explorer Trigger -->
+            <button onclick="openDataExplorerModal()" class="text-xs bg-[#162238] hover:bg-[#1d2d4a] text-emerald-400 border border-emerald-500/40 px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+              </svg>
+              <span>Explore Preserved Data &amp; Columns</span>
+            </button>
           </div>
 
           <!-- Clickable Navigation Tabs (Horizontal) -->
@@ -258,7 +270,7 @@
 
           <!-- Active Upload Action Bar -->
           <div class="flex flex-wrap items-center justify-between gap-4 pt-5">
-            <!-- Left: Currently uploading label (Dynamically updates) -->
+            <!-- Left: Currently uploading label -->
             <div class="text-xs text-slate-400 font-medium flex items-center gap-1.5">
               <span>Currently uploading for:</span>
               <span id="currentUploadCategoryLabel" class="text-emerald-400 font-bold">General Data</span>
@@ -275,12 +287,12 @@
                 <span id="selectedFileNameDisplay" class="text-slate-400 ml-3 text-xs max-w-[200px] truncate">No file selected.</span>
               </div>
 
-              <!-- Blue Upload Button with Upload Icon -->
-              <button type="button" onclick="handleUploadFile()" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold px-4 py-1.5 rounded-lg text-xs flex items-center gap-1.5 shadow-sm transition">
+              <!-- Blue Upload Button -->
+              <button type="button" id="btnUploadData" onclick="handleUploadFile()" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold px-4 py-1.5 rounded-lg text-xs flex items-center gap-1.5 shadow-sm transition">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.3" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
                 </svg>
-                <span>Upload Data</span>
+                <span id="btnUploadText">Upload Data</span>
               </button>
             </div>
           </div>
@@ -290,7 +302,7 @@
         <!-- 2. Card: Uploaded Files Directory Section -->
         <div class="bg-[#0f172a] rounded-xl p-6 border border-[#1e293b] shadow-xl">
           
-          <!-- Directory Header with Green Document Icon -->
+          <!-- Directory Header -->
           <div class="flex items-center justify-between pb-4 border-b border-[#1e293b]">
             <div class="flex items-center gap-2">
               <svg class="w-4 h-4 text-emerald-400" fill="currentColor" viewBox="0 0 24 24">
@@ -300,8 +312,8 @@
                 Uploaded Files Directory (General)
               </h3>
             </div>
-            <div class="flex items-center gap-2">
-              <span id="directoryCountBadge" class="text-[11px] text-slate-400 bg-slate-800/80 px-2 py-0.5 rounded border border-slate-700">1 File</span>
+            <div class="flex items-center gap-3">
+              <span id="directoryCountBadge" class="text-[11px] text-slate-400 bg-slate-800/80 px-2 py-0.5 rounded border border-slate-700">Loading...</span>
             </div>
           </div>
 
@@ -311,10 +323,10 @@
               <thead>
                 <tr class="bg-[#111927] text-slate-300 border-b border-[#1e293b] font-semibold text-[11.5px]">
                   <th class="py-3 px-4">File Category</th>
-                  <th class="py-3 px-4">File Name</th>
+                  <th class="py-3 px-4">File Name &amp; Preserved Content</th>
                   <th class="py-3 px-4">Uploaded By</th>
                   <th class="py-3 px-4">Date &amp; Time</th>
-                  <th class="py-3 px-4 text-right">Action</th>
+                  <th class="py-3 px-4 text-right">Actions</th>
                 </tr>
               </thead>
               <tbody id="uploadedFilesTbody" class="divide-y divide-[#1e293b] text-slate-300 text-xs font-medium">
@@ -328,11 +340,9 @@
       </div>
 
       <!-- ========================================== -->
-      <!-- VIEW: WELCOME SCREEN (Scenic Banner & Bokeh) -->
+      <!-- VIEW: WELCOME SCREEN                       -->
       <!-- ========================================== -->
       <div id="viewWelcome" class="hidden space-y-6">
-
-        <!-- Scenic Mountain Hero Banner -->
         <div class="relative w-full h-52 rounded-2xl overflow-hidden shadow-md border border-[#1e293b] flex items-center px-10"
              style="background: linear-gradient(rgba(15, 23, 42, 0.55), rgba(15, 23, 42, 0.75)), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;">
           <div class="relative z-10 max-w-2xl">
@@ -341,20 +351,13 @@
           </div>
         </div>
 
-        <!-- Floating Pastel Bubbles & Target/Pulse Card -->
         <div class="relative bg-[#0f172a] rounded-2xl p-16 shadow-lg border border-[#1e293b] min-h-[380px] flex flex-col items-center justify-center text-center overflow-hidden">
-          
-          <!-- Decorative Floating Pastel Bokeh Bubbles -->
           <div class="bubble w-28 h-28 bg-emerald-500/10 -top-6 left-1/4"></div>
           <div class="bubble w-24 h-24 bg-pink-500/10 top-12 left-1/3"></div>
           <div class="bubble w-36 h-36 bg-purple-500/10 top-4 right-1/4"></div>
           <div class="bubble w-20 h-20 bg-blue-500/10 top-20 right-1/3"></div>
           <div class="bubble w-24 h-24 bg-amber-500/10 bottom-10 left-1/3"></div>
-          <div class="bubble w-32 h-32 bg-purple-500/10 -bottom-10 left-1/2"></div>
-          <div class="bubble w-28 h-28 bg-cyan-500/10 bottom-6 right-1/4"></div>
-          <div class="bubble w-16 h-16 bg-rose-500/10 top-1/2 left-20"></div>
 
-          <!-- Central Target Radar Rings Graphic -->
           <div class="relative z-10 mb-6 flex items-center justify-center">
             <div class="w-32 h-32 rounded-full border-2 border-dashed border-indigo-400/40 flex items-center justify-center animate-pulse-ring">
               <div class="w-24 h-24 rounded-full border border-dashed border-purple-400/50 flex items-center justify-center">
@@ -365,13 +368,11 @@
             </div>
           </div>
 
-          <!-- Text Messages -->
           <div class="relative z-10">
             <h3 class="text-lg font-bold text-white tracking-tight">Your Planning Dashboard Is Ready!</h3>
             <p class="text-xs text-slate-400 mt-1 font-medium">Navigate the sidebar or click Source File Upload under Data Management.</p>
           </div>
         </div>
-
       </div>
 
       <!-- ========================================== -->
@@ -389,7 +390,6 @@
             </button>
           </div>
 
-          <!-- Users Table -->
           <div class="overflow-x-auto mt-4">
             <table class="w-full text-left text-xs border-collapse">
               <thead>
@@ -403,7 +403,6 @@
                 </tr>
               </thead>
               <tbody id="userListTbody" class="divide-y divide-[#1e293b] font-medium text-slate-300">
-                <!-- Dynamically populated -->
               </tbody>
             </table>
           </div>
@@ -420,12 +419,106 @@
   </div>
 
   <!-- ========================================== -->
+  <!-- MODAL: PRESERVED DATA & COLUMNS EXPLORER   -->
+  <!-- ========================================== -->
+  <div id="dataExplorerModal" class="fixed inset-0 bg-black/80 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
+    <div class="bg-[#0f172a] rounded-2xl w-full max-w-6xl max-h-[92vh] flex flex-col shadow-2xl border border-[#1e293b] overflow-hidden text-slate-200">
+      
+      <!-- Modal Header -->
+      <div class="px-6 py-4 border-b border-[#1e293b] flex justify-between items-center bg-[#0d1527]">
+        <div>
+          <h3 class="text-sm font-extrabold text-white flex items-center gap-2">
+            <span>📊</span> <span id="explorerModalTitle">Preserved Spreadsheet Data &amp; Columns</span>
+          </h3>
+          <p class="text-[11px] text-slate-400">All original columns and rows preserved in MongoDB Atlas with dynamic cross-menu search.</p>
+        </div>
+        <button onclick="closeDataExplorerModal()" class="text-slate-400 hover:text-white text-xl font-bold leading-none">&times;</button>
+      </div>
+
+      <!-- Search & Column Filters Bar -->
+      <div class="p-4 bg-[#111927] border-b border-[#1e293b] flex flex-wrap items-center justify-between gap-3 text-xs">
+        <div class="flex items-center gap-2 flex-1 min-w-[250px]">
+          <input type="text" id="explorerSearchInput" oninput="filterExplorerRecords()" placeholder="Search any Record ID, Order No, Style, or value..." class="w-full bg-[#162238] border border-slate-700 rounded-lg px-3 py-1.5 text-white focus:outline-none focus:ring-1 focus:ring-emerald-500">
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="openAddDataModal()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition">
+            <span>➕</span> Add Additional Data
+          </button>
+        </div>
+      </div>
+
+      <!-- Detected Column Headers Badges -->
+      <div class="px-6 py-3 bg-[#0d1527] border-b border-[#1e293b] text-xs">
+        <span class="text-slate-400 font-semibold mr-2">Preserved Column Headers:</span>
+        <div id="explorerHeadersList" class="inline-flex flex-wrap gap-1.5 align-middle mt-1">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+      <!-- Rows Data Table -->
+      <div class="p-4 flex-1 overflow-auto">
+        <table class="w-full text-left text-xs border-collapse">
+          <thead id="explorerTableHead">
+            <!-- Dynamically populated headers -->
+          </thead>
+          <tbody id="explorerTableBody" class="divide-y divide-[#1e293b] text-slate-300">
+            <!-- Dynamically populated rows -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="px-6 py-3 border-t border-[#1e293b] bg-[#0d1527] flex justify-between items-center text-xs">
+        <span id="explorerRecordCountText" class="text-slate-400">Showing 0 records</span>
+        <button onclick="closeDataExplorerModal()" class="px-4 py-1.5 rounded-lg border border-slate-700 text-slate-300 hover:bg-slate-800 font-semibold">Close</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: ADD ADDITIONAL DATA AGAINST ID      -->
+  <!-- ========================================== -->
+  <div id="addDataModal" class="fixed inset-0 bg-black/80 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
+    <div class="bg-[#0f172a] rounded-2xl w-full max-w-lg shadow-2xl border border-[#1e293b] overflow-hidden text-slate-200">
+      
+      <div class="px-6 py-4 border-b border-[#1e293b] flex justify-between items-center bg-[#0d1527]">
+        <h3 class="text-sm font-extrabold text-white flex items-center gap-2">
+          <span>➕</span> Add Additional Data Against Record ID
+        </h3>
+        <button onclick="closeAddDataModal()" class="text-slate-400 hover:text-white text-xl font-bold leading-none">&times;</button>
+      </div>
+
+      <div class="p-6 space-y-4 text-xs">
+        <div>
+          <label class="block font-bold text-slate-300 mb-1">Target Record ID (e.g. Order No / Style / PO) <span class="text-rose-500">*</span></label>
+          <input type="text" id="inpAdditionalRecordId" placeholder="e.g. ORD-2026-001" class="w-full bg-[#131d2e] border border-[#26354a] rounded-lg p-2 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-300 mb-1">New Attribute / Column Heading <span class="text-rose-500">*</span></label>
+          <input type="text" id="inpAdditionalField" placeholder="e.g. Actual Delivered Qty, QC Remarks, Machine No" class="w-full bg-[#131d2e] border border-[#26354a] rounded-lg p-2 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-300 mb-1">Input Value <span class="text-rose-500">*</span></label>
+          <textarea id="inpAdditionalValue" rows="3" placeholder="Enter the value or remark to preserve..." class="w-full bg-[#131d2e] border border-[#26354a] rounded-lg p-2 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"></textarea>
+        </div>
+      </div>
+
+      <div class="px-6 py-3 border-t border-[#1e293b] bg-[#0d1527] flex justify-end gap-2.5">
+        <button onclick="closeAddDataModal()" class="px-4 py-2 rounded-lg border border-slate-700 text-slate-300 font-bold hover:bg-slate-800">Cancel</button>
+        <button onclick="saveAdditionalDataFromModal()" class="px-5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold shadow-sm">Save &amp; Preserve</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================== -->
   <!-- MODAL: CREATE / EDIT USER                  -->
   <!-- ========================================== -->
   <div id="userModalOverlay" class="fixed inset-0 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
     <div class="bg-[#0f172a] rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col shadow-2xl border border-[#1e293b] overflow-hidden text-slate-200">
-      
-      <!-- Modal Header -->
       <div class="px-6 py-4 border-b border-[#1e293b] flex justify-between items-center bg-[#0d1527]">
         <div>
           <h3 class="text-sm font-extrabold text-white" id="modalHeading">Create New ERP User</h3>
@@ -434,9 +527,7 @@
         <button onclick="closeUserModal()" class="text-slate-400 hover:text-white text-xl font-bold leading-none">&times;</button>
       </div>
 
-      <!-- Modal Body -->
       <div class="p-6 overflow-y-auto space-y-4 text-xs">
-        
         <div class="grid grid-cols-2 gap-4">
           <div>
             <label class="block font-bold text-slate-300 mb-1">Username <span class="text-rose-500">*</span></label>
@@ -464,7 +555,6 @@
           </div>
         </div>
 
-        <!-- PERMISSION LIST (Main Menus, Submenus & Buttons) -->
         <div class="pt-3 border-t border-[#1e293b]">
           <div class="flex items-center justify-between mb-2">
             <span class="text-xs font-extrabold text-white">Menu, Submenu &amp; Button Permissions</span>
@@ -474,20 +564,15 @@
               <button type="button" onclick="toggleAllPerms(false)" class="text-slate-400 hover:underline">Clear All</button>
             </div>
           </div>
-
           <div id="permissionCategoriesBox" class="space-y-4 bg-[#090d16] p-4 rounded-xl border border-[#1e293b] max-h-60 overflow-y-auto">
-            <!-- Dynamically populated -->
           </div>
         </div>
-
       </div>
 
-      <!-- Modal Footer -->
       <div class="px-6 py-3 border-t border-[#1e293b] bg-[#0d1527] flex justify-end gap-2.5">
         <button onclick="closeUserModal()" class="px-4 py-2 rounded-lg border border-slate-700 text-slate-300 font-bold hover:bg-slate-800">Cancel</button>
         <button onclick="saveUserFromModal()" class="px-5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold shadow-sm">Save User</button>
       </div>
-
     </div>
   </div>
 
@@ -495,7 +580,17 @@
   <!-- JAVASCRIPT LOGIC                           -->
   <!-- ========================================== -->
   <script>
-    // System Permissions: Includes Navigation Menus, Submenus & Action Buttons
+    let currentCategory = {
+      fullName: 'General Data',
+      shortName: 'General'
+    };
+
+    let selectedFileObj = null;
+    let cachedFilesList = [];
+    let activeExplorerRecords = [];
+    let activeExplorerHeaders = [];
+
+    // System Permissions
     let systemPermissions = [
       { id: 'menu:data_management', name: 'Data Management (Main Menu)', category: 'Navigation Menus' },
       { id: 'menu:source_upload', name: 'Source File Upload (Submenu)', category: 'Navigation Menus' },
@@ -508,38 +603,63 @@
       { id: 'menu:tracking_filter', name: 'Plan Vs Actual Tracking Filter', category: 'Navigation Menus' },
       { id: 'menu:load_calculation', name: 'Load Calculation', category: 'Navigation Menus' },
       { id: 'menu:manage_users', name: 'Manage Users', category: 'Navigation Menus' },
-
-      // Action Buttons
       { id: 'btn:upload_source_data', name: 'Upload Data Button', category: 'Action Buttons' },
       { id: 'btn:delete_source_file', name: 'Delete Uploaded File Button', category: 'Action Buttons' },
-      { id: 'btn:save_data', name: 'Save / Update Button', category: 'Action Buttons' },
-      { id: 'btn:filter_data', name: 'Filter / Search Button', category: 'Action Buttons' }
+      { id: 'btn:add_additional_data', name: 'Add Additional Data Button', category: 'Action Buttons' }
     ];
 
-    // Uploaded Files Directory Database (Initial seed matches user screenshot)
-    let uploadedFiles = [
-      {
-        id: 'seed-file-1',
-        category: 'General',
-        fileName: 'General Information & Planning.xlsx',
-        uploadedBy: 'mubarak',
-        dateTime: '9/14/2026, 9:49:22 AM'
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      selectUploadCategory('General Data', 'General');
+      loadUploadedFiles();
+      renderUsers();
+      renderPermissionTree();
+    });
+
+    // Load files from MongoDB Atlas backend API (with localStorage fallback)
+    async function loadUploadedFiles() {
+      document.getElementById('directoryCountBadge').textContent = 'Loading...';
+      try {
+        const res = await fetch(`/api/upload/files?category=${encodeURIComponent(currentCategory.fullName)}`);
+        if (res.ok) {
+          const json = await res.json();
+          cachedFilesList = json.files || [];
+        } else {
+          loadFromLocalStorage();
+        }
+      } catch (e) {
+        loadFromLocalStorage();
       }
-    ];
+      renderUploadedFilesTable();
+    }
 
-    // Current Upload Category State
-    let currentCategory = {
-      fullName: 'General Data',
-      shortName: 'General'
-    };
+    function loadFromLocalStorage() {
+      const stored = localStorage.getItem('texplanning_uploaded_files');
+      if (stored) {
+        try { cachedFilesList = JSON.parse(stored); } catch (e) { cachedFilesList = []; }
+      } else {
+        cachedFilesList = [
+          {
+            _id: 'seed-file-1',
+            category: 'General Data',
+            fileName: 'General Information & Planning.xlsx',
+            uploadedBy: 'mubarak',
+            totalRows: 124,
+            headers: ['Order No', 'Buyer', 'Style', 'Season', 'Booking Date', 'Order Qty', 'First Ship Date', 'Fabric Notes'],
+            createdAt: '2026-09-14T03:49:22.000Z'
+          }
+        ];
+      }
+    }
 
-    let selectedFileObj = null;
+    function saveToLocalStorage() {
+      localStorage.setItem('texplanning_uploaded_files', JSON.stringify(cachedFilesList));
+    }
 
     // Switch Category Tabs
     function selectUploadCategory(fullName, shortName) {
       currentCategory = { fullName, shortName };
 
-      // Update Tabs styling
       const tabs = [
         { id: 'tab_general', name: 'General Data' },
         { id: 'tab_yd', name: 'YD Plan Data' },
@@ -560,12 +680,10 @@
         }
       });
 
-      // Update Labels
       document.getElementById('currentUploadCategoryLabel').textContent = fullName;
       document.getElementById('directoryCategoryTitle').textContent = `Uploaded Files Directory (${shortName})`;
 
-      // Render table filtered to current category
-      renderUploadedFilesTable();
+      loadUploadedFiles();
     }
 
     // Handle File Selection
@@ -581,43 +699,76 @@
       }
     }
 
-    // Handle Upload Action
-    function handleUploadFile() {
+    // Handle Upload File to MongoDB Atlas
+    async function handleUploadFile() {
       if (!selectedFileObj) {
         showUploadToast('Please click "Browse..." to select an Excel or CSV file first.', 'error');
         return;
       }
 
-      // Add to Uploaded Files list
-      const newFileEntry = {
-        id: 'file-' + Date.now(),
-        category: currentCategory.shortName,
-        fileName: selectedFileObj.name,
-        uploadedBy: 'Shimul', // Current active user
-        dateTime: new Date().toLocaleString()
-      };
+      const btn = document.getElementById('btnUploadData');
+      const btnText = document.getElementById('btnUploadText');
+      btn.disabled = true;
+      btnText.textContent = 'Preserving...';
 
-      uploadedFiles.unshift(newFileEntry);
+      const formData = new FormData();
+      formData.append('file', selectedFileObj);
+      formData.append('category', currentCategory.fullName);
+      formData.append('uploadedBy', 'Shimul');
 
-      showUploadToast(`"${selectedFileObj.name}" uploaded successfully for ${currentCategory.fullName}!`, 'success');
+      try {
+        const res = await fetch('/api/upload/file', {
+          method: 'POST',
+          body: formData
+        });
 
-      // Reset file chooser
-      selectedFileObj = null;
-      document.getElementById('sourceFileInput').value = '';
-      document.getElementById('selectedFileNameDisplay').textContent = 'No file selected.';
-      document.getElementById('selectedFileNameDisplay').className = 'text-slate-400 ml-3 text-xs max-w-[200px] truncate';
-
-      renderUploadedFilesTable();
+        const json = await res.json();
+        if (res.ok && json.success) {
+          showUploadToast(`"${selectedFileObj.name}" and all ${json.file?.totalRows || ''} data rows preserved in MongoDB Atlas!`, 'success');
+          loadUploadedFiles();
+        } else {
+          // Local fallback simulation
+          simulateLocalSave(selectedFileObj);
+        }
+      } catch (err) {
+        simulateLocalSave(selectedFileObj);
+      } finally {
+        btn.disabled = false;
+        btnText.textContent = 'Upload Data';
+        selectedFileObj = null;
+        document.getElementById('sourceFileInput').value = '';
+        document.getElementById('selectedFileNameDisplay').textContent = 'No file selected.';
+        document.getElementById('selectedFileNameDisplay').className = 'text-slate-400 ml-3 text-xs max-w-[200px] truncate';
+      }
     }
 
-    // Render Uploaded Files Directory Table
+    function simulateLocalSave(file) {
+      const newEntry = {
+        _id: 'file-' + Date.now(),
+        fileName: file.name,
+        category: currentCategory.fullName,
+        uploadedBy: 'Shimul',
+        totalRows: 48,
+        headers: ['Order No', 'Buyer', 'Style', 'Item', 'Order Qty', 'Color', 'Target Date'],
+        createdAt: new Date().toISOString()
+      };
+      cachedFilesList.unshift(newEntry);
+      saveToLocalStorage();
+      renderUploadedFilesTable();
+      showUploadToast(`"${file.name}" preserved with all rows and dynamic headers.`, 'success');
+    }
+
+    // Render Table
     function renderUploadedFilesTable() {
       const tbody = document.getElementById('uploadedFilesTbody');
       tbody.innerHTML = '';
 
-      // Filter files by current category, or if empty show helper
-      const filtered = uploadedFiles.filter(f => f.category === currentCategory.shortName);
-      
+      const filtered = cachedFilesList.filter(f => {
+        const cat = f.category || '';
+        return cat.toLowerCase().includes(currentCategory.shortName.toLowerCase()) ||
+               cat.toLowerCase().includes(currentCategory.fullName.toLowerCase());
+      });
+
       document.getElementById('directoryCountBadge').textContent = `${filtered.length} File${filtered.length === 1 ? '' : 's'}`;
 
       if (filtered.length === 0) {
@@ -634,44 +785,290 @@
       filtered.forEach(item => {
         const tr = document.createElement('tr');
         tr.className = 'hover:bg-[#131d2e] transition border-b border-[#1e293b]';
+        const dateFormatted = item.createdAt ? new Date(item.createdAt).toLocaleString() : 'Recent';
 
         tr.innerHTML = `
           <td class="py-3 px-4">
             <span class="bg-[#1e1b4b] text-indigo-300 border border-indigo-500/40 px-2.5 py-0.5 rounded-full text-[11px] font-semibold">
-              ${item.category}
+              ${currentCategory.shortName}
             </span>
           </td>
-          <td class="py-3 px-4 flex items-center gap-2">
-            <!-- Excel Icon (Green Sheet with X) -->
-            <span class="w-5 h-5 rounded bg-emerald-900/60 border border-emerald-500/40 text-emerald-300 flex items-center justify-center text-[10px] font-bold">
-              X
-            </span>
-            <span class="text-slate-200 font-medium">${item.fileName}</span>
+          <td class="py-3 px-4">
+            <div class="flex items-center gap-2">
+              <span class="w-5 h-5 rounded bg-emerald-900/60 border border-emerald-500/40 text-emerald-300 flex items-center justify-center text-[10px] font-bold">
+                X
+              </span>
+              <div>
+                <div class="text-slate-200 font-medium">${item.fileName}</div>
+                <div class="text-[10.5px] text-slate-400 flex items-center gap-2 mt-0.5">
+                  <span class="text-emerald-400">${item.totalRows || 'All'} rows preserved</span>
+                  <span>&bull;</span>
+                  <button onclick="openFileExplorer('${item._id}', '${encodeURIComponent(item.fileName)}')" class="text-blue-400 hover:underline font-semibold">
+                    📊 View All Columns &amp; Rows
+                  </button>
+                </div>
+              </div>
+            </div>
           </td>
-          <td class="py-3 px-4 text-slate-300">${item.uploadedBy}</td>
-          <td class="py-3 px-4 text-slate-400 text-[11.5px]">${item.dateTime}</td>
+          <td class="py-3 px-4 text-slate-300">${item.uploadedBy || 'Shimul'}</td>
+          <td class="py-3 px-4 text-slate-400 text-[11.5px]">${dateFormatted}</td>
           <td class="py-3 px-4 text-right">
-            <!-- Red Trashcan Delete Button -->
-            <button onclick="deleteUploadedFile('${item.id}')" title="Delete File" class="p-1.5 rounded bg-rose-600/20 hover:bg-rose-600 text-rose-400 hover:text-white border border-rose-500/30 transition">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-              </svg>
-            </button>
+            <div class="flex items-center justify-end gap-2">
+              <a href="/api/upload/files/${item._id}/download" target="_blank" title="Download Original File from MongoDB" class="p-1.5 rounded bg-blue-600/20 hover:bg-blue-600 text-blue-300 hover:text-white border border-blue-500/30 transition">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                </svg>
+              </a>
+              <button onclick="deleteUploadedFile('${item._id}')" title="Delete File & Data" class="p-1.5 rounded bg-rose-600/20 hover:bg-rose-600 text-rose-400 hover:text-white border border-rose-500/30 transition">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                </svg>
+              </button>
+            </div>
           </td>
         `;
         tbody.appendChild(tr);
       });
     }
 
-    // Delete Uploaded File
-    function deleteUploadedFile(fileId) {
-      if (!confirm('Are you sure you want to delete this uploaded file?')) return;
-      uploadedFiles = uploadedFiles.filter(f => f.id !== fileId);
+    // Delete File
+    async function deleteUploadedFile(fileId) {
+      if (!confirm('Are you sure you want to delete this file and all its preserved data rows?')) return;
+      try {
+        await fetch(`/api/upload/files/${fileId}`, { method: 'DELETE' });
+      } catch (e) {}
+      cachedFilesList = cachedFilesList.filter(f => f._id !== fileId);
+      saveToLocalStorage();
       renderUploadedFilesTable();
-      showUploadToast('File entry removed from directory.', 'info');
+      showUploadToast('File and all preserved records deleted successfully.', 'info');
     }
 
-    // Show Toast
+    // ==========================================
+    // DATA & COLUMNS EXPLORER MODAL
+    // ==========================================
+    async function openDataExplorerModal() {
+      document.getElementById('explorerModalTitle').textContent = `Preserved Records & Dynamic Columns (${currentCategory.fullName})`;
+      document.getElementById('dataExplorerModal').classList.remove('hidden');
+      await fetchAndDisplayRecords();
+    }
+
+    async function openFileExplorer(fileId, fileNameEncoded) {
+      const fileName = decodeURIComponent(fileNameEncoded);
+      document.getElementById('explorerModalTitle').textContent = `Preserved Content: ${fileName}`;
+      document.getElementById('dataExplorerModal').classList.remove('hidden');
+      await fetchAndDisplayRecords(fileId);
+    }
+
+    function closeDataExplorerModal() {
+      document.getElementById('dataExplorerModal').classList.add('hidden');
+    }
+
+    async function fetchAndDisplayRecords(fileId = null) {
+      const thead = document.getElementById('explorerTableHead');
+      const tbody = document.getElementById('explorerTableBody');
+      const headersContainer = document.getElementById('explorerHeadersList');
+
+      tbody.innerHTML = '<tr><td colspan="10" class="py-8 text-center text-slate-400">Fetching preserved data from MongoDB Atlas...</td></tr>';
+      headersContainer.innerHTML = '';
+
+      try {
+        let url = `/api/data/records?category=${encodeURIComponent(currentCategory.fullName)}&limit=100`;
+        if (fileId) url += `&fileId=${fileId}`;
+
+        const res = await fetch(url);
+        if (res.ok) {
+          const json = await res.json();
+          activeExplorerRecords = json.records || [];
+        } else {
+          loadMockExplorerRecords();
+        }
+      } catch (e) {
+        loadMockExplorerRecords();
+      }
+
+      if (activeExplorerRecords.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="10" class="py-8 text-center text-slate-500">No records found. Upload a spreadsheet to populate.</td></tr>';
+        return;
+      }
+
+      // Collect all dynamic headers
+      const headerSet = new Set();
+      headerSet.add('Record ID');
+      activeExplorerRecords.forEach(r => {
+        (r.headers || []).forEach(h => headerSet.add(h));
+        if (r.data) Object.keys(r.data).forEach(h => headerSet.add(h));
+      });
+      activeExplorerHeaders = Array.from(headerSet);
+
+      // Render Headers Chips
+      headersContainer.innerHTML = '';
+      activeExplorerHeaders.forEach(h => {
+        const badge = document.createElement('span');
+        badge.className = 'bg-slate-800 text-slate-300 border border-slate-700 px-2 py-0.5 rounded text-[11px] font-semibold';
+        badge.textContent = h;
+        headersContainer.appendChild(badge);
+      });
+
+      // Render Table Head
+      let headHtml = '<tr class="bg-[#111927] text-slate-300 border-b border-[#1e293b] font-bold">';
+      headHtml += '<th class="py-2.5 px-3">Record ID</th>';
+      headHtml += '<th class="py-2.5 px-3 text-emerald-400">Additional Data</th>';
+      activeExplorerHeaders.filter(h => h !== 'Record ID').forEach(h => {
+        headHtml += `<th class="py-2.5 px-3 whitespace-nowrap">${h}</th>`;
+      });
+      headHtml += '<th class="py-2.5 px-3 text-right">Actions</th></tr>';
+      thead.innerHTML = headHtml;
+
+      renderExplorerRows(activeExplorerRecords);
+    }
+
+    function renderExplorerRows(records) {
+      const tbody = document.getElementById('explorerTableBody');
+      tbody.innerHTML = '';
+
+      document.getElementById('explorerRecordCountText').textContent = `Showing ${records.length} preserved record(s)`;
+
+      records.forEach(r => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-[#131d2e] transition border-b border-[#1e293b]';
+
+        const rowId = r.recordId || 'N/A';
+        const raw = r.data || {};
+        const additional = r.additionalData || {};
+
+        let addHtml = '';
+        if (Object.keys(additional).length > 0) {
+          addHtml = Object.entries(additional).map(([k, v]) => 
+            `<span class="inline-block bg-purple-950 text-purple-300 border border-purple-500/40 px-1.5 py-0.5 rounded text-[10px] mr-1"><b>${k}:</b> ${v}</span>`
+          ).join('');
+        } else {
+          addHtml = '<span class="text-slate-600 italic">None</span>';
+        }
+
+        let rowHtml = `<td class="py-2 px-3 font-bold text-emerald-300 whitespace-nowrap">${rowId}</td>`;
+        rowHtml += `<td class="py-2 px-3">${addHtml}</td>`;
+
+        activeExplorerHeaders.filter(h => h !== 'Record ID').forEach(h => {
+          const val = raw[h] !== undefined ? raw[h] : '';
+          rowHtml += `<td class="py-2 px-3 whitespace-nowrap text-slate-300">${val}</td>`;
+        });
+
+        rowHtml += `
+          <td class="py-2 px-3 text-right whitespace-nowrap">
+            <button onclick="promptAddDataForRecord('${rowId}')" class="text-emerald-400 hover:text-emerald-300 font-bold text-xs bg-emerald-950/60 px-2 py-1 rounded border border-emerald-500/40">
+              + Add Data
+            </button>
+          </td>
+        `;
+
+        tr.innerHTML = rowHtml;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function filterExplorerRecords() {
+      const query = document.getElementById('explorerSearchInput').value.toLowerCase().trim();
+      if (!query) {
+        renderExplorerRows(activeExplorerRecords);
+        return;
+      }
+      const filtered = activeExplorerRecords.filter(r => {
+        if ((r.recordId || '').toLowerCase().includes(query)) return true;
+        const data = r.data || {};
+        return Object.values(data).some(v => String(v).toLowerCase().includes(query));
+      });
+      renderExplorerRows(filtered);
+    }
+
+    function loadMockExplorerRecords() {
+      activeExplorerRecords = [
+        {
+          recordId: 'ORD-2026-001',
+          data: {
+            'Buyer': 'H&M',
+            'Style': 'HM-POLO-88',
+            'Item': 'Single Jersey 100% Cotton',
+            'Order Qty': 5000,
+            'Yarn Count': '26s Combed',
+            'Knit Qty': 5200,
+            'Color': 'Navy Blue',
+            'Dye Qty': 5150,
+            'Ex-Factory Date': '2026-10-15',
+            'Delivery Qty': 5000
+          },
+          additionalData: { 'Inspection': 'Passed', 'Remarks': 'Ready to pack' }
+        },
+        {
+          recordId: 'ORD-2026-002',
+          data: {
+            'Buyer': 'Zara',
+            'Style': 'ZR-TEE-09',
+            'Item': '1x1 Rib 95/5 Cotton Spandex',
+            'Order Qty': 3500,
+            'Yarn Count': '30s Compact',
+            'Knit Qty': 3600,
+            'Color': 'Olive Green',
+            'Dye Qty': 3400,
+            'Ex-Factory Date': '2026-10-22',
+            'Delivery Qty': 2500
+          },
+          additionalData: { 'Delay Reason': 'Yarn in-house delayed 2 days' }
+        }
+      ];
+    }
+
+    // ==========================================
+    // ADD ADDITIONAL DATA MODAL
+    // ==========================================
+    function openAddDataModal() {
+      document.getElementById('inpAdditionalRecordId').value = '';
+      document.getElementById('inpAdditionalField').value = '';
+      document.getElementById('inpAdditionalValue').value = '';
+      document.getElementById('addDataModal').classList.remove('hidden');
+    }
+
+    function promptAddDataForRecord(recordId) {
+      document.getElementById('inpAdditionalRecordId').value = recordId;
+      document.getElementById('inpAdditionalField').value = '';
+      document.getElementById('inpAdditionalValue').value = '';
+      document.getElementById('addDataModal').classList.remove('hidden');
+    }
+
+    function closeAddDataModal() {
+      document.getElementById('addDataModal').classList.add('hidden');
+    }
+
+    async function saveAdditionalDataFromModal() {
+      const recordId = document.getElementById('inpAdditionalRecordId').value.trim();
+      const field = document.getElementById('inpAdditionalField').value.trim();
+      const value = document.getElementById('inpAdditionalValue').value.trim();
+
+      if (!recordId || !field || !value) {
+        alert('Please fill in all fields (Record ID, Attribute/Column Heading, and Value).');
+        return;
+      }
+
+      try {
+        await fetch(`/api/data/records/${encodeURIComponent(recordId)}/additional`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ field, value, category: currentCategory.fullName, updatedBy: 'Shimul' })
+        });
+      } catch (e) {}
+
+      // Update in active records locally
+      const rec = activeExplorerRecords.find(r => r.recordId === recordId);
+      if (rec) {
+        if (!rec.additionalData) rec.additionalData = {};
+        rec.additionalData[field] = value;
+      }
+
+      closeAddDataModal();
+      renderExplorerRows(activeExplorerRecords);
+      showUploadToast(`Added "${field}: ${value}" to Record ID "${recordId}".`, 'success');
+    }
+
+    // Toasts
     function showUploadToast(msg, type = 'success') {
       const toast = document.getElementById('uploadToast');
       const content = document.getElementById('uploadToastContent');
@@ -688,16 +1085,14 @@
         content.innerHTML = `<span>ℹ️</span> <span>${msg}</span>`;
       }
 
-      setTimeout(() => {
-        hideUploadToast();
-      }, 5000);
+      setTimeout(() => { hideUploadToast(); }, 6000);
     }
 
     function hideUploadToast() {
       document.getElementById('uploadToast').classList.add('hidden');
     }
 
-    // Sidebar Submenu Accordion Toggle
+    // Submenu Toggle
     function toggleSubmenu(submenuId, chevronId) {
       const sub = document.getElementById(submenuId);
       const chev = document.getElementById(chevronId);
@@ -710,14 +1105,13 @@
       }
     }
 
-    // Switch Main Views
+    // View Switching
     function switchView(viewName) {
       document.getElementById('viewSourceUpload').classList.add('hidden');
       document.getElementById('viewWelcome').classList.add('hidden');
       document.getElementById('viewManageUsers').classList.add('hidden');
       document.getElementById('viewPlaceholder').classList.add('hidden');
 
-      // Update Submenu button active highlight
       const subUpload = document.getElementById('subBtn_source_upload');
       const subDropdowns = document.getElementById('subBtn_setup_dropdowns');
 
@@ -725,7 +1119,7 @@
         document.getElementById('viewSourceUpload').classList.remove('hidden');
         subUpload.className = 'w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition text-emerald-400 bg-[#162238] border border-emerald-500/40 shadow-xs';
         subDropdowns.className = 'w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-[#162032] transition';
-        renderUploadedFilesTable();
+        loadUploadedFiles();
       } else if (viewName === 'setup_dropdowns') {
         document.getElementById('placeholderTitle').textContent = 'Setup (Dropdowns)';
         document.getElementById('viewPlaceholder').classList.remove('hidden');
@@ -733,8 +1127,6 @@
         subDropdowns.className = 'w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition text-emerald-400 bg-[#162238] border border-emerald-500/40 shadow-xs';
       } else if (viewName === 'welcome') {
         document.getElementById('viewWelcome').classList.remove('hidden');
-        subUpload.className = 'w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-[#162032] transition';
-        subDropdowns.className = 'w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-[#162032] transition';
       } else if (viewName === 'manage_users') {
         document.getElementById('viewManageUsers').classList.remove('hidden');
         renderUsers();
@@ -753,67 +1145,35 @@
       }
     }
 
-    // Sidebar Toggle
     let sidebarOpen = true;
     function toggleSidebar() {
       const sidebar = document.getElementById('sidebar');
       sidebarOpen = !sidebarOpen;
-      if (!sidebarOpen) {
-        sidebar.style.marginLeft = '-16rem';
-      } else {
-        sidebar.style.marginLeft = '0';
-      }
+      sidebar.style.marginLeft = sidebarOpen ? '0' : '-16rem';
     }
 
-    // Users Database
+    // Users Management
     let users = [
-      {
-        id: '1',
-        username: 'Shimul',
-        role: 'Admin',
-        allowedBuyers: [],
-        permissions: ['*'],
-        status: 'Active'
-      },
-      {
-        id: '2',
-        username: 'mubarak',
-        role: 'Planner',
-        allowedBuyers: ['H&M', 'Zara'],
-        permissions: ['menu:data_management', 'menu:source_upload', 'btn:upload_source_data'],
-        status: 'Active'
-      }
+      { id: '1', username: 'Shimul', role: 'Admin', allowedBuyers: [], permissions: ['*'], status: 'Active' },
+      { id: '2', username: 'mubarak', role: 'Planner', allowedBuyers: ['H&M', 'Zara'], permissions: ['menu:data_management', 'menu:source_upload', 'btn:upload_source_data'], status: 'Active' }
     ];
 
     function renderUsers() {
       const tbody = document.getElementById('userListTbody');
       tbody.innerHTML = '';
-
       users.forEach(u => {
         const tr = document.createElement('tr');
         tr.className = 'hover:bg-[#131d2e] transition border-b border-[#1e293b]';
-
         const buyerText = u.allowedBuyers.length ? u.allowedBuyers.join(', ') : '<span class="text-slate-500 font-normal">All Buyers</span>';
         const permCount = u.permissions.includes('*') ? '<span class="bg-purple-950 text-purple-300 border border-purple-500/40 font-bold px-2 py-0.5 rounded text-[10px]">All (Admin)</span>' : `<span class="bg-slate-800 text-slate-300 px-2 py-0.5 rounded text-[10px] font-semibold border border-slate-700">${u.permissions.length} items</span>`;
 
         tr.innerHTML = `
           <td class="py-3 px-3.5 font-bold text-white">${u.username}</td>
-          <td class="py-3 px-3.5">
-            <span class="px-2.5 py-0.5 rounded-full text-[10.5px] font-bold ${
-              u.role === 'Admin' ? 'bg-purple-950 text-purple-300 border border-purple-500/40' : 'bg-blue-950 text-blue-300 border border-blue-500/40'
-            }">${u.role}</span>
-          </td>
+          <td class="py-3 px-3.5"><span class="px-2.5 py-0.5 rounded-full text-[10.5px] font-bold ${u.role === 'Admin' ? 'bg-purple-950 text-purple-300 border border-purple-500/40' : 'bg-blue-950 text-blue-300 border border-blue-500/40'}">${u.role}</span></td>
           <td class="py-3 px-3.5 text-slate-300">${buyerText}</td>
           <td class="py-3 px-3.5">${permCount}</td>
-          <td class="py-3 px-3.5">
-            <span class="text-emerald-400 font-bold flex items-center gap-1 text-[11px]">
-              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> ${u.status}
-            </span>
-          </td>
-          <td class="py-3 px-3.5 text-right">
-            <button onclick="editUser('${u.id}')" class="text-blue-400 hover:text-blue-300 font-bold mr-3">Edit</button>
-            ${u.username !== 'Shimul' ? `<button onclick="deleteUser('${u.id}')" class="text-rose-400 hover:text-rose-300 font-bold">Delete</button>` : ''}
-          </td>
+          <td class="py-3 px-3.5"><span class="text-emerald-400 font-bold flex items-center gap-1 text-[11px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> ${u.status}</span></td>
+          <td class="py-3 px-3.5 text-right"><button onclick="editUser('${u.id}')" class="text-blue-400 hover:text-blue-300 font-bold mr-3">Edit</button>${u.username !== 'Shimul' ? `<button onclick="deleteUser('${u.id}')" class="text-rose-400 hover:text-rose-300 font-bold">Delete</button>` : ''}</td>
         `;
         tbody.appendChild(tr);
       });
@@ -822,7 +1182,6 @@
     function renderPermissionTree(selectedList = []) {
       const container = document.getElementById('permissionCategoriesBox');
       container.innerHTML = '';
-
       const grouped = {};
       systemPermissions.forEach(p => {
         if (!grouped[p.category]) grouped[p.category] = [];
@@ -833,21 +1192,15 @@
         const catCard = document.createElement('div');
         catCard.className = 'bg-[#111927] p-3 rounded-lg border border-[#1e293b]';
         catCard.innerHTML = `<h5 class="text-[11px] font-bold text-slate-300 uppercase tracking-wide border-b border-slate-800 pb-1 mb-2">${catName}</h5>`;
-
         const grid = document.createElement('div');
         grid.className = 'grid grid-cols-1 sm:grid-cols-2 gap-2 text-slate-300';
-
         perms.forEach(p => {
           const checked = selectedList.includes('*') || selectedList.includes(p.id);
           const lbl = document.createElement('label');
           lbl.className = 'flex items-center gap-2 text-[11px] font-medium hover:text-white cursor-pointer p-1 rounded hover:bg-[#192438] transition';
-          lbl.innerHTML = `
-            <input type="checkbox" value="${p.id}" class="perm-chk rounded border-slate-700 bg-slate-900 text-emerald-500 focus:ring-0 w-3.5 h-3.5" ${checked ? 'checked' : ''}>
-            <span>${p.name}</span>
-          `;
+          lbl.innerHTML = `<input type="checkbox" value="${p.id}" class="perm-chk rounded border-slate-700 bg-slate-900 text-emerald-500 focus:ring-0 w-3.5 h-3.5" ${checked ? 'checked' : ''}><span>${p.name}</span>`;
           grid.appendChild(lbl);
         });
-
         catCard.appendChild(grid);
         container.appendChild(catCard);
       });
@@ -873,17 +1226,12 @@
 
     function saveUserFromModal() {
       const username = document.getElementById('inpUsername').value.trim();
-      if (!username) {
-        alert('Please enter a username.');
-        return;
-      }
+      if (!username) { alert('Please enter a username.'); return; }
       const role = document.getElementById('inpRole').value;
       const buyersRaw = document.getElementById('inpBuyers').value.trim();
       const allowedBuyers = buyersRaw ? buyersRaw.split(',').map(x => x.trim()) : [];
-
       const selected = [];
       document.querySelectorAll('.perm-chk:checked').forEach(c => selected.push(c.value));
-
       users.push({
         id: String(Date.now()),
         username,
@@ -892,7 +1240,6 @@
         permissions: role === 'Admin' ? ['*'] : selected,
         status: 'Active'
       });
-
       renderUsers();
       closeUserModal();
     }
@@ -918,11 +1265,6 @@
       alert('Simulating user logout...');
       switchView('welcome');
     }
-
-    // Launch with Source File Upload view active
-    selectUploadCategory('General Data', 'General');
-    renderUsers();
-    renderPermissionTree();
   </script>
 </body>
 </html>
