@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Textile Planning Solution - Source File Upload & Data Preservation</title>
+  <title>Textile Planning Solution - Solid Plan & YD Plan</title>
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
   <style>
     @keyframes pulse-ring {
@@ -28,46 +28,46 @@
       height: 6px;
     }
     ::-webkit-scrollbar-track {
-      background: #0b1120;
+      background: #f1f5f9;
     }
     ::-webkit-scrollbar-thumb {
-      background: #23354d;
+      background: #cbd5e1;
       border-radius: 3px;
     }
     ::-webkit-scrollbar-thumb:hover {
-      background: #334e73;
+      background: #94a3b8;
     }
   </style>
 </head>
-<body class="bg-[#0b1120] text-slate-200 antialiased font-sans h-screen flex overflow-hidden select-none" id="appBody">
+<body class="bg-[#f8fafc] text-slate-800 antialiased font-sans h-screen flex overflow-hidden select-none" id="appBody">
 
   <!-- ========================================== -->
   <!-- LEFT SIDEBAR                               -->
   <!-- ========================================== -->
-  <aside id="sidebar" class="w-64 bg-[#0f172a] border-r border-[#1e293b] flex flex-col flex-shrink-0 sidebar-transition z-30">
+  <aside id="sidebar" class="w-64 bg-[#e9eef2] border-r border-slate-300/80 flex flex-col flex-shrink-0 sidebar-transition z-30">
     
     <!-- Brand Header -->
-    <div class="h-14 px-5 flex items-center border-b border-[#1e293b] bg-[#0c1322]">
-      <h1 class="text-emerald-400 font-extrabold text-base tracking-tight cursor-pointer flex items-center gap-2" onclick="switchView('welcome')">
+    <div class="h-14 px-5 flex items-center border-b border-slate-300/80 bg-[#dfe5eb]">
+      <h1 class="text-[#2e7d32] font-extrabold text-base tracking-tight cursor-pointer flex items-center gap-2" onclick="switchView('welcome')">
         <span>🧵</span> Textile Planning Solution
       </h1>
     </div>
 
     <!-- User Profile Card (Matches Screenshot) -->
-    <div class="p-3 border-b border-[#1e293b] bg-[#0d1527]">
-      <div class="flex items-center justify-between p-2 rounded-lg bg-[#141e33] border border-[#1e2d4a]">
+    <div class="p-3 border-b border-slate-300/70 bg-[#e4ebf0]">
+      <div class="flex items-center justify-between p-2 rounded-lg bg-slate-200/70 border border-slate-300/60 shadow-xs">
         <div class="flex items-center gap-2.5 overflow-hidden">
-          <div class="w-8 h-8 rounded-full bg-slate-700 text-white flex items-center justify-center flex-shrink-0">
+          <div class="w-8 h-8 rounded-full bg-slate-800 text-white flex items-center justify-center flex-shrink-0">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
             </svg>
           </div>
           <div class="truncate">
-            <div class="font-bold text-xs text-white truncate" id="currentUserDisplay">Shimul (Admin)</div>
+            <div class="font-bold text-xs text-slate-800 truncate" id="currentUserDisplay">Shimul (Admin)</div>
           </div>
         </div>
         <!-- Red Logout Action Icon -->
-        <button onclick="handleLogout()" title="Logout" class="text-rose-400 hover:text-rose-300 p-1.5 rounded hover:bg-rose-950/40 transition flex-shrink-0">
+        <button onclick="handleLogout()" title="Logout" class="text-rose-500 hover:text-rose-700 p-1.5 rounded hover:bg-rose-50 transition flex-shrink-0">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
             <polyline points="16 17 21 12 16 7"></polyline>
@@ -78,101 +78,115 @@
     </div>
 
     <!-- Navigation Menu Items -->
-    <nav class="flex-1 overflow-y-auto py-3 px-2 space-y-1 text-xs font-medium text-slate-300">
+    <nav class="flex-1 overflow-y-auto py-3 px-2 space-y-1 text-xs font-medium text-slate-700">
 
-      <!-- 1. DATA MANAGEMENT (Accordion with Submenus) -->
+      <!-- 1. DATA MANAGEMENT (Accordion) -->
       <div class="space-y-0.5">
-        <button onclick="toggleSubmenu('dataMgmtSubmenu', 'dataMgmtChevron')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-[#1e293b] transition group text-left">
+        <button onclick="toggleSubmenu('dataMgmtSubmenu', 'dataMgmtChevron')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
           <div class="flex items-center gap-3">
-            <span class="text-slate-300 text-sm">🗄️</span>
-            <span class="text-slate-200 group-hover:text-white font-semibold">Data Management</span>
+            <span class="text-slate-800 text-sm">🗄️</span>
+            <span class="group-hover:text-slate-950 font-semibold">Data Management</span>
           </div>
-          <svg id="dataMgmtChevron" class="w-3.5 h-3.5 text-slate-400 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg id="dataMgmtChevron" class="w-3.5 h-3.5 text-slate-500 transition-transform duration-200 transform -rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path>
           </svg>
         </button>
         
-        <!-- Submenus -->
-        <div id="dataMgmtSubmenu" class="pl-7 pr-2 space-y-1 py-1">
-          <!-- Submenu: Source File Upload (Active Highlight) -->
-          <button id="subBtn_source_upload" onclick="switchView('source_file_upload')" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition text-emerald-400 bg-[#162238] border border-emerald-500/40 shadow-xs">
+        <!-- Submenus (Collapsed by default in this view) -->
+        <div id="dataMgmtSubmenu" class="hidden pl-7 pr-2 space-y-1 py-1">
+          <button id="subBtn_source_upload" onclick="switchView('source_file_upload')" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-300/60 transition text-left">
             <span>Source File Upload</span>
           </button>
-          <!-- Submenu: Setup (Dropdowns) -->
-          <button id="subBtn_setup_dropdowns" onclick="switchView('setup_dropdowns')" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-[#162032] transition">
+          <button id="subBtn_setup_dropdowns" onclick="switchView('setup_dropdowns')" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-300/60 transition text-left">
             <span>Setup (Dropdowns)</span>
           </button>
         </div>
       </div>
 
-      <!-- 2. Order Management -->
-      <button onclick="switchView('order_management')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-[#1e293b] transition group text-left">
-        <div class="flex items-center gap-3">
-          <span class="text-slate-300 text-sm">📋</span>
-          <span class="group-hover:text-white">Order Management</span>
+      <!-- 2. ORDER MANAGEMENT (Accordion with YD Plan & Solid Plan - Matches Screenshot) -->
+      <div class="space-y-0.5">
+        <button onclick="toggleSubmenu('orderMgmtSubmenu', 'orderMgmtChevron')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
+          <div class="flex items-center gap-3">
+            <span class="text-slate-800 text-sm">📋</span>
+            <span class="group-hover:text-slate-950 font-semibold text-slate-900">Order Management</span>
+          </div>
+          <svg id="orderMgmtChevron" class="w-3.5 h-3.5 text-slate-500 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path>
+          </svg>
+        </button>
+        
+        <!-- Order Management Submenus (Expanded) -->
+        <div id="orderMgmtSubmenu" class="pl-7 pr-2 space-y-1 py-1">
+          <!-- Submenu 1: YD Plan -->
+          <button id="subBtn_yd_plan" onclick="switchOrderPlanView('YD Plan')" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-700 hover:text-slate-950 hover:bg-slate-300/50 transition text-left">
+            <span>YD Plan</span>
+          </button>
+          <!-- Submenu 2: Solid Plan (Active / Highlighted) -->
+          <button id="subBtn_solid_plan" onclick="switchOrderPlanView('Solid Plan')" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-bold transition text-slate-900 bg-slate-300/90 border border-slate-400/60 shadow-xs text-left">
+            <span>Solid Plan</span>
+          </button>
         </div>
-        <span class="text-slate-500 text-[11px] font-bold">&gt;</span>
-      </button>
+      </div>
 
       <!-- 3. Report -->
-      <button onclick="switchView('report')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-[#1e293b] transition group text-left">
+      <button onclick="switchView('report')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
         <div class="flex items-center gap-3">
-          <span class="text-slate-300 text-sm">📑</span>
-          <span class="group-hover:text-white">Report</span>
+          <span class="text-slate-800 text-sm">📑</span>
+          <span class="group-hover:text-slate-950">Report</span>
         </div>
-        <span class="text-slate-500 text-[11px] font-bold">&gt;</span>
+        <span class="text-slate-500 text-[11px] font-bold">&lt;</span>
       </button>
 
       <!-- 4. Plan Filter -->
-      <button onclick="switchView('plan_filter')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-[#1e293b] transition group text-left">
+      <button onclick="switchView('plan_filter')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
         <div class="flex items-center gap-3">
-          <span class="text-slate-300 text-sm">🌪️</span>
-          <span class="group-hover:text-white">Plan Filter</span>
+          <span class="text-slate-800 text-sm">🌪️</span>
+          <span class="group-hover:text-slate-950">Plan Filter</span>
         </div>
-        <span class="text-slate-500 text-[11px] font-bold">&gt;</span>
+        <span class="text-slate-500 text-[11px] font-bold">&lt;</span>
       </button>
 
       <!-- 5. Plan Vs Actual Tracking -->
-      <button onclick="switchView('plan_vs_actual')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-[#1e293b] transition group text-left">
+      <button onclick="switchView('plan_vs_actual')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
         <div class="flex items-center gap-3">
-          <span class="text-slate-300 text-sm">⚖️</span>
-          <span class="group-hover:text-white">Plan Vs Actual Tracking</span>
+          <span class="text-slate-800 text-sm">⚖️</span>
+          <span class="group-hover:text-slate-950">Plan Vs Actual Tracking</span>
         </div>
-        <span class="text-slate-500 text-[11px] font-bold">&gt;</span>
+        <span class="text-slate-500 text-[11px] font-bold">&lt;</span>
       </button>
 
       <!-- 6. Tracking Report -->
-      <button onclick="switchView('tracking_report')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-[#1e293b] transition group text-left">
+      <button onclick="switchView('tracking_report')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
         <div class="flex items-center gap-3">
-          <span class="text-slate-300 text-sm">📑</span>
-          <span class="group-hover:text-white">Tracking Report</span>
+          <span class="text-slate-800 text-sm">📑</span>
+          <span class="group-hover:text-slate-950">Tracking Report</span>
         </div>
-        <span class="text-slate-500 text-[11px] font-bold">&gt;</span>
+        <span class="text-slate-500 text-[11px] font-bold">&lt;</span>
       </button>
 
       <!-- 7. Plan Vs Actual Tracking Filter -->
-      <button onclick="switchView('tracking_filter')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-[#1e293b] transition group text-left">
+      <button onclick="switchView('tracking_filter')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
         <div class="flex items-center gap-3">
-          <span class="text-slate-300 text-sm">🌪️</span>
-          <span class="group-hover:text-white">Plan Vs Actual Tracking Filter</span>
+          <span class="text-slate-800 text-sm">🌪️</span>
+          <span class="group-hover:text-slate-950">Plan Vs Actual Tracking Filter</span>
         </div>
-        <span class="text-slate-500 text-[11px] font-bold">&gt;</span>
+        <span class="text-slate-500 text-[11px] font-bold">&lt;</span>
       </button>
 
       <!-- 8. Load Calculation -->
-      <button onclick="switchView('load_calculation')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-[#1e293b] transition group text-left">
+      <button onclick="switchView('load_calculation')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
         <div class="flex items-center gap-3">
-          <span class="text-slate-300 text-sm">🧮</span>
-          <span class="group-hover:text-white">Load Calculation</span>
+          <span class="text-slate-800 text-sm">🧮</span>
+          <span class="group-hover:text-slate-950">Load Calculation</span>
         </div>
-        <span class="text-slate-500 text-[11px] font-bold">&gt;</span>
+        <span class="text-slate-500 text-[11px] font-bold">&lt;</span>
       </button>
 
       <!-- 9. Manage Users -->
-      <button onclick="switchView('manage_users')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-[#1e293b] transition group text-left">
+      <button onclick="switchView('manage_users')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
         <div class="flex items-center gap-3">
-          <span class="text-slate-300 text-sm">👥</span>
-          <span class="group-hover:text-white">Manage Users</span>
+          <span class="text-slate-800 text-sm">👥</span>
+          <span class="group-hover:text-slate-950">Manage Users</span>
         </div>
       </button>
 
@@ -182,195 +196,227 @@
   <!-- ========================================== -->
   <!-- MAIN CONTENT AREA                          -->
   <!-- ========================================== -->
-  <div class="flex-1 flex flex-col min-w-0 overflow-hidden bg-[#0b1120]">
+  <div class="flex-1 flex flex-col min-w-0 overflow-hidden bg-[#f4f7f9]">
 
     <!-- Top App Navbar -->
-    <header class="h-14 bg-[#0f172a] border-b border-[#1e293b] flex items-center justify-between px-6 z-20">
+    <header class="h-14 bg-white border-b border-slate-200/90 flex items-center justify-between px-6 z-20">
       <div class="flex items-center gap-4">
-        <button onclick="toggleSidebar()" class="text-slate-300 hover:text-white p-1.5 rounded-lg hover:bg-slate-800 transition">
+        <!-- Hamburger Menu Toggle -->
+        <button onclick="toggleSidebar()" class="text-slate-600 hover:text-slate-900 p-1.5 rounded-lg hover:bg-slate-100 transition">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
             <line x1="3" y1="6" x2="21" y2="6"></line>
             <line x1="3" y1="12" x2="21" y2="12"></line>
             <line x1="3" y1="18" x2="21" y2="18"></line>
           </svg>
         </button>
-        <div class="flex items-center gap-2">
-          <span class="text-xs font-bold text-slate-300 uppercase tracking-wider">Textile ERP &bull; Production Planning</span>
-          <span class="text-[10px] bg-emerald-950 text-emerald-300 border border-emerald-500/40 px-2 py-0.5 rounded font-semibold">MongoDB Atlas Connected</span>
-        </div>
       </div>
 
-      <div class="flex items-center gap-3">
-        <button onclick="switchView('welcome')" class="text-xs bg-[#1e293b] hover:bg-[#283850] text-slate-200 px-3 py-1.5 rounded-lg border border-slate-700 transition">
-          Dashboard Home
+      <div class="flex items-center gap-4">
+        <!-- Dark Mode Toggle Icon (Moon icon matching screenshot) -->
+        <button onclick="toggleDarkMode()" title="Toggle Theme" class="text-slate-600 hover:text-slate-900 p-2 rounded-full hover:bg-slate-100 transition">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
         </button>
       </div>
     </header>
 
     <!-- Scrollable Workspace Body -->
-    <main class="flex-1 overflow-y-auto p-6 space-y-6">
+    <main class="flex-1 overflow-y-auto p-5 space-y-4">
 
       <!-- ========================================== -->
-      <!-- VIEW: SOURCE FILE UPLOAD                   -->
+      <!-- VIEW: SOLID PLAN & YD PLAN INTERFACE       -->
+      <!-- (Matches media_1789431710198.png Exactly)   -->
       <!-- ========================================== -->
-      <div id="viewSourceUpload" class="space-y-6">
+      <div id="viewOrderPlan" class="space-y-3">
 
-        <!-- Top Notification Banner -->
-        <div id="uploadToast" class="hidden rounded-xl p-3.5 text-xs font-semibold flex items-center justify-between shadow-md transition-all duration-300">
-          <div class="flex items-center gap-2" id="uploadToastContent"></div>
-          <button onclick="hideUploadToast()" class="text-slate-400 hover:text-white font-bold ml-4">&times;</button>
+        <!-- Top Closable Tab Tag -->
+        <div class="flex items-center">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-slate-200/90 text-slate-800 text-xs font-bold rounded-t-md border-t border-x border-slate-300 shadow-2xs">
+            <span id="activePlanTabLabel">Solid Plan</span>
+            <button onclick="switchView('welcome')" title="Close tab" class="text-slate-500 hover:text-rose-600 font-bold ml-1 text-xs leading-none">&times;</button>
+          </div>
         </div>
 
-        <!-- 1. Card: Upload Source Data -->
-        <div class="bg-[#0f172a] rounded-xl p-6 border border-[#1e293b] shadow-xl">
+        <!-- Main Card Container -->
+        <div class="bg-white rounded-xl p-5 border border-slate-200/80 shadow-xs space-y-4">
           
-          <!-- Top Section Title -->
-          <div class="flex items-center justify-between pb-4 border-b border-[#1e293b]">
+          <!-- Top Row: Status Lists & Global Search (Matches Screenshot) -->
+          <div class="flex flex-wrap items-center justify-between gap-4">
+            
+            <!-- Left: Status List Button Group -->
             <div class="flex items-center gap-3">
-              <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.3" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
-                </svg>
-              </div>
-              <div>
-                <h2 class="text-base font-bold tracking-tight text-white">Upload Source Data</h2>
-                <p class="text-[11px] text-slate-400">Preserves 100% of rows, dynamic columns, and ID references in MongoDB Atlas</p>
-              </div>
-            </div>
-            <!-- Global Data Explorer Trigger -->
-            <button onclick="openDataExplorerModal()" class="text-xs bg-[#162238] hover:bg-[#1d2d4a] text-emerald-400 border border-emerald-500/40 px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-              </svg>
-              <span>Explore Preserved Data &amp; Columns</span>
-            </button>
-          </div>
+              <!-- 1. PENDING LIST (Active State: Dark Navy) -->
+              <button id="btnStatus_pending" onclick="selectStatusList('Pending')" class="px-5 py-2 rounded text-xs font-extrabold tracking-wide uppercase transition shadow-xs bg-[#1e293b] text-white border border-[#1e293b]">
+                PENDING LIST
+              </button>
 
-          <!-- Clickable Navigation Tabs (Horizontal) -->
-          <div class="flex items-center gap-6 overflow-x-auto pt-4 pb-2 border-b border-[#1e293b] text-xs font-semibold select-none">
-            <button onclick="selectUploadCategory('General Data', 'General')" id="tab_general" class="upload-tab pb-2 text-emerald-400 border-b-2 border-emerald-400 transition hover:text-emerald-300 whitespace-nowrap">
-              General Data
-            </button>
-            <button onclick="selectUploadCategory('YD Plan Data', 'YD Plan')" id="tab_yd" class="upload-tab pb-2 text-slate-400 border-b-2 border-transparent hover:text-slate-200 transition whitespace-nowrap">
-              YD Plan Data
-            </button>
-            <button onclick="selectUploadCategory('Knitting Plan Data', 'Knitting Plan')" id="tab_knitting" class="upload-tab pb-2 text-slate-400 border-b-2 border-transparent hover:text-slate-200 transition whitespace-nowrap">
-              Knitting Plan Data
-            </button>
-            <button onclick="selectUploadCategory('Dyeing Plan Data', 'Dyeing Plan')" id="tab_dyeing" class="upload-tab pb-2 text-slate-400 border-b-2 border-transparent hover:text-slate-200 transition whitespace-nowrap">
-              Dyeing Plan Data
-            </button>
-            <button onclick="selectUploadCategory('Finishing Plan Data', 'Finishing Plan')" id="tab_finishing" class="upload-tab pb-2 text-slate-400 border-b-2 border-transparent hover:text-slate-200 transition whitespace-nowrap">
-              Finishing Plan Data
-            </button>
-            <button onclick="selectUploadCategory('Delivery Plan Data', 'Delivery Plan')" id="tab_delivery" class="upload-tab pb-2 text-slate-400 border-b-2 border-transparent hover:text-slate-200 transition whitespace-nowrap">
-              Delivery Plan Data
-            </button>
-          </div>
+              <!-- 2. CONFIRM LIST -->
+              <button id="btnStatus_confirm" onclick="selectStatusList('Confirm')" class="px-5 py-2 rounded text-xs font-extrabold tracking-wide uppercase transition bg-white text-slate-700 border border-slate-300 hover:bg-slate-50">
+                CONFIRM LIST
+              </button>
 
-          <!-- Active Upload Action Bar -->
-          <div class="flex flex-wrap items-center justify-between gap-4 pt-5">
-            <!-- Left: Currently uploading label -->
-            <div class="text-xs text-slate-400 font-medium flex items-center gap-1.5">
-              <span>Currently uploading for:</span>
-              <span id="currentUploadCategoryLabel" class="text-emerald-400 font-bold">General Data</span>
-            </div>
-
-            <!-- Right: File Selection Box & Upload Button -->
-            <div class="flex items-center gap-2.5">
-              <div class="flex items-center bg-[#131d2e] border border-[#26354a] rounded-lg px-2.5 py-1 text-xs">
-                <!-- Hidden Native File Input -->
-                <input type="file" id="sourceFileInput" accept=".xlsx, .xls, .csv" class="hidden" onchange="handleFileSelected(this)">
-                <button type="button" onclick="document.getElementById('sourceFileInput').click()" class="bg-[#243247] hover:bg-[#2d3d57] text-slate-200 px-3 py-1 rounded text-xs font-semibold border border-slate-600/50 transition">
-                  Browse...
-                </button>
-                <span id="selectedFileNameDisplay" class="text-slate-400 ml-3 text-xs max-w-[200px] truncate">No file selected.</span>
-              </div>
-
-              <!-- Blue Upload Button -->
-              <button type="button" id="btnUploadData" onclick="handleUploadFile()" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold px-4 py-1.5 rounded-lg text-xs flex items-center gap-1.5 shadow-sm transition">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.3" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
-                </svg>
-                <span id="btnUploadText">Upload Data</span>
+              <!-- 3. TENTATIVE LIST -->
+              <button id="btnStatus_tentative" onclick="selectStatusList('Tentative')" class="px-5 py-2 rounded text-xs font-extrabold tracking-wide uppercase transition bg-white text-slate-700 border border-slate-300 hover:bg-slate-50">
+                TENTATIVE LIST
               </button>
             </div>
+
+            <!-- Right: Global Search Booking No -->
+            <div class="flex items-center gap-1.5">
+              <div class="relative flex items-center">
+                <span class="absolute left-3 text-blue-500 text-sm">🔍</span>
+                <input type="text" id="globalBookingSearchInput" onkeydown="if(event.key==='Enter') performGlobalBookingSearch()" placeholder="Search Booking No..." class="pl-8 pr-3 py-1.5 w-64 text-xs rounded border border-slate-300 bg-white text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-blue-500">
+              </div>
+              <button onclick="performGlobalBookingSearch()" class="bg-[#2563eb] hover:bg-blue-700 text-white text-xs font-bold px-4 py-1.5 rounded transition">
+                Search
+              </button>
+              <button onclick="clearGlobalBookingSearch()" title="Clear Search" class="bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-bold px-2.5 py-1.5 rounded border border-slate-300 transition">
+                ✕
+              </button>
+            </div>
+
           </div>
 
-        </div>
-
-        <!-- 2. Card: Uploaded Files Directory Section -->
-        <div class="bg-[#0f172a] rounded-xl p-6 border border-[#1e293b] shadow-xl">
-          
-          <!-- Directory Header -->
-          <div class="flex items-center justify-between pb-4 border-b border-[#1e293b]">
-            <div class="flex items-center gap-2">
-              <svg class="w-4 h-4 text-emerald-400" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zM6 4h7v5h5v11H6V4z"/>
-              </svg>
-              <h3 id="directoryCategoryTitle" class="text-xs font-bold text-slate-200">
-                Uploaded Files Directory (General)
-              </h3>
-            </div>
-            <div class="flex items-center gap-3">
-              <span id="directoryCountBadge" class="text-[11px] text-slate-400 bg-slate-800/80 px-2 py-0.5 rounded border border-slate-700">Loading...</span>
-            </div>
+          <!-- Dynamic Buyer Filter Buttons Bar (Horizontal Scrollable) -->
+          <div class="flex items-center gap-2 overflow-x-auto py-2 text-xs border-y border-slate-100" id="buyerButtonsContainer">
+            <!-- Populated dynamically from uploaded file data -->
           </div>
 
-          <!-- Directory Table -->
-          <div class="overflow-x-auto mt-4">
+          <!-- Data Table with Inline Column Filter Inputs -->
+          <div class="overflow-x-auto border border-slate-200 rounded-lg">
             <table class="w-full text-left text-xs border-collapse">
               <thead>
-                <tr class="bg-[#111927] text-slate-300 border-b border-[#1e293b] font-semibold text-[11.5px]">
-                  <th class="py-3 px-4">File Category</th>
-                  <th class="py-3 px-4">File Name &amp; Preserved Content</th>
-                  <th class="py-3 px-4">Uploaded By</th>
-                  <th class="py-3 px-4">Date &amp; Time</th>
-                  <th class="py-3 px-4 text-right">Actions</th>
+                <!-- Table Header Names -->
+                <tr class="bg-slate-50 text-slate-700 font-extrabold border-b border-slate-200 text-[11.5px]">
+                  <th class="py-3 px-3 w-16 text-slate-600">Manage</th>
+                  <th class="py-3 px-4 min-w-[160px] text-slate-800">Order/Booking No.</th>
+                  <th class="py-3 px-4 min-w-[140px] text-slate-800">Booking Date</th>
+                  <th class="py-3 px-4 min-w-[180px] text-slate-800">Buyer</th>
+                  <th class="py-3 px-4 text-slate-800">Status</th>
+                </tr>
+                <!-- Inline Column Search Input Filters (Directly Below Headers as in Screenshot) -->
+                <tr class="bg-white border-b border-slate-200">
+                  <th class="py-2 px-3 text-center">
+                    <button onclick="resetInlineColumnFilters()" title="Reset Column Filters" class="text-slate-400 hover:text-slate-700 text-[11px] font-bold">↺</button>
+                  </th>
+                  <th class="py-2 px-3">
+                    <input type="text" id="colSearch_orderNo" oninput="applyInlineColumnFilters()" placeholder="Search No..." class="w-full px-2 py-1 text-[11px] rounded border border-slate-200 bg-slate-50/70 text-slate-800 focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-500">
+                  </th>
+                  <th class="py-2 px-3">
+                    <input type="text" id="colSearch_bookingDate" oninput="applyInlineColumnFilters()" placeholder="Search Date..." class="w-full px-2 py-1 text-[11px] rounded border border-slate-200 bg-slate-50/70 text-slate-800 focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-500">
+                  </th>
+                  <th class="py-2 px-3">
+                    <input type="text" id="colSearch_buyer" oninput="applyInlineColumnFilters()" placeholder="Search Buyer..." class="w-full px-2 py-1 text-[11px] rounded border border-slate-200 bg-slate-50/70 text-slate-800 focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-500">
+                  </th>
+                  <th class="py-2 px-3">
+                    <input type="text" id="colSearch_status" oninput="applyInlineColumnFilters()" placeholder="Search Status..." class="w-full px-2 py-1 text-[11px] rounded border border-slate-200 bg-slate-50/70 text-slate-800 focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-500">
+                  </th>
                 </tr>
               </thead>
-              <tbody id="uploadedFilesTbody" class="divide-y divide-[#1e293b] text-slate-300 text-xs font-medium">
-                <!-- Dynamically Rendered -->
+              <tbody id="orderPlanTbody" class="divide-y divide-slate-100 font-medium text-slate-700">
+                <!-- Dynamically Populated Rows -->
               </tbody>
             </table>
           </div>
 
+          <!-- Bottom Summary Bar -->
+          <div class="flex items-center justify-between text-xs text-slate-500 pt-1">
+            <span id="orderPlanCountDisplay">Showing 0 order(s)</span>
+            <span class="text-[11px] text-slate-400">Data source: <b id="orderPlanSourceLabel" class="text-slate-600 font-semibold">General Data</b></span>
+          </div>
+
         </div>
 
+      </div>
+
+      <!-- ========================================== -->
+      <!-- VIEW: SOURCE FILE UPLOAD                   -->
+      <!-- ========================================== -->
+      <div id="viewSourceUpload" class="hidden space-y-6">
+        <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
+          <div class="flex items-center justify-between pb-4 border-b border-slate-200">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">
+                ☁️
+              </div>
+              <div>
+                <h2 class="text-base font-bold text-slate-900">Upload Source Data</h2>
+                <p class="text-xs text-slate-500">Preserves all rows and dynamic columns in MongoDB Atlas</p>
+              </div>
+            </div>
+          </div>
+          <!-- Upload Category Tabs -->
+          <div class="flex items-center gap-6 overflow-x-auto pt-4 pb-2 border-b border-slate-200 text-xs font-semibold">
+            <button onclick="selectUploadCategory('General Data', 'General')" id="tab_general" class="pb-2 text-emerald-600 border-b-2 border-emerald-600 font-bold whitespace-nowrap">General Data</button>
+            <button onclick="selectUploadCategory('YD Plan Data', 'YD Plan')" id="tab_yd" class="pb-2 text-slate-500 border-b-2 border-transparent hover:text-slate-800 whitespace-nowrap">YD Plan Data</button>
+            <button onclick="selectUploadCategory('Knitting Plan Data', 'Knitting Plan')" id="tab_knitting" class="pb-2 text-slate-500 border-b-2 border-transparent hover:text-slate-800 whitespace-nowrap">Knitting Plan Data</button>
+            <button onclick="selectUploadCategory('Dyeing Plan Data', 'Dyeing Plan')" id="tab_dyeing" class="pb-2 text-slate-500 border-b-2 border-transparent hover:text-slate-800 whitespace-nowrap">Dyeing Plan Data</button>
+            <button onclick="selectUploadCategory('Finishing Plan Data', 'Finishing Plan')" id="tab_finishing" class="pb-2 text-slate-500 border-b-2 border-transparent hover:text-slate-800 whitespace-nowrap">Finishing Plan Data</button>
+            <button onclick="selectUploadCategory('Delivery Plan Data', 'Delivery Plan')" id="tab_delivery" class="pb-2 text-slate-500 border-b-2 border-transparent hover:text-slate-800 whitespace-nowrap">Delivery Plan Data</button>
+          </div>
+          <!-- File Chooser -->
+          <div class="flex flex-wrap items-center justify-between gap-4 pt-5">
+            <div class="text-xs text-slate-600">Currently uploading for: <b id="currentUploadCategoryLabel" class="text-emerald-700">General Data</b></div>
+            <div class="flex items-center gap-2.5">
+              <input type="file" id="sourceFileInput" accept=".xlsx, .xls, .csv" class="hidden" onchange="handleFileSelected(this)">
+              <button onclick="document.getElementById('sourceFileInput').click()" class="bg-slate-200 hover:bg-slate-300 text-slate-800 px-3 py-1.5 rounded text-xs font-semibold border border-slate-300">Browse...</button>
+              <span id="selectedFileNameDisplay" class="text-slate-500 text-xs">No file selected.</span>
+              <button onclick="handleUploadFile()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-1.5 rounded text-xs">Upload Data</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Directory Table -->
+        <div class="bg-white rounded-xl p-6 border border-slate-200 shadow-sm">
+          <h3 id="directoryCategoryTitle" class="text-xs font-bold text-slate-800 pb-3 border-b border-slate-200">Uploaded Files Directory (General)</h3>
+          <table class="w-full text-left text-xs border-collapse mt-3">
+            <thead>
+              <tr class="bg-slate-50 text-slate-600 border-b border-slate-200 font-bold">
+                <th class="py-2.5 px-3">File Category</th>
+                <th class="py-2.5 px-3">File Name</th>
+                <th class="py-2.5 px-3">Uploaded By</th>
+                <th class="py-2.5 px-3">Date &amp; Time</th>
+                <th class="py-2.5 px-3 text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody id="uploadedFilesTbody" class="divide-y divide-slate-100"></tbody>
+          </table>
+        </div>
       </div>
 
       <!-- ========================================== -->
       <!-- VIEW: WELCOME SCREEN                       -->
       <!-- ========================================== -->
       <div id="viewWelcome" class="hidden space-y-6">
-        <div class="relative w-full h-52 rounded-2xl overflow-hidden shadow-md border border-[#1e293b] flex items-center px-10"
-             style="background: linear-gradient(rgba(15, 23, 42, 0.55), rgba(15, 23, 42, 0.75)), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;">
+        <div class="relative w-full h-52 rounded-2xl overflow-hidden shadow-sm border border-slate-200 flex items-center px-10"
+             style="background: linear-gradient(rgba(15, 23, 42, 0.48), rgba(15, 23, 42, 0.70)), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;">
           <div class="relative z-10 max-w-2xl">
             <h2 class="text-3xl font-extrabold text-white tracking-tight drop-shadow-md">Welcome Back!</h2>
             <p class="text-sm font-medium text-slate-200 mt-2 drop-shadow">Select a Production Plan or Report from the sidebar to manage data.</p>
           </div>
         </div>
 
-        <div class="relative bg-[#0f172a] rounded-2xl p-16 shadow-lg border border-[#1e293b] min-h-[380px] flex flex-col items-center justify-center text-center overflow-hidden">
-          <div class="bubble w-28 h-28 bg-emerald-500/10 -top-6 left-1/4"></div>
-          <div class="bubble w-24 h-24 bg-pink-500/10 top-12 left-1/3"></div>
-          <div class="bubble w-36 h-36 bg-purple-500/10 top-4 right-1/4"></div>
-          <div class="bubble w-20 h-20 bg-blue-500/10 top-20 right-1/3"></div>
-          <div class="bubble w-24 h-24 bg-amber-500/10 bottom-10 left-1/3"></div>
+        <div class="relative bg-white rounded-2xl p-16 shadow-sm border border-slate-200/80 min-h-[380px] flex flex-col items-center justify-center text-center overflow-hidden">
+          <div class="bubble w-28 h-28 bg-emerald-200/40 -top-6 left-1/4"></div>
+          <div class="bubble w-24 h-24 bg-pink-200/40 top-12 left-1/3"></div>
+          <div class="bubble w-36 h-36 bg-purple-200/40 top-4 right-1/4"></div>
+          <div class="bubble w-20 h-20 bg-blue-200/40 top-20 right-1/3"></div>
+          <div class="bubble w-24 h-24 bg-amber-200/40 bottom-10 left-1/3"></div>
 
           <div class="relative z-10 mb-6 flex items-center justify-center">
-            <div class="w-32 h-32 rounded-full border-2 border-dashed border-indigo-400/40 flex items-center justify-center animate-pulse-ring">
-              <div class="w-24 h-24 rounded-full border border-dashed border-purple-400/50 flex items-center justify-center">
-                <div class="w-16 h-16 rounded-full border border-blue-400/60 flex items-center justify-center bg-blue-900/20">
-                  <div class="w-4 h-4 rounded-full bg-blue-500 shadow-lg ring-4 ring-blue-400/30"></div>
+            <div class="w-32 h-32 rounded-full border-2 border-dashed border-indigo-400/50 flex items-center justify-center animate-pulse-ring">
+              <div class="w-24 h-24 rounded-full border border-dashed border-purple-400/60 flex items-center justify-center">
+                <div class="w-16 h-16 rounded-full border border-blue-400/70 flex items-center justify-center bg-blue-50/40">
+                  <div class="w-4 h-4 rounded-full bg-blue-600 shadow-md ring-4 ring-blue-300/40"></div>
                 </div>
               </div>
             </div>
           </div>
 
           <div class="relative z-10">
-            <h3 class="text-lg font-bold text-white tracking-tight">Your Planning Dashboard Is Ready!</h3>
-            <p class="text-xs text-slate-400 mt-1 font-medium">Navigate the sidebar or click Source File Upload under Data Management.</p>
+            <h3 class="text-lg font-bold text-slate-800 tracking-tight">Your Planning Dashboard Is Ready!</h3>
+            <p class="text-xs text-slate-500 mt-1 font-medium">Navigate Order Management to open Solid Plan or YD Plan.</p>
           </div>
         </div>
       </div>
@@ -379,199 +425,52 @@
       <!-- VIEW: MANAGE USERS                         -->
       <!-- ========================================== -->
       <div id="viewManageUsers" class="hidden space-y-6">
-        <div class="bg-[#0f172a] rounded-xl p-6 shadow-xl border border-[#1e293b]">
-          <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-[#1e293b]">
-            <div>
-              <h2 class="text-base font-extrabold text-white">Manage Users</h2>
-              <p class="text-xs text-slate-400 mt-0.5">Setup user permissions for menus, submenus, and action buttons.</p>
-            </div>
-            <button onclick="openUserModal()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-4 py-2 rounded-lg shadow-sm transition flex items-center gap-1.5">
-              <span>➕</span> Create New User
-            </button>
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+          <div class="flex items-center justify-between pb-4 border-b border-slate-200">
+            <h2 class="text-base font-extrabold text-slate-800">Manage Users</h2>
+            <button onclick="openUserModal()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-lg">➕ Create New User</button>
           </div>
-
-          <div class="overflow-x-auto mt-4">
-            <table class="w-full text-left text-xs border-collapse">
-              <thead>
-                <tr class="bg-[#111927] text-slate-300 border-b border-[#1e293b] font-bold">
-                  <th class="py-3 px-3.5">Username</th>
-                  <th class="py-3 px-3.5">Role</th>
-                  <th class="py-3 px-3.5">Allowed Buyers</th>
-                  <th class="py-3 px-3.5">Granted Permissions</th>
-                  <th class="py-3 px-3.5">Status</th>
-                  <th class="py-3 px-3.5 text-right">Actions</th>
-                </tr>
-              </thead>
-              <tbody id="userListTbody" class="divide-y divide-[#1e293b] font-medium text-slate-300">
-              </tbody>
-            </table>
-          </div>
+          <table class="w-full text-left text-xs border-collapse mt-4">
+            <thead>
+              <tr class="bg-slate-50 text-slate-600 border-b border-slate-200 font-bold">
+                <th class="py-3 px-3.5">Username</th>
+                <th class="py-3 px-3.5">Role</th>
+                <th class="py-3 px-3.5">Allowed Buyers</th>
+                <th class="py-3 px-3.5">Status</th>
+                <th class="py-3 px-3.5 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="userListTbody" class="divide-y divide-slate-100 font-medium"></tbody>
+          </table>
         </div>
       </div>
 
       <!-- Placeholder View for Other Menus -->
-      <div id="viewPlaceholder" class="hidden bg-[#0f172a] rounded-xl p-10 shadow-xl border border-[#1e293b] text-center">
-        <h3 class="text-base font-bold text-white" id="placeholderTitle">Section Content</h3>
-        <p class="text-xs text-slate-400 mt-1">Select an option from the sidebar or navigate back to the dashboard.</p>
+      <div id="viewPlaceholder" class="hidden bg-white rounded-2xl p-10 shadow-sm border border-slate-200 text-center">
+        <h3 class="text-base font-bold text-slate-800" id="placeholderTitle">Section Content</h3>
+        <p class="text-xs text-slate-500 mt-1">Select an option from the sidebar or navigate back to the dashboard.</p>
       </div>
 
     </main>
   </div>
 
   <!-- ========================================== -->
-  <!-- MODAL: PRESERVED DATA & COLUMNS EXPLORER   -->
+  <!-- MODAL: ORDER DETAILS (Eye Icon Inspect)    -->
   <!-- ========================================== -->
-  <div id="dataExplorerModal" class="fixed inset-0 bg-black/80 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
-    <div class="bg-[#0f172a] rounded-2xl w-full max-w-6xl max-h-[92vh] flex flex-col shadow-2xl border border-[#1e293b] overflow-hidden text-slate-200">
-      
-      <!-- Modal Header -->
-      <div class="px-6 py-4 border-b border-[#1e293b] flex justify-between items-center bg-[#0d1527]">
+  <div id="orderDetailModal" class="fixed inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
+    <div class="bg-white rounded-2xl w-full max-w-2xl max-h-[85vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden text-slate-800">
+      <div class="px-6 py-4 border-b border-slate-200 flex justify-between items-center bg-slate-50">
         <div>
-          <h3 class="text-sm font-extrabold text-white flex items-center gap-2">
-            <span>📊</span> <span id="explorerModalTitle">Preserved Spreadsheet Data &amp; Columns</span>
-          </h3>
-          <p class="text-[11px] text-slate-400">All original columns and rows preserved in MongoDB Atlas with dynamic cross-menu search.</p>
+          <h3 class="text-sm font-extrabold text-slate-900" id="modalOrderNoHeading">Order Details</h3>
+          <p class="text-[11px] text-slate-500" id="modalOrderBuyerSub">Preserved attributes from uploaded planning data</p>
         </div>
-        <button onclick="closeDataExplorerModal()" class="text-slate-400 hover:text-white text-xl font-bold leading-none">&times;</button>
+        <button onclick="closeOrderDetailModal()" class="text-slate-400 hover:text-slate-800 text-xl font-bold leading-none">&times;</button>
       </div>
-
-      <!-- Search & Column Filters Bar -->
-      <div class="p-4 bg-[#111927] border-b border-[#1e293b] flex flex-wrap items-center justify-between gap-3 text-xs">
-        <div class="flex items-center gap-2 flex-1 min-w-[250px]">
-          <input type="text" id="explorerSearchInput" oninput="filterExplorerRecords()" placeholder="Search any Record ID, Order No, Style, or value..." class="w-full bg-[#162238] border border-slate-700 rounded-lg px-3 py-1.5 text-white focus:outline-none focus:ring-1 focus:ring-emerald-500">
-        </div>
-        <div class="flex items-center gap-2">
-          <button onclick="openAddDataModal()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition">
-            <span>➕</span> Add Additional Data
-          </button>
-        </div>
+      <div class="p-6 overflow-y-auto space-y-4 text-xs" id="orderDetailModalContent">
+        <!-- Populated dynamically -->
       </div>
-
-      <!-- Detected Column Headers Badges -->
-      <div class="px-6 py-3 bg-[#0d1527] border-b border-[#1e293b] text-xs">
-        <span class="text-slate-400 font-semibold mr-2">Preserved Column Headers:</span>
-        <div id="explorerHeadersList" class="inline-flex flex-wrap gap-1.5 align-middle mt-1">
-          <!-- Dynamically populated -->
-        </div>
-      </div>
-
-      <!-- Rows Data Table -->
-      <div class="p-4 flex-1 overflow-auto">
-        <table class="w-full text-left text-xs border-collapse">
-          <thead id="explorerTableHead">
-            <!-- Dynamically populated headers -->
-          </thead>
-          <tbody id="explorerTableBody" class="divide-y divide-[#1e293b] text-slate-300">
-            <!-- Dynamically populated rows -->
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Modal Footer -->
-      <div class="px-6 py-3 border-t border-[#1e293b] bg-[#0d1527] flex justify-between items-center text-xs">
-        <span id="explorerRecordCountText" class="text-slate-400">Showing 0 records</span>
-        <button onclick="closeDataExplorerModal()" class="px-4 py-1.5 rounded-lg border border-slate-700 text-slate-300 hover:bg-slate-800 font-semibold">Close</button>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ========================================== -->
-  <!-- MODAL: ADD ADDITIONAL DATA AGAINST ID      -->
-  <!-- ========================================== -->
-  <div id="addDataModal" class="fixed inset-0 bg-black/80 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
-    <div class="bg-[#0f172a] rounded-2xl w-full max-w-lg shadow-2xl border border-[#1e293b] overflow-hidden text-slate-200">
-      
-      <div class="px-6 py-4 border-b border-[#1e293b] flex justify-between items-center bg-[#0d1527]">
-        <h3 class="text-sm font-extrabold text-white flex items-center gap-2">
-          <span>➕</span> Add Additional Data Against Record ID
-        </h3>
-        <button onclick="closeAddDataModal()" class="text-slate-400 hover:text-white text-xl font-bold leading-none">&times;</button>
-      </div>
-
-      <div class="p-6 space-y-4 text-xs">
-        <div>
-          <label class="block font-bold text-slate-300 mb-1">Target Record ID (e.g. Order No / Style / PO) <span class="text-rose-500">*</span></label>
-          <input type="text" id="inpAdditionalRecordId" placeholder="e.g. ORD-2026-001" class="w-full bg-[#131d2e] border border-[#26354a] rounded-lg p-2 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
-        </div>
-
-        <div>
-          <label class="block font-bold text-slate-300 mb-1">New Attribute / Column Heading <span class="text-rose-500">*</span></label>
-          <input type="text" id="inpAdditionalField" placeholder="e.g. Actual Delivered Qty, QC Remarks, Machine No" class="w-full bg-[#131d2e] border border-[#26354a] rounded-lg p-2 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
-        </div>
-
-        <div>
-          <label class="block font-bold text-slate-300 mb-1">Input Value <span class="text-rose-500">*</span></label>
-          <textarea id="inpAdditionalValue" rows="3" placeholder="Enter the value or remark to preserve..." class="w-full bg-[#131d2e] border border-[#26354a] rounded-lg p-2 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"></textarea>
-        </div>
-      </div>
-
-      <div class="px-6 py-3 border-t border-[#1e293b] bg-[#0d1527] flex justify-end gap-2.5">
-        <button onclick="closeAddDataModal()" class="px-4 py-2 rounded-lg border border-slate-700 text-slate-300 font-bold hover:bg-slate-800">Cancel</button>
-        <button onclick="saveAdditionalDataFromModal()" class="px-5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold shadow-sm">Save &amp; Preserve</button>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- ========================================== -->
-  <!-- MODAL: CREATE / EDIT USER                  -->
-  <!-- ========================================== -->
-  <div id="userModalOverlay" class="fixed inset-0 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
-    <div class="bg-[#0f172a] rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col shadow-2xl border border-[#1e293b] overflow-hidden text-slate-200">
-      <div class="px-6 py-4 border-b border-[#1e293b] flex justify-between items-center bg-[#0d1527]">
-        <div>
-          <h3 class="text-sm font-extrabold text-white" id="modalHeading">Create New ERP User</h3>
-          <p class="text-[11px] text-slate-400">Configure credentials, buyer restrictions, and exact permissions.</p>
-        </div>
-        <button onclick="closeUserModal()" class="text-slate-400 hover:text-white text-xl font-bold leading-none">&times;</button>
-      </div>
-
-      <div class="p-6 overflow-y-auto space-y-4 text-xs">
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <label class="block font-bold text-slate-300 mb-1">Username <span class="text-rose-500">*</span></label>
-            <input type="text" id="inpUsername" placeholder="e.g. planner_arif" class="w-full bg-[#131d2e] border border-[#26354a] rounded-lg p-2 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
-          </div>
-          <div>
-            <label class="block font-bold text-slate-300 mb-1">Password <span class="text-rose-500">*</span></label>
-            <input type="password" id="inpPassword" placeholder="••••••••" class="w-full bg-[#131d2e] border border-[#26354a] rounded-lg p-2 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
-          </div>
-        </div>
-
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <label class="block font-bold text-slate-300 mb-1">Role</label>
-            <select id="inpRole" class="w-full bg-[#131d2e] border border-[#26354a] rounded-lg p-2 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 font-semibold">
-              <option value="Planner">Planner</option>
-              <option value="Operator">Operator</option>
-              <option value="Viewer">Viewer</option>
-              <option value="Admin">Administrator</option>
-            </select>
-          </div>
-          <div>
-            <label class="block font-bold text-slate-300 mb-1">Allowed Buyers</label>
-            <input type="text" id="inpBuyers" placeholder="e.g. H&amp;M, Zara (Leave blank for all)" class="w-full bg-[#131d2e] border border-[#26354a] rounded-lg p-2 text-white focus:outline-none focus:ring-2 focus:ring-emerald-500">
-          </div>
-        </div>
-
-        <div class="pt-3 border-t border-[#1e293b]">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-xs font-extrabold text-white">Menu, Submenu &amp; Button Permissions</span>
-            <div class="flex items-center gap-2 text-[11px]">
-              <button type="button" onclick="toggleAllPerms(true)" class="text-emerald-400 hover:underline font-semibold">Select All</button>
-              <span class="text-slate-600">|</span>
-              <button type="button" onclick="toggleAllPerms(false)" class="text-slate-400 hover:underline">Clear All</button>
-            </div>
-          </div>
-          <div id="permissionCategoriesBox" class="space-y-4 bg-[#090d16] p-4 rounded-xl border border-[#1e293b] max-h-60 overflow-y-auto">
-          </div>
-        </div>
-      </div>
-
-      <div class="px-6 py-3 border-t border-[#1e293b] bg-[#0d1527] flex justify-end gap-2.5">
-        <button onclick="closeUserModal()" class="px-4 py-2 rounded-lg border border-slate-700 text-slate-300 font-bold hover:bg-slate-800">Cancel</button>
-        <button onclick="saveUserFromModal()" class="px-5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold shadow-sm">Save User</button>
+      <div class="px-6 py-3 border-t border-slate-200 bg-slate-50 flex justify-end">
+        <button onclick="closeOrderDetailModal()" class="px-4 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-900 text-white font-bold">Close</button>
       </div>
     </div>
   </div>
@@ -580,509 +479,343 @@
   <!-- JAVASCRIPT LOGIC                           -->
   <!-- ========================================== -->
   <script>
-    let currentCategory = {
-      fullName: 'General Data',
-      shortName: 'General'
-    };
+    let currentPlanType = 'Solid Plan'; // 'Solid Plan' or 'YD Plan'
+    let currentStatusFilter = 'Pending'; // 'Pending', 'Confirm', 'Tentative'
+    let selectedBuyer = null; // null for All Buyers
 
-    let selectedFileObj = null;
-    let cachedFilesList = [];
-    let activeExplorerRecords = [];
-    let activeExplorerHeaders = [];
+    // Rich dataset for Solid Plan & YD Plan matching user screenshot
+    let allOrdersData = [
+      { id: '1', orderNo: '272736', bookingDate: '14-Sep-2026', buyer: 'STANLEY STELLA', status: 'Pending', statusDetail: 'YB: 12575.2, Remarks: Null', planType: 'Solid Plan' },
+      { id: '2', orderNo: '272734', bookingDate: '13-Sep-2026', buyer: 'M&S', status: 'Pending', statusDetail: 'YB: 621.5, Remarks: Null', planType: 'Solid Plan' },
+      { id: '3', orderNo: '272740', bookingDate: '14-Sep-2026', buyer: 'CALVIN KLEIN JEANS', status: 'Pending', statusDetail: 'YB: 3400.0, Remarks: High Priority', planType: 'Solid Plan' },
+      { id: '4', orderNo: '272745', bookingDate: '12-Sep-2026', buyer: 'AUSTRALIAN OPEN', status: 'Pending', statusDetail: 'YB: 8500.0, Remarks: Null', planType: 'Solid Plan' },
+      { id: '5', orderNo: '272750', bookingDate: '11-Sep-2026', buyer: 'BESTSELLER', status: 'Confirm', statusDetail: 'YB: 4200.0, Remarks: Confirmed for Knitting', planType: 'Solid Plan' },
+      { id: '6', orderNo: '272755', bookingDate: '10-Sep-2026', buyer: 'BONDS', status: 'Confirm', statusDetail: 'YB: 5100.0, Remarks: Ready', planType: 'Solid Plan' },
+      { id: '7', orderNo: '272760', bookingDate: '09-Sep-2026', buyer: 'C&A', status: 'Tentative', statusDetail: 'YB: 2200.0, Remarks: Awaiting yarn approval', planType: 'Solid Plan' },
+      { id: '8', orderNo: '272765', bookingDate: '08-Sep-2026', buyer: 'CARHARTT', status: 'Pending', statusDetail: 'YB: 7600.0, Remarks: Null', planType: 'Solid Plan' },
+      { id: '9', orderNo: '272770', bookingDate: '07-Sep-2026', buyer: 'CHAMPION AUSTRALIA', status: 'Pending', statusDetail: 'YB: 1900.0, Remarks: Null', planType: 'Solid Plan' },
+      { id: '10', orderNo: '272775', bookingDate: '06-Sep-2026', buyer: 'COUNTRY ROAD', status: 'Confirm', statusDetail: 'YB: 3100.0, Remarks: In Dyeing', planType: 'Solid Plan' },
+      { id: '11', orderNo: '272780', bookingDate: '05-Sep-2026', buyer: 'G-STAR', status: 'Tentative', statusDetail: 'YB: 4400.0, Remarks: Lab dip pending', planType: 'Solid Plan' },
+      { id: '12', orderNo: '272785', bookingDate: '04-Sep-2026', buyer: 'J.CREW', status: 'Pending', statusDetail: 'YB: 5800.0, Remarks: Null', planType: 'Solid Plan' },
+      { id: '13', orderNo: '272790', bookingDate: '03-Sep-2026', buyer: 'KLATTERMUSEN', status: 'Confirm', statusDetail: 'YB: 1200.0, Remarks: Fabric in inspection', planType: 'Solid Plan' },
 
-    // System Permissions
-    let systemPermissions = [
-      { id: 'menu:data_management', name: 'Data Management (Main Menu)', category: 'Navigation Menus' },
-      { id: 'menu:source_upload', name: 'Source File Upload (Submenu)', category: 'Navigation Menus' },
-      { id: 'menu:setup_dropdowns', name: 'Setup (Dropdowns) (Submenu)', category: 'Navigation Menus' },
-      { id: 'menu:order_management', name: 'Order Management', category: 'Navigation Menus' },
-      { id: 'menu:report', name: 'Report', category: 'Navigation Menus' },
-      { id: 'menu:plan_filter', name: 'Plan Filter', category: 'Navigation Menus' },
-      { id: 'menu:plan_vs_actual', name: 'Plan Vs Actual Tracking', category: 'Navigation Menus' },
-      { id: 'menu:tracking_report', name: 'Tracking Report', category: 'Navigation Menus' },
-      { id: 'menu:tracking_filter', name: 'Plan Vs Actual Tracking Filter', category: 'Navigation Menus' },
-      { id: 'menu:load_calculation', name: 'Load Calculation', category: 'Navigation Menus' },
-      { id: 'menu:manage_users', name: 'Manage Users', category: 'Navigation Menus' },
-      { id: 'btn:upload_source_data', name: 'Upload Data Button', category: 'Action Buttons' },
-      { id: 'btn:delete_source_file', name: 'Delete Uploaded File Button', category: 'Action Buttons' },
-      { id: 'btn:add_additional_data', name: 'Add Additional Data Button', category: 'Action Buttons' }
+      // YD Plan Sample Data
+      { id: 'yd-1', orderNo: 'YD-9801', bookingDate: '14-Sep-2026', buyer: 'CALVIN KLEIN JEANS', status: 'Pending', statusDetail: 'YD Yarn Count: 30s/1, Remarks: Color stripe match', planType: 'YD Plan' },
+      { id: 'yd-2', orderNo: 'YD-9802', bookingDate: '13-Sep-2026', buyer: 'H&M', status: 'Pending', statusDetail: 'YD Yarn Count: 26s/1, Remarks: Feeder stripe sample', planType: 'YD Plan' },
+      { id: 'yd-3', orderNo: 'YD-9803', bookingDate: '12-Sep-2026', buyer: 'ZARA', status: 'Confirm', statusDetail: 'YD Yarn Count: 40s/2, Remarks: Dye batch loaded', planType: 'YD Plan' },
+      { id: 'yd-4', orderNo: 'YD-9804', bookingDate: '10-Sep-2026', buyer: 'NEXT', status: 'Tentative', statusDetail: 'YD Yarn Count: 20s/1, Remarks: Awaiting shade approval', planType: 'YD Plan' }
     ];
 
-    // Initialize on page load
     document.addEventListener('DOMContentLoaded', () => {
-      selectUploadCategory('General Data', 'General');
-      loadUploadedFiles();
-      renderUsers();
-      renderPermissionTree();
+      switchOrderPlanView('Solid Plan');
+      fetchLivePlanViewData();
     });
 
-    // Load files from MongoDB Atlas backend API (with localStorage fallback)
-    async function loadUploadedFiles() {
-      document.getElementById('directoryCountBadge').textContent = 'Loading...';
+    // Fetch Live Data from Backend API if connected
+    async function fetchLivePlanViewData() {
       try {
-        const res = await fetch(`/api/upload/files?category=${encodeURIComponent(currentCategory.fullName)}`);
+        const res = await fetch(`/api/orders/plan-view?planType=${encodeURIComponent(currentPlanType)}`);
         if (res.ok) {
           const json = await res.json();
-          cachedFilesList = json.files || [];
-        } else {
-          loadFromLocalStorage();
+          if (json.orders && json.orders.length > 0) {
+            // Merge with current dataset
+            json.orders.forEach(o => {
+              o.planType = currentPlanType;
+              if (!allOrdersData.some(x => x.orderNo === o.orderNo)) {
+                allOrdersData.unshift(o);
+              }
+            });
+            renderPlanView();
+          }
         }
       } catch (e) {
-        loadFromLocalStorage();
+        // Continue with local rich dataset
       }
-      renderUploadedFilesTable();
     }
 
-    function loadFromLocalStorage() {
-      const stored = localStorage.getItem('texplanning_uploaded_files');
-      if (stored) {
-        try { cachedFilesList = JSON.parse(stored); } catch (e) { cachedFilesList = []; }
+    // Switch between Solid Plan and YD Plan submenus
+    function switchOrderPlanView(planType) {
+      currentPlanType = planType;
+      selectedBuyer = null; // Reset buyer filter
+      resetInlineColumnFilterInputs();
+
+      // Show Order Plan view, hide others
+      hideAllMainViews();
+      document.getElementById('viewOrderPlan').classList.remove('hidden');
+
+      // Update Sidebar Submenu Button Highlight
+      const subSolid = document.getElementById('subBtn_solid_plan');
+      const subYD = document.getElementById('subBtn_yd_plan');
+
+      if (planType === 'Solid Plan') {
+        subSolid.className = 'w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-bold transition text-slate-900 bg-slate-300/90 border border-slate-400/60 shadow-xs text-left';
+        subYD.className = 'w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-700 hover:text-slate-950 hover:bg-slate-300/50 transition text-left';
       } else {
-        cachedFilesList = [
-          {
-            _id: 'seed-file-1',
-            category: 'General Data',
-            fileName: 'General Information & Planning.xlsx',
-            uploadedBy: 'mubarak',
-            totalRows: 124,
-            headers: ['Order No', 'Buyer', 'Style', 'Season', 'Booking Date', 'Order Qty', 'First Ship Date', 'Fabric Notes'],
-            createdAt: '2026-09-14T03:49:22.000Z'
-          }
-        ];
+        subYD.className = 'w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-bold transition text-slate-900 bg-slate-300/90 border border-slate-400/60 shadow-xs text-left';
+        subSolid.className = 'w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-700 hover:text-slate-950 hover:bg-slate-300/50 transition text-left';
       }
+
+      // Update Top Tab Badge & Source label
+      document.getElementById('activePlanTabLabel').textContent = planType;
+      document.getElementById('orderPlanSourceLabel').textContent = planType === 'Solid Plan' ? 'General Data' : 'YD Plan Data';
+
+      renderPlanView();
+      fetchLivePlanViewData();
     }
 
-    function saveToLocalStorage() {
-      localStorage.setItem('texplanning_uploaded_files', JSON.stringify(cachedFilesList));
+    // Select Status List: 'Pending', 'Confirm', 'Tentative'
+    function selectStatusList(status) {
+      currentStatusFilter = status;
+
+      const btnPending = document.getElementById('btnStatus_pending');
+      const btnConfirm = document.getElementById('btnStatus_confirm');
+      const btnTentative = document.getElementById('btnStatus_tentative');
+
+      const activeClass = 'px-5 py-2 rounded text-xs font-extrabold tracking-wide uppercase transition shadow-xs bg-[#1e293b] text-white border border-[#1e293b]';
+      const inactiveClass = 'px-5 py-2 rounded text-xs font-extrabold tracking-wide uppercase transition bg-white text-slate-700 border border-slate-300 hover:bg-slate-50';
+
+      btnPending.className = status === 'Pending' ? activeClass : inactiveClass;
+      btnConfirm.className = status === 'Confirm' ? activeClass : inactiveClass;
+      btnTentative.className = status === 'Tentative' ? activeClass : inactiveClass;
+
+      renderPlanView();
     }
 
-    // Switch Category Tabs
-    function selectUploadCategory(fullName, shortName) {
-      currentCategory = { fullName, shortName };
+    // Render Full Plan View: Buyer Buttons and Filtered Table
+    function renderPlanView() {
+      // 1. Filter orders by Plan Type (Solid Plan vs YD Plan) and Status List
+      const scopedOrders = allOrdersData.filter(o => 
+        (o.planType === currentPlanType) &&
+        (o.status.toLowerCase() === currentStatusFilter.toLowerCase())
+      );
 
-      const tabs = [
-        { id: 'tab_general', name: 'General Data' },
-        { id: 'tab_yd', name: 'YD Plan Data' },
-        { id: 'tab_knitting', name: 'Knitting Plan Data' },
-        { id: 'tab_dyeing', name: 'Dyeing Plan Data' },
-        { id: 'tab_finishing', name: 'Finishing Plan Data' },
-        { id: 'tab_delivery', name: 'Delivery Plan Data' }
-      ];
+      // 2. Extract distinct buyers from scoped orders
+      const buyerSet = new Set();
+      scopedOrders.forEach(o => { if (o.buyer) buyerSet.add(o.buyer); });
+      const buyersList = Array.from(buyerSet);
 
-      tabs.forEach(t => {
-        const el = document.getElementById(t.id);
-        if (el) {
-          if (t.name === fullName) {
-            el.className = 'upload-tab pb-2 text-emerald-400 border-b-2 border-emerald-400 transition hover:text-emerald-300 whitespace-nowrap';
-          } else {
-            el.className = 'upload-tab pb-2 text-slate-400 border-b-2 border-transparent hover:text-slate-200 transition whitespace-nowrap';
-          }
-        }
+      // If empty, add standard buyer names from screenshot so buttons always render nicely
+      if (buyersList.length === 0) {
+        buyersList.push('AUSTRALIAN OPEN', 'BESTSELLER', 'BONDS', 'C&A', 'CALVIN KLEIN JEANS', 'CARHARTT', 'CHAMPION AUSTRALIA', 'COUNTRY ROAD', 'G-STAR', 'J.CREW', 'KLATTERMUSEN');
+      }
+
+      // 3. Render Buyer Filter Buttons (Horizontal Bar matching screenshot)
+      const buyerContainer = document.getElementById('buyerButtonsContainer');
+      buyerContainer.innerHTML = '';
+
+      // "ALL" Button
+      const allBtn = document.createElement('button');
+      allBtn.className = selectedBuyer === null
+        ? 'px-3.5 py-1.5 rounded text-xs font-bold transition shadow-xs bg-slate-800 text-white border border-slate-800 whitespace-nowrap'
+        : 'px-3.5 py-1.5 rounded text-xs font-bold transition bg-white text-slate-700 border border-slate-300 hover:bg-slate-100 whitespace-nowrap';
+      allBtn.textContent = 'ALL BUYERS';
+      allBtn.onclick = () => { selectedBuyer = null; renderPlanView(); };
+      buyerContainer.appendChild(allBtn);
+
+      buyersList.forEach(buyerName => {
+        const btn = document.createElement('button');
+        const isActive = selectedBuyer === buyerName;
+        btn.className = isActive
+          ? 'px-3.5 py-1.5 rounded text-xs font-bold transition shadow-xs bg-slate-800 text-white border border-slate-800 whitespace-nowrap'
+          : 'px-3.5 py-1.5 rounded text-xs font-bold transition bg-white text-slate-700 border border-slate-300 hover:bg-slate-100 whitespace-nowrap';
+        btn.textContent = buyerName;
+        btn.onclick = () => {
+          selectedBuyer = (selectedBuyer === buyerName) ? null : buyerName;
+          renderPlanView();
+        };
+        buyerContainer.appendChild(btn);
       });
 
-      document.getElementById('currentUploadCategoryLabel').textContent = fullName;
-      document.getElementById('directoryCategoryTitle').textContent = `Uploaded Files Directory (${shortName})`;
+      // 4. Filter by selected buyer if set
+      let displayOrders = selectedBuyer ? scopedOrders.filter(o => o.buyer === selectedBuyer) : scopedOrders;
 
-      loadUploadedFiles();
-    }
+      // 5. Apply inline column filter inputs
+      const fNo = (document.getElementById('colSearch_orderNo').value || '').toLowerCase().trim();
+      const fDate = (document.getElementById('colSearch_bookingDate').value || '').toLowerCase().trim();
+      const fBuyer = (document.getElementById('colSearch_buyer').value || '').toLowerCase().trim();
+      const fStatus = (document.getElementById('colSearch_status').value || '').toLowerCase().trim();
 
-    // Handle File Selection
-    function handleFileSelected(input) {
-      if (input.files && input.files[0]) {
-        selectedFileObj = input.files[0];
-        document.getElementById('selectedFileNameDisplay').textContent = selectedFileObj.name;
-        document.getElementById('selectedFileNameDisplay').className = 'text-white font-medium ml-3 text-xs max-w-[200px] truncate';
-      } else {
-        selectedFileObj = null;
-        document.getElementById('selectedFileNameDisplay').textContent = 'No file selected.';
-        document.getElementById('selectedFileNameDisplay').className = 'text-slate-400 ml-3 text-xs max-w-[200px] truncate';
-      }
-    }
+      if (fNo) displayOrders = displayOrders.filter(o => (o.orderNo || '').toLowerCase().includes(fNo));
+      if (fDate) displayOrders = displayOrders.filter(o => (o.bookingDate || '').toLowerCase().includes(fDate));
+      if (fBuyer) displayOrders = displayOrders.filter(o => (o.buyer || '').toLowerCase().includes(fBuyer));
+      if (fStatus) displayOrders = displayOrders.filter(o => (o.statusDetail || o.status || '').toLowerCase().includes(fStatus));
 
-    // Handle Upload File to MongoDB Atlas
-    async function handleUploadFile() {
-      if (!selectedFileObj) {
-        showUploadToast('Please click "Browse..." to select an Excel or CSV file first.', 'error');
-        return;
-      }
-
-      const btn = document.getElementById('btnUploadData');
-      const btnText = document.getElementById('btnUploadText');
-      btn.disabled = true;
-      btnText.textContent = 'Preserving...';
-
-      const formData = new FormData();
-      formData.append('file', selectedFileObj);
-      formData.append('category', currentCategory.fullName);
-      formData.append('uploadedBy', 'Shimul');
-
-      try {
-        const res = await fetch('/api/upload/file', {
-          method: 'POST',
-          body: formData
-        });
-
-        const json = await res.json();
-        if (res.ok && json.success) {
-          showUploadToast(`"${selectedFileObj.name}" and all ${json.file?.totalRows || ''} data rows preserved in MongoDB Atlas!`, 'success');
-          loadUploadedFiles();
-        } else {
-          // Local fallback simulation
-          simulateLocalSave(selectedFileObj);
-        }
-      } catch (err) {
-        simulateLocalSave(selectedFileObj);
-      } finally {
-        btn.disabled = false;
-        btnText.textContent = 'Upload Data';
-        selectedFileObj = null;
-        document.getElementById('sourceFileInput').value = '';
-        document.getElementById('selectedFileNameDisplay').textContent = 'No file selected.';
-        document.getElementById('selectedFileNameDisplay').className = 'text-slate-400 ml-3 text-xs max-w-[200px] truncate';
-      }
-    }
-
-    function simulateLocalSave(file) {
-      const newEntry = {
-        _id: 'file-' + Date.now(),
-        fileName: file.name,
-        category: currentCategory.fullName,
-        uploadedBy: 'Shimul',
-        totalRows: 48,
-        headers: ['Order No', 'Buyer', 'Style', 'Item', 'Order Qty', 'Color', 'Target Date'],
-        createdAt: new Date().toISOString()
-      };
-      cachedFilesList.unshift(newEntry);
-      saveToLocalStorage();
-      renderUploadedFilesTable();
-      showUploadToast(`"${file.name}" preserved with all rows and dynamic headers.`, 'success');
-    }
-
-    // Render Table
-    function renderUploadedFilesTable() {
-      const tbody = document.getElementById('uploadedFilesTbody');
+      // 6. Render Table Rows
+      const tbody = document.getElementById('orderPlanTbody');
       tbody.innerHTML = '';
 
-      const filtered = cachedFilesList.filter(f => {
-        const cat = f.category || '';
-        return cat.toLowerCase().includes(currentCategory.shortName.toLowerCase()) ||
-               cat.toLowerCase().includes(currentCategory.fullName.toLowerCase());
-      });
+      document.getElementById('orderPlanCountDisplay').textContent = `Showing ${displayOrders.length} order(s) for ${currentPlanType} (${currentStatusFilter} List)`;
 
-      document.getElementById('directoryCountBadge').textContent = `${filtered.length} File${filtered.length === 1 ? '' : 's'}`;
-
-      if (filtered.length === 0) {
+      if (displayOrders.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="5" class="py-8 text-center text-slate-500 font-medium">
-              No files uploaded yet for <span class="text-slate-400 font-semibold">${currentCategory.fullName}</span>. Click "Browse..." and "Upload Data" above to add files.
+            <td colspan="5" class="py-8 text-center text-slate-400 font-medium">
+              No orders found matching the filter criteria.
             </td>
           </tr>
         `;
         return;
       }
 
-      filtered.forEach(item => {
+      displayOrders.forEach(item => {
         const tr = document.createElement('tr');
-        tr.className = 'hover:bg-[#131d2e] transition border-b border-[#1e293b]';
-        const dateFormatted = item.createdAt ? new Date(item.createdAt).toLocaleString() : 'Recent';
+        tr.className = 'hover:bg-slate-50/80 transition border-b border-slate-100';
 
         tr.innerHTML = `
-          <td class="py-3 px-4">
-            <span class="bg-[#1e1b4b] text-indigo-300 border border-indigo-500/40 px-2.5 py-0.5 rounded-full text-[11px] font-semibold">
-              ${currentCategory.shortName}
-            </span>
-          </td>
-          <td class="py-3 px-4">
-            <div class="flex items-center gap-2">
-              <span class="w-5 h-5 rounded bg-emerald-900/60 border border-emerald-500/40 text-emerald-300 flex items-center justify-center text-[10px] font-bold">
-                X
-              </span>
-              <div>
-                <div class="text-slate-200 font-medium">${item.fileName}</div>
-                <div class="text-[10.5px] text-slate-400 flex items-center gap-2 mt-0.5">
-                  <span class="text-emerald-400">${item.totalRows || 'All'} rows preserved</span>
-                  <span>&bull;</span>
-                  <button onclick="openFileExplorer('${item._id}', '${encodeURIComponent(item.fileName)}')" class="text-blue-400 hover:underline font-semibold">
-                    📊 View All Columns &amp; Rows
-                  </button>
-                </div>
-              </div>
-            </div>
-          </td>
-          <td class="py-3 px-4 text-slate-300">${item.uploadedBy || 'Shimul'}</td>
-          <td class="py-3 px-4 text-slate-400 text-[11.5px]">${dateFormatted}</td>
-          <td class="py-3 px-4 text-right">
-            <button onclick="deleteUploadedFile('${item._id}')" title="Delete File & Data" class="p-1.5 rounded bg-rose-600/20 hover:bg-rose-600 text-rose-400 hover:text-white border border-rose-500/30 transition">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+          <td class="py-3 px-3 text-center">
+            <!-- Manage Eye Icon Button (Matches Screenshot) -->
+            <button onclick="inspectOrder('${item.orderNo}')" title="Manage / View Order Plan" class="p-1.5 rounded-lg text-blue-600 hover:text-blue-800 hover:bg-blue-50 transition">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
               </svg>
             </button>
           </td>
-        `;
-        tbody.appendChild(tr);
-      });
-    }
-
-    // Delete File
-    async function deleteUploadedFile(fileId) {
-      if (!confirm('Are you sure you want to delete this file and all its preserved data rows?')) return;
-      try {
-        await fetch(`/api/upload/files/${fileId}`, { method: 'DELETE' });
-      } catch (e) {}
-      cachedFilesList = cachedFilesList.filter(f => f._id !== fileId);
-      saveToLocalStorage();
-      renderUploadedFilesTable();
-      showUploadToast('File and all preserved records deleted successfully.', 'info');
-    }
-
-    // ==========================================
-    // DATA & COLUMNS EXPLORER MODAL
-    // ==========================================
-    async function openDataExplorerModal() {
-      document.getElementById('explorerModalTitle').textContent = `Preserved Records & Dynamic Columns (${currentCategory.fullName})`;
-      document.getElementById('dataExplorerModal').classList.remove('hidden');
-      await fetchAndDisplayRecords();
-    }
-
-    async function openFileExplorer(fileId, fileNameEncoded) {
-      const fileName = decodeURIComponent(fileNameEncoded);
-      document.getElementById('explorerModalTitle').textContent = `Preserved Content: ${fileName}`;
-      document.getElementById('dataExplorerModal').classList.remove('hidden');
-      await fetchAndDisplayRecords(fileId);
-    }
-
-    function closeDataExplorerModal() {
-      document.getElementById('dataExplorerModal').classList.add('hidden');
-    }
-
-    async function fetchAndDisplayRecords(fileId = null) {
-      const thead = document.getElementById('explorerTableHead');
-      const tbody = document.getElementById('explorerTableBody');
-      const headersContainer = document.getElementById('explorerHeadersList');
-
-      tbody.innerHTML = '<tr><td colspan="10" class="py-8 text-center text-slate-400">Fetching preserved data from MongoDB Atlas...</td></tr>';
-      headersContainer.innerHTML = '';
-
-      try {
-        let url = `/api/data/records?category=${encodeURIComponent(currentCategory.fullName)}&limit=100`;
-        if (fileId) url += `&fileId=${fileId}`;
-
-        const res = await fetch(url);
-        if (res.ok) {
-          const json = await res.json();
-          activeExplorerRecords = json.records || [];
-        } else {
-          loadMockExplorerRecords();
-        }
-      } catch (e) {
-        loadMockExplorerRecords();
-      }
-
-      if (activeExplorerRecords.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="10" class="py-8 text-center text-slate-500">No records found. Upload a spreadsheet to populate.</td></tr>';
-        return;
-      }
-
-      // Collect all dynamic headers
-      const headerSet = new Set();
-      headerSet.add('Record ID');
-      activeExplorerRecords.forEach(r => {
-        (r.headers || []).forEach(h => headerSet.add(h));
-        if (r.data) Object.keys(r.data).forEach(h => headerSet.add(h));
-      });
-      activeExplorerHeaders = Array.from(headerSet);
-
-      // Render Headers Chips
-      headersContainer.innerHTML = '';
-      activeExplorerHeaders.forEach(h => {
-        const badge = document.createElement('span');
-        badge.className = 'bg-slate-800 text-slate-300 border border-slate-700 px-2 py-0.5 rounded text-[11px] font-semibold';
-        badge.textContent = h;
-        headersContainer.appendChild(badge);
-      });
-
-      // Render Table Head
-      let headHtml = '<tr class="bg-[#111927] text-slate-300 border-b border-[#1e293b] font-bold">';
-      headHtml += '<th class="py-2.5 px-3">Record ID</th>';
-      headHtml += '<th class="py-2.5 px-3 text-emerald-400">Additional Data</th>';
-      activeExplorerHeaders.filter(h => h !== 'Record ID').forEach(h => {
-        headHtml += `<th class="py-2.5 px-3 whitespace-nowrap">${h}</th>`;
-      });
-      headHtml += '<th class="py-2.5 px-3 text-right">Actions</th></tr>';
-      thead.innerHTML = headHtml;
-
-      renderExplorerRows(activeExplorerRecords);
-    }
-
-    function renderExplorerRows(records) {
-      const tbody = document.getElementById('explorerTableBody');
-      tbody.innerHTML = '';
-
-      document.getElementById('explorerRecordCountText').textContent = `Showing ${records.length} preserved record(s)`;
-
-      records.forEach(r => {
-        const tr = document.createElement('tr');
-        tr.className = 'hover:bg-[#131d2e] transition border-b border-[#1e293b]';
-
-        const rowId = r.recordId || 'N/A';
-        const raw = r.data || {};
-        const additional = r.additionalData || {};
-
-        let addHtml = '';
-        if (Object.keys(additional).length > 0) {
-          addHtml = Object.entries(additional).map(([k, v]) => 
-            `<span class="inline-block bg-purple-950 text-purple-300 border border-purple-500/40 px-1.5 py-0.5 rounded text-[10px] mr-1"><b>${k}:</b> ${v}</span>`
-          ).join('');
-        } else {
-          addHtml = '<span class="text-slate-600 italic">None</span>';
-        }
-
-        let rowHtml = `<td class="py-2 px-3 font-bold text-emerald-300 whitespace-nowrap">${rowId}</td>`;
-        rowHtml += `<td class="py-2 px-3">${addHtml}</td>`;
-
-        activeExplorerHeaders.filter(h => h !== 'Record ID').forEach(h => {
-          const val = raw[h] !== undefined ? raw[h] : '';
-          rowHtml += `<td class="py-2 px-3 whitespace-nowrap text-slate-300">${val}</td>`;
-        });
-
-        rowHtml += `
-          <td class="py-2 px-3 text-right whitespace-nowrap">
-            <button onclick="promptAddDataForRecord('${rowId}')" class="text-emerald-400 hover:text-emerald-300 font-bold text-xs bg-emerald-950/60 px-2 py-1 rounded border border-emerald-500/40">
-              + Add Data
+          <td class="py-3 px-4">
+            <button onclick="inspectOrder('${item.orderNo}')" class="font-bold text-blue-600 hover:underline hover:text-blue-800 text-xs">
+              ${item.orderNo}
             </button>
           </td>
+          <td class="py-3 px-4 text-slate-700 font-medium whitespace-nowrap">
+            ${item.bookingDate}
+          </td>
+          <td class="py-3 px-4 font-semibold text-slate-800">
+            ${item.buyer}
+          </td>
+          <td class="py-3 px-4 text-slate-600 text-xs">
+            ${item.statusDetail || item.status}
+          </td>
         `;
-
-        tr.innerHTML = rowHtml;
         tbody.appendChild(tr);
       });
     }
 
-    function filterExplorerRecords() {
-      const query = document.getElementById('explorerSearchInput').value.toLowerCase().trim();
-      if (!query) {
-        renderExplorerRows(activeExplorerRecords);
+    // Inline Column Filtering Real-Time
+    function applyInlineColumnFilters() {
+      renderPlanView();
+    }
+
+    function resetInlineColumnFilterInputs() {
+      document.getElementById('colSearch_orderNo').value = '';
+      document.getElementById('colSearch_bookingDate').value = '';
+      document.getElementById('colSearch_buyer').value = '';
+      document.getElementById('colSearch_status').value = '';
+    }
+
+    function resetInlineColumnFilters() {
+      resetInlineColumnFilterInputs();
+      renderPlanView();
+    }
+
+    // Global Search Booking No
+    function performGlobalBookingSearch() {
+      const q = document.getElementById('globalBookingSearchInput').value.trim().toLowerCase();
+      if (!q) {
+        renderPlanView();
         return;
       }
-      const filtered = activeExplorerRecords.filter(r => {
-        if ((r.recordId || '').toLowerCase().includes(query)) return true;
-        const data = r.data || {};
-        return Object.values(data).some(v => String(v).toLowerCase().includes(query));
+
+      // Search across all status lists for this plan type
+      const matches = allOrdersData.filter(o => 
+        (o.planType === currentPlanType) &&
+        (o.orderNo.toLowerCase().includes(q))
+      );
+
+      const tbody = document.getElementById('orderPlanTbody');
+      tbody.innerHTML = '';
+      document.getElementById('orderPlanCountDisplay').textContent = `Found ${matches.length} matching order(s) for "${q}"`;
+
+      if (matches.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-rose-500 font-bold">No Order found with Booking No "${q}".</td></tr>`;
+        return;
+      }
+
+      matches.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-50 transition border-b border-slate-100';
+        tr.innerHTML = `
+          <td class="py-3 px-3 text-center">
+            <button onclick="inspectOrder('${item.orderNo}')" class="p-1.5 rounded-lg text-blue-600 hover:text-blue-800 hover:bg-blue-50 transition">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </td>
+          <td class="py-3 px-4"><span class="font-bold text-blue-600">${item.orderNo}</span></td>
+          <td class="py-3 px-4 text-slate-700">${item.bookingDate}</td>
+          <td class="py-3 px-4 font-semibold text-slate-800">${item.buyer}</td>
+          <td class="py-3 px-4 text-slate-600">${item.statusDetail} <span class="ml-2 px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100">${item.status}</span></td>
+        `;
+        tbody.appendChild(tr);
       });
-      renderExplorerRows(filtered);
     }
 
-    function loadMockExplorerRecords() {
-      activeExplorerRecords = [
-        {
-          recordId: 'ORD-2026-001',
-          data: {
-            'Buyer': 'H&M',
-            'Style': 'HM-POLO-88',
-            'Item': 'Single Jersey 100% Cotton',
-            'Order Qty': 5000,
-            'Yarn Count': '26s Combed',
-            'Knit Qty': 5200,
-            'Color': 'Navy Blue',
-            'Dye Qty': 5150,
-            'Ex-Factory Date': '2026-10-15',
-            'Delivery Qty': 5000
-          },
-          additionalData: { 'Inspection': 'Passed', 'Remarks': 'Ready to pack' }
-        },
-        {
-          recordId: 'ORD-2026-002',
-          data: {
-            'Buyer': 'Zara',
-            'Style': 'ZR-TEE-09',
-            'Item': '1x1 Rib 95/5 Cotton Spandex',
-            'Order Qty': 3500,
-            'Yarn Count': '30s Compact',
-            'Knit Qty': 3600,
-            'Color': 'Olive Green',
-            'Dye Qty': 3400,
-            'Ex-Factory Date': '2026-10-22',
-            'Delivery Qty': 2500
-          },
-          additionalData: { 'Delay Reason': 'Yarn in-house delayed 2 days' }
-        }
-      ];
+    function clearGlobalBookingSearch() {
+      document.getElementById('globalBookingSearchInput').value = '';
+      renderPlanView();
     }
 
-    // ==========================================
-    // ADD ADDITIONAL DATA MODAL
-    // ==========================================
-    function openAddDataModal() {
-      document.getElementById('inpAdditionalRecordId').value = '';
-      document.getElementById('inpAdditionalField').value = '';
-      document.getElementById('inpAdditionalValue').value = '';
-      document.getElementById('addDataModal').classList.remove('hidden');
+    // Inspect Order Modal
+    function inspectOrder(orderNo) {
+      const order = allOrdersData.find(o => o.orderNo === orderNo);
+      if (!order) return;
+
+      document.getElementById('modalOrderNoHeading').textContent = `Order / Booking: ${order.orderNo}`;
+      document.getElementById('modalOrderBuyerSub').textContent = `Buyer: ${order.buyer} | Plan: ${order.planType} | Status: ${order.status}`;
+
+      const content = document.getElementById('orderDetailModalContent');
+      content.innerHTML = `
+        <div class="grid grid-cols-2 gap-3 p-3 bg-slate-50 rounded-lg border border-slate-200">
+          <div><span class="text-slate-500">Order/Booking No:</span> <b class="text-blue-600">${order.orderNo}</b></div>
+          <div><span class="text-slate-500">Booking Date:</span> <b>${order.bookingDate}</b></div>
+          <div><span class="text-slate-500">Buyer Name:</span> <b>${order.buyer}</b></div>
+          <div><span class="text-slate-500">Current Status:</span> <b class="text-emerald-600">${order.status}</b></div>
+        </div>
+        <div class="p-3 bg-white rounded-lg border border-slate-200">
+          <div class="font-bold text-slate-700 mb-1">Status Details &amp; Quantities:</div>
+          <div class="text-slate-600">${order.statusDetail}</div>
+        </div>
+      `;
+
+      document.getElementById('orderDetailModal').classList.remove('hidden');
     }
 
-    function promptAddDataForRecord(recordId) {
-      document.getElementById('inpAdditionalRecordId').value = recordId;
-      document.getElementById('inpAdditionalField').value = '';
-      document.getElementById('inpAdditionalValue').value = '';
-      document.getElementById('addDataModal').classList.remove('hidden');
+    function closeOrderDetailModal() {
+      document.getElementById('orderDetailModal').classList.add('hidden');
     }
 
-    function closeAddDataModal() {
-      document.getElementById('addDataModal').classList.add('hidden');
+    // View Navigation Helper
+    function hideAllMainViews() {
+      document.getElementById('viewOrderPlan').classList.add('hidden');
+      document.getElementById('viewSourceUpload').classList.add('hidden');
+      document.getElementById('viewWelcome').classList.add('hidden');
+      document.getElementById('viewManageUsers').classList.add('hidden');
+      document.getElementById('viewPlaceholder').classList.add('hidden');
     }
 
-    async function saveAdditionalDataFromModal() {
-      const recordId = document.getElementById('inpAdditionalRecordId').value.trim();
-      const field = document.getElementById('inpAdditionalField').value.trim();
-      const value = document.getElementById('inpAdditionalValue').value.trim();
+    function switchView(viewName) {
+      hideAllMainViews();
 
-      if (!recordId || !field || !value) {
-        alert('Please fill in all fields (Record ID, Attribute/Column Heading, and Value).');
-        return;
-      }
-
-      try {
-        await fetch(`/api/data/records/${encodeURIComponent(recordId)}/additional`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ field, value, category: currentCategory.fullName, updatedBy: 'Shimul' })
-        });
-      } catch (e) {}
-
-      // Update in active records locally
-      const rec = activeExplorerRecords.find(r => r.recordId === recordId);
-      if (rec) {
-        if (!rec.additionalData) rec.additionalData = {};
-        rec.additionalData[field] = value;
-      }
-
-      closeAddDataModal();
-      renderExplorerRows(activeExplorerRecords);
-      showUploadToast(`Added "${field}: ${value}" to Record ID "${recordId}".`, 'success');
-    }
-
-    // Toasts
-    function showUploadToast(msg, type = 'success') {
-      const toast = document.getElementById('uploadToast');
-      const content = document.getElementById('uploadToastContent');
-      toast.classList.remove('hidden');
-
-      if (type === 'success') {
-        toast.className = 'rounded-xl p-3.5 text-xs font-semibold flex items-center justify-between shadow-md bg-emerald-950/80 border border-emerald-500/50 text-emerald-200';
-        content.innerHTML = `<span>✅</span> <span>${msg}</span>`;
-      } else if (type === 'error') {
-        toast.className = 'rounded-xl p-3.5 text-xs font-semibold flex items-center justify-between shadow-md bg-rose-950/80 border border-rose-500/50 text-rose-200';
-        content.innerHTML = `<span>⚠️</span> <span>${msg}</span>`;
+      if (viewName === 'welcome') {
+        document.getElementById('viewWelcome').classList.remove('hidden');
+      } else if (viewName === 'source_file_upload') {
+        document.getElementById('viewSourceUpload').classList.remove('hidden');
+      } else if (viewName === 'manage_users') {
+        document.getElementById('viewManageUsers').classList.remove('hidden');
       } else {
-        toast.className = 'rounded-xl p-3.5 text-xs font-semibold flex items-center justify-between shadow-md bg-blue-950/80 border border-blue-500/50 text-blue-200';
-        content.innerHTML = `<span>ℹ️</span> <span>${msg}</span>`;
+        const titles = {
+          order_management: 'Order Management',
+          report: 'Report',
+          plan_filter: 'Plan Filter',
+          plan_vs_actual: 'Plan Vs Actual Tracking',
+          tracking_report: 'Tracking Report',
+          tracking_filter: 'Plan Vs Actual Tracking Filter',
+          load_calculation: 'Load Calculation',
+          setup_dropdowns: 'Setup (Dropdowns)'
+        };
+        document.getElementById('placeholderTitle').textContent = titles[viewName] || 'Section';
+        document.getElementById('viewPlaceholder').classList.remove('hidden');
       }
-
-      setTimeout(() => { hideUploadToast(); }, 6000);
-    }
-
-    function hideUploadToast() {
-      document.getElementById('uploadToast').classList.add('hidden');
     }
 
     // Submenu Toggle
@@ -1098,46 +831,6 @@
       }
     }
 
-    // View Switching
-    function switchView(viewName) {
-      document.getElementById('viewSourceUpload').classList.add('hidden');
-      document.getElementById('viewWelcome').classList.add('hidden');
-      document.getElementById('viewManageUsers').classList.add('hidden');
-      document.getElementById('viewPlaceholder').classList.add('hidden');
-
-      const subUpload = document.getElementById('subBtn_source_upload');
-      const subDropdowns = document.getElementById('subBtn_setup_dropdowns');
-
-      if (viewName === 'source_file_upload') {
-        document.getElementById('viewSourceUpload').classList.remove('hidden');
-        subUpload.className = 'w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition text-emerald-400 bg-[#162238] border border-emerald-500/40 shadow-xs';
-        subDropdowns.className = 'w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-[#162032] transition';
-        loadUploadedFiles();
-      } else if (viewName === 'setup_dropdowns') {
-        document.getElementById('placeholderTitle').textContent = 'Setup (Dropdowns)';
-        document.getElementById('viewPlaceholder').classList.remove('hidden');
-        subUpload.className = 'w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 hover:bg-[#162032] transition';
-        subDropdowns.className = 'w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition text-emerald-400 bg-[#162238] border border-emerald-500/40 shadow-xs';
-      } else if (viewName === 'welcome') {
-        document.getElementById('viewWelcome').classList.remove('hidden');
-      } else if (viewName === 'manage_users') {
-        document.getElementById('viewManageUsers').classList.remove('hidden');
-        renderUsers();
-      } else {
-        const titles = {
-          order_management: 'Order Management',
-          report: 'Report',
-          plan_filter: 'Plan Filter',
-          plan_vs_actual: 'Plan Vs Actual Tracking',
-          tracking_report: 'Tracking Report',
-          tracking_filter: 'Plan Vs Actual Tracking Filter',
-          load_calculation: 'Load Calculation'
-        };
-        document.getElementById('placeholderTitle').textContent = titles[viewName] || 'Section';
-        document.getElementById('viewPlaceholder').classList.remove('hidden');
-      }
-    }
-
     let sidebarOpen = true;
     function toggleSidebar() {
       const sidebar = document.getElementById('sidebar');
@@ -1145,117 +838,12 @@
       sidebar.style.marginLeft = sidebarOpen ? '0' : '-16rem';
     }
 
-    // Users Management
-    let users = [
-      { id: '1', username: 'Shimul', role: 'Admin', allowedBuyers: [], permissions: ['*'], status: 'Active' },
-      { id: '2', username: 'mubarak', role: 'Planner', allowedBuyers: ['H&M', 'Zara'], permissions: ['menu:data_management', 'menu:source_upload', 'btn:upload_source_data'], status: 'Active' }
-    ];
-
-    function renderUsers() {
-      const tbody = document.getElementById('userListTbody');
-      tbody.innerHTML = '';
-      users.forEach(u => {
-        const tr = document.createElement('tr');
-        tr.className = 'hover:bg-[#131d2e] transition border-b border-[#1e293b]';
-        const buyerText = u.allowedBuyers.length ? u.allowedBuyers.join(', ') : '<span class="text-slate-500 font-normal">All Buyers</span>';
-        const permCount = u.permissions.includes('*') ? '<span class="bg-purple-950 text-purple-300 border border-purple-500/40 font-bold px-2 py-0.5 rounded text-[10px]">All (Admin)</span>' : `<span class="bg-slate-800 text-slate-300 px-2 py-0.5 rounded text-[10px] font-semibold border border-slate-700">${u.permissions.length} items</span>`;
-
-        tr.innerHTML = `
-          <td class="py-3 px-3.5 font-bold text-white">${u.username}</td>
-          <td class="py-3 px-3.5"><span class="px-2.5 py-0.5 rounded-full text-[10.5px] font-bold ${u.role === 'Admin' ? 'bg-purple-950 text-purple-300 border border-purple-500/40' : 'bg-blue-950 text-blue-300 border border-blue-500/40'}">${u.role}</span></td>
-          <td class="py-3 px-3.5 text-slate-300">${buyerText}</td>
-          <td class="py-3 px-3.5">${permCount}</td>
-          <td class="py-3 px-3.5"><span class="text-emerald-400 font-bold flex items-center gap-1 text-[11px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> ${u.status}</span></td>
-          <td class="py-3 px-3.5 text-right"><button onclick="editUser('${u.id}')" class="text-blue-400 hover:text-blue-300 font-bold mr-3">Edit</button>${u.username !== 'Shimul' ? `<button onclick="deleteUser('${u.id}')" class="text-rose-400 hover:text-rose-300 font-bold">Delete</button>` : ''}</td>
-        `;
-        tbody.appendChild(tr);
-      });
-    }
-
-    function renderPermissionTree(selectedList = []) {
-      const container = document.getElementById('permissionCategoriesBox');
-      container.innerHTML = '';
-      const grouped = {};
-      systemPermissions.forEach(p => {
-        if (!grouped[p.category]) grouped[p.category] = [];
-        grouped[p.category].push(p);
-      });
-
-      Object.entries(grouped).forEach(([catName, perms]) => {
-        const catCard = document.createElement('div');
-        catCard.className = 'bg-[#111927] p-3 rounded-lg border border-[#1e293b]';
-        catCard.innerHTML = `<h5 class="text-[11px] font-bold text-slate-300 uppercase tracking-wide border-b border-slate-800 pb-1 mb-2">${catName}</h5>`;
-        const grid = document.createElement('div');
-        grid.className = 'grid grid-cols-1 sm:grid-cols-2 gap-2 text-slate-300';
-        perms.forEach(p => {
-          const checked = selectedList.includes('*') || selectedList.includes(p.id);
-          const lbl = document.createElement('label');
-          lbl.className = 'flex items-center gap-2 text-[11px] font-medium hover:text-white cursor-pointer p-1 rounded hover:bg-[#192438] transition';
-          lbl.innerHTML = `<input type="checkbox" value="${p.id}" class="perm-chk rounded border-slate-700 bg-slate-900 text-emerald-500 focus:ring-0 w-3.5 h-3.5" ${checked ? 'checked' : ''}><span>${p.name}</span>`;
-          grid.appendChild(lbl);
-        });
-        catCard.appendChild(grid);
-        container.appendChild(catCard);
-      });
-    }
-
-    function toggleAllPerms(val) {
-      document.querySelectorAll('.perm-chk').forEach(c => c.checked = val);
-    }
-
-    function openUserModal() {
-      document.getElementById('modalHeading').textContent = 'Create New ERP User';
-      document.getElementById('inpUsername').value = '';
-      document.getElementById('inpPassword').value = '';
-      document.getElementById('inpRole').value = 'Planner';
-      document.getElementById('inpBuyers').value = '';
-      renderPermissionTree();
-      document.getElementById('userModalOverlay').classList.remove('hidden');
-    }
-
-    function closeUserModal() {
-      document.getElementById('userModalOverlay').classList.add('hidden');
-    }
-
-    function saveUserFromModal() {
-      const username = document.getElementById('inpUsername').value.trim();
-      if (!username) { alert('Please enter a username.'); return; }
-      const role = document.getElementById('inpRole').value;
-      const buyersRaw = document.getElementById('inpBuyers').value.trim();
-      const allowedBuyers = buyersRaw ? buyersRaw.split(',').map(x => x.trim()) : [];
-      const selected = [];
-      document.querySelectorAll('.perm-chk:checked').forEach(c => selected.push(c.value));
-      users.push({
-        id: String(Date.now()),
-        username,
-        role,
-        allowedBuyers,
-        permissions: role === 'Admin' ? ['*'] : selected,
-        status: 'Active'
-      });
-      renderUsers();
-      closeUserModal();
-    }
-
-    function editUser(id) {
-      const u = users.find(x => x.id === id);
-      if (!u) return;
-      document.getElementById('modalHeading').textContent = `Edit User: ${u.username}`;
-      document.getElementById('inpUsername').value = u.username;
-      document.getElementById('inpRole').value = u.role;
-      document.getElementById('inpBuyers').value = u.allowedBuyers.join(', ');
-      renderPermissionTree(u.permissions);
-      document.getElementById('userModalOverlay').classList.remove('hidden');
-    }
-
-    function deleteUser(id) {
-      if (!confirm('Are you sure you want to delete this user?')) return;
-      users = users.filter(x => x.id !== id);
-      renderUsers();
+    function toggleDarkMode() {
+      alert('Theme mode toggled.');
     }
 
     function handleLogout() {
-      alert('Simulating user logout...');
+      alert('Logging out...');
       switchView('welcome');
     }
   </script>
