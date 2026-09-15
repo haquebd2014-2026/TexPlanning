@@ -20,6 +20,7 @@ COPY controllers/ ./controllers/
 COPY public/ ./public/
 COPY scripts/ ./scripts/
 COPY server.js ./
+COPY index.html ./
 COPY sample_planning_data.csv ./
 
 # Create uploads volume directory
