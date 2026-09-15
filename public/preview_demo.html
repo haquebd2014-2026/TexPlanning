@@ -37,6 +37,18 @@
     ::-webkit-scrollbar-thumb:hover {
       background: #94a3b8;
     }
+    input[type="date"] {
+      font-family: inherit;
+    }
+    input[type="date"]::-webkit-calendar-picker-indicator {
+      cursor: pointer;
+      opacity: 0.65;
+      padding: 0;
+      margin-left: 1px;
+    }
+    input[type="date"]::-webkit-calendar-picker-indicator:hover {
+      opacity: 1;
+    }
   </style>
 </head>
 <body class="bg-[#f8fafc] text-slate-800 antialiased font-sans h-screen flex overflow-hidden select-none" id="appBody">
@@ -528,7 +540,7 @@
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">Color</th>
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 min-w-[130px]">FabricConstruction</th>
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[60px]">GSM</th>
-                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[100px] bg-[#fef08a] text-slate-900 font-extrabold">Yarn Date</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[130px] bg-[#fef08a] text-slate-900 font-extrabold">Yarn Date</th>
                     <th colspan="2" class="py-1 px-2 border border-slate-200 text-center bg-slate-100 font-bold">Knitting Planning</th>
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[90px]">Plan Type</th>
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 min-w-[120px]">Knitting Limitation</th>
@@ -542,8 +554,8 @@
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">Allowance %</th>
                   </tr>
                   <tr class="bg-slate-50 text-slate-700 font-semibold text-[11px] border-b border-slate-200">
-                    <th class="py-1 px-2 border border-slate-200 text-center min-w-[95px]">Start Date</th>
-                    <th class="py-1 px-2 border border-slate-200 text-center min-w-[95px]">End Date</th>
+                    <th class="py-1 px-2 border border-slate-200 text-center min-w-[125px]">Start Date</th>
+                    <th class="py-1 px-2 border border-slate-200 text-center min-w-[125px]">End Date</th>
                   </tr>
                 </thead>
                 <tbody id="knittingPlanTableBody" class="divide-y divide-slate-100 bg-white">
@@ -582,8 +594,8 @@
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">Knit. Bala.</th>
                   </tr>
                   <tr class="bg-slate-50 text-slate-700 font-semibold text-[11px] border-b border-slate-200">
-                    <th class="py-1 px-2 border border-slate-200 text-center min-w-[95px]">Start Date</th>
-                    <th class="py-1 px-2 border border-slate-200 text-center min-w-[95px]">End Date</th>
+                    <th class="py-1 px-2 border border-slate-200 text-center min-w-[125px]">Start Date</th>
+                    <th class="py-1 px-2 border border-slate-200 text-center min-w-[125px]">End Date</th>
                   </tr>
                 </thead>
                 <tbody id="dyeingPlanTableBody" class="divide-y divide-slate-100 bg-white">
@@ -626,10 +638,10 @@
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">FF Stock</th>
                   </tr>
                   <tr class="bg-slate-50 text-slate-700 font-semibold text-[11px] border-b border-slate-200">
-                    <th class="py-1 px-2 border border-slate-200 text-center min-w-[95px]">Start Date</th>
-                    <th class="py-1 px-2 border border-slate-200 text-center min-w-[95px]">End Date</th>
-                    <th class="py-1 px-2 border border-slate-200 text-center min-w-[95px]">Start Date</th>
-                    <th class="py-1 px-2 border border-slate-200 text-center min-w-[95px]">End Date</th>
+                    <th class="py-1 px-2 border border-slate-200 text-center min-w-[125px]">Start Date</th>
+                    <th class="py-1 px-2 border border-slate-200 text-center min-w-[125px]">End Date</th>
+                    <th class="py-1 px-2 border border-slate-200 text-center min-w-[125px]">Start Date</th>
+                    <th class="py-1 px-2 border border-slate-200 text-center min-w-[125px]">End Date</th>
                   </tr>
                 </thead>
                 <tbody id="deliveryPlanTableBody" class="divide-y divide-slate-100 bg-white">
@@ -1345,6 +1357,51 @@
       if (listContainer) listContainer.classList.remove('hidden');
     }
 
+    // Helper to format any date string / serial number into ISO YYYY-MM-DD for HTML5 date inputs
+    function toISODate(val) {
+      if (!val) return '';
+      if (typeof val === 'string') {
+        val = val.trim();
+        if (!val) return '';
+        if (/^\d{4}-\d{2}-\d{2}$/.test(val)) return val;
+        if (/^\d{4}-\d{2}-\d{2}T/.test(val)) return val.split('T')[0];
+        if (/^\d{5}$/.test(val)) {
+          const num = parseInt(val, 10);
+          const date = new Date(Date.UTC(1899, 11, 30) + num * 86400000);
+          if (!isNaN(date.getTime())) return date.toISOString().split('T')[0];
+        }
+        const parts = val.split(/[\/\-\.]/);
+        if (parts.length === 3) {
+          let p0 = parseInt(parts[0], 10);
+          let p1 = parseInt(parts[1], 10);
+          let p2 = parseInt(parts[2], 10);
+          if (p2 < 100) p2 += 2000;
+          if (p0 > 1000) {
+            return `${p0}-${String(p1).padStart(2, '0')}-${String(p2).padStart(2, '0')}`;
+          }
+          if (p0 > 12 && p1 <= 12) {
+            return `${p2}-${String(p1).padStart(2, '0')}-${String(p0).padStart(2, '0')}`;
+          }
+          if (p0 <= 12 && p1 <= 31) {
+            return `${p2}-${String(p0).padStart(2, '0')}-${String(p1).padStart(2, '0')}`;
+          }
+        }
+        const d = new Date(val);
+        if (!isNaN(d.getTime())) {
+          const year = d.getFullYear();
+          const month = String(d.getMonth() + 1).padStart(2, '0');
+          const day = String(d.getDate()).padStart(2, '0');
+          return `${year}-${month}-${day}`;
+        }
+      } else if (typeof val === 'number') {
+        const date = new Date(Date.UTC(1899, 11, 30) + val * 86400000);
+        if (!isNaN(date.getTime())) return date.toISOString().split('T')[0];
+      } else if (val instanceof Date) {
+        if (!isNaN(val.getTime())) return val.toISOString().split('T')[0];
+      }
+      return '';
+    }
+
     // Knitting Plan Table Operations (Data from uploaded Knitting Plan file)
     function renderKnittingPlanTable(savedRows, uploadedItems, d) {
       const tbody = document.getElementById('knittingPlanTableBody');
@@ -1407,9 +1464,9 @@
         <td class="p-1 border border-slate-200"><input type="text" class="kp-color w-full px-1.5 py-1 text-xs border border-slate-200 rounded bg-slate-50" value="${data.color || ''}" title="From uploaded file"></td>
         <td class="p-1 border border-slate-200"><input type="text" class="kp-fabric w-full px-1.5 py-1 text-xs border border-slate-200 rounded bg-slate-50" value="${data.fabricConstruction || ''}" title="From uploaded file"></td>
         <td class="p-1 border border-slate-200"><input type="text" class="kp-gsm w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.gsm || ''}" title="From uploaded file"></td>
-        <td class="p-1 border border-slate-200 bg-[#fef08a]/40"><input type="text" class="kp-yarndate w-full px-1.5 py-1 text-xs border border-yellow-300 bg-yellow-50 rounded text-center font-bold" value="${data.yarnDate || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="kp-knitstart w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.knitStartDate || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="kp-knitend w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.knitEndDate || ''}"></td>
+        <td class="p-1 border border-slate-200 bg-[#fef08a]/40"><input type="date" onclick="this.showPicker && this.showPicker()" class="kp-yarndate w-full px-1.5 py-1 text-xs border border-yellow-300 bg-yellow-50 rounded text-center font-bold cursor-pointer" value="${toISODate(data.yarnDate)}"></td>
+        <td class="p-1 border border-slate-200"><input type="date" onclick="this.showPicker && this.showPicker()" class="kp-knitstart w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center cursor-pointer bg-white" value="${toISODate(data.knitStartDate)}"></td>
+        <td class="p-1 border border-slate-200"><input type="date" onclick="this.showPicker && this.showPicker()" class="kp-knitend w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center cursor-pointer bg-white" value="${toISODate(data.knitEndDate)}"></td>
         <td class="p-1 border border-slate-200">
           <select class="kp-plantype w-full px-1 py-1 text-xs border border-slate-200 rounded text-center bg-white font-medium">
             <option value="Tentative" ${planTypeVal.toLowerCase() === 'tentative' ? 'selected' : ''}>Tentative</option>
@@ -1500,8 +1557,8 @@
             <option value="Pluvia" ${processVal.toLowerCase() === 'pluvia' ? 'selected' : ''}>Pluvia</option>
           </select>
         </td>
-        <td class="p-1 border border-slate-200"><input type="text" class="dp-dyestart w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.dyeStartDate || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="dp-dyeend w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.dyeEndDate || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="date" onclick="this.showPicker && this.showPicker()" class="dp-dyestart w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center cursor-pointer bg-white" value="${toISODate(data.dyeStartDate)}"></td>
+        <td class="p-1 border border-slate-200"><input type="date" onclick="this.showPicker && this.showPicker()" class="dp-dyeend w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center cursor-pointer bg-white" value="${toISODate(data.dyeEndDate)}"></td>
         <td class="p-1 border border-slate-200">
           <select class="dp-plantype w-full px-1 py-1 text-xs border border-slate-200 rounded text-center bg-white font-medium">
             <option value="Tentative" ${planTypeVal.toLowerCase() === 'tentative' ? 'selected' : ''}>Tentative</option>
@@ -1586,16 +1643,16 @@
         <td class="p-1 border border-slate-200"><input type="text" class="del-color w-full px-1.5 py-1 text-xs border border-slate-200 rounded bg-slate-50" value="${data.color || ''}" title="From uploaded file"></td>
         <td class="p-1 border border-slate-200"><input type="text" class="del-fabric w-full px-1.5 py-1 text-xs border border-slate-200 rounded bg-slate-50" value="${data.fabricConstruction || ''}" title="From uploaded file"></td>
         <td class="p-1 border border-slate-200"><input type="text" class="del-gsm w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.gsm || ''}" title="From uploaded file"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="del-floordelistart w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.floorDeliStart || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="del-floordeliend w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.floorDeliEnd || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="date" onclick="this.showPicker && this.showPicker()" class="del-floordelistart w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center cursor-pointer bg-white" value="${toISODate(data.floorDeliStart)}"></td>
+        <td class="p-1 border border-slate-200"><input type="date" onclick="this.showPicker && this.showPicker()" class="del-floordeliend w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center cursor-pointer bg-white" value="${toISODate(data.floorDeliEnd)}"></td>
         <td class="p-1 border border-slate-200">
           <select class="del-floorplantype w-full px-1 py-1 text-xs border border-slate-200 rounded text-center bg-white font-medium">
             <option value="Tentative" ${floorPlanTypeVal.toLowerCase() === 'tentative' ? 'selected' : ''}>Tentative</option>
             <option value="Confirm" ${floorPlanTypeVal.toLowerCase() === 'confirm' ? 'selected' : ''}>Confirm</option>
           </select>
         </td>
-        <td class="p-1 border border-slate-200"><input type="text" class="del-delistart w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.deliStart || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="del-deliend w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.deliEnd || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="date" onclick="this.showPicker && this.showPicker()" class="del-delistart w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center cursor-pointer bg-white" value="${toISODate(data.deliStart)}"></td>
+        <td class="p-1 border border-slate-200"><input type="date" onclick="this.showPicker && this.showPicker()" class="del-deliend w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center cursor-pointer bg-white" value="${toISODate(data.deliEnd)}"></td>
         <td class="p-1 border border-slate-200">
           <select class="del-plantype w-full px-1 py-1 text-xs border border-slate-200 rounded text-center bg-white font-medium">
             <option value="Tentative" ${planTypeVal.toLowerCase() === 'tentative' ? 'selected' : ''}>Tentative</option>
