@@ -1329,6 +1329,72 @@ app.put('/api/data/records/:recordId/additional', optionalAuth, async (req, res)
   }
 });
 
+// PUT & POST /api/orders/plan-manage/:orderNoOrId - Save General Info, Knitting Plan, Dyeing Plan, Delivery Plan
+const handleSavePlanManage = async (req, res) => {
+  try {
+    const { orderNoOrId } = req.params;
+    const { generalInfo, knittingPlan, dyeingPlan, deliveryPlan, orderStatus } = req.body;
+
+    let query = {};
+    if (mongoose.Types.ObjectId.isValid(orderNoOrId)) {
+      query = { _id: orderNoOrId };
+    } else {
+      query = {
+        $or: [
+          { recordId: orderNoOrId },
+          { 'data.OrderNo': orderNoOrId },
+          { 'data.Order No': orderNoOrId },
+          { 'data.Booking No.': orderNoOrId },
+          { 'data.Booking No': orderNoOrId }
+        ]
+      };
+    }
+
+    const rec = await SourceDataRecord.findOne(query);
+    if (!rec) {
+      return res.status(404).json({ success: false, message: `Order record not found for "${orderNoOrId}".` });
+    }
+
+    if (!rec.additionalData) rec.additionalData = {};
+    if (generalInfo !== undefined) rec.additionalData.generalInfo = generalInfo;
+    if (knittingPlan !== undefined) rec.additionalData.knittingPlan = Array.isArray(knittingPlan) ? knittingPlan : [];
+    if (dyeingPlan !== undefined) rec.additionalData.dyeingPlan = Array.isArray(dyeingPlan) ? dyeingPlan : [];
+    if (deliveryPlan !== undefined) rec.additionalData.deliveryPlan = Array.isArray(deliveryPlan) ? deliveryPlan : [];
+    if (orderStatus !== undefined) rec.additionalData.orderStatus = orderStatus;
+    if (generalInfo && generalInfo.orderStatus) rec.additionalData.orderStatus = generalInfo.orderStatus;
+
+    rec.markModified('additionalData');
+    await rec.save();
+
+    const orderNo = generalInfo?.bookingNo || generalInfo?.ewoNo || rec.data?.OrderNo || rec.data?.['Order No'] || rec.recordId;
+    if (orderNo) {
+      const uOrder = await UnifiedOrder.findOne({ orderNo });
+      if (uOrder) {
+        if (generalInfo?.orderStatus) uOrder.overallStatus = generalInfo.orderStatus;
+        if (knittingPlan) uOrder.knittingPlan = knittingPlan;
+        if (dyeingPlan) uOrder.dyeingPlan = dyeingPlan;
+        if (deliveryPlan) uOrder.deliveryPlan = deliveryPlan;
+        await uOrder.save();
+      }
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'Plan data saved successfully.',
+      data: {
+        id: rec._id,
+        recordId: rec.recordId,
+        additionalData: rec.additionalData
+      }
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: 'Failed to save plan data.', error: error.message });
+  }
+};
+
+app.put('/api/orders/plan-manage/:orderNoOrId', optionalAuth, handleSavePlanManage);
+app.post('/api/orders/plan-manage/:orderNoOrId', optionalAuth, handleSavePlanManage);
+
 // GET /api/orders/plan-view - Dynamic Solid Plan & YD Plan order list strictly from uploaded files
 app.get('/api/orders/plan-view', async (req, res) => {
   try {

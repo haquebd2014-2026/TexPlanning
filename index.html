@@ -238,8 +238,8 @@
           </div>
         </div>
 
-        <!-- Main Card Container -->
-        <div class="bg-white rounded-xl p-5 border border-slate-200/80 shadow-xs space-y-4">
+        <!-- Main Card Container: Orders List -->
+        <div id="planOrdersListContainer" class="bg-white rounded-xl p-5 border border-slate-200/80 shadow-xs space-y-4">
           
           <!-- Top Row: Status Lists & Global Search (Matches Screenshot) -->
           <div class="flex flex-wrap items-center justify-between gap-4">
@@ -349,6 +349,298 @@
               <button id="btnNextPage" onclick="nextPage()" class="px-3 py-1 rounded border border-slate-300 bg-white hover:bg-slate-100 text-slate-700 font-semibold disabled:opacity-40 disabled:cursor-not-allowed text-xs transition">
                 Next
               </button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ========================================== -->
+        <!-- ORDER MANAGEMENT INTERFACE                 -->
+        <!-- (Matches media_1789435799709.png Exactly)   -->
+        <!-- ========================================== -->
+        <div id="orderManageInterface" class="hidden bg-white rounded-xl p-5 border border-slate-200/80 shadow-xs space-y-6">
+
+          <!-- Top Navigation Header -->
+          <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+            <!-- Left: Back Arrow + General Info Pill Tag -->
+            <button onclick="closeOrderManageView()" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold text-xs transition">
+              <span class="text-sm font-black">&larr;</span>
+              <span>General Info</span>
+            </button>
+
+            <!-- Right: Back Button & Save Data Button -->
+            <div class="flex items-center gap-2">
+              <button onclick="closeOrderManageView()" class="px-4 py-1.5 rounded border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 font-semibold text-xs shadow-xs transition">
+                Back
+              </button>
+              <button onclick="saveOrderPlanData()" class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-sm transition">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                <span>Save Data</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- SECTION 1: GENERAL INFO (3-Column Layout Matching Screenshot) -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-2 text-xs">
+            
+            <!-- Column 1 -->
+            <div class="space-y-2">
+              <div class="flex items-center justify-between gap-2">
+                <label class="w-32 text-slate-600 font-medium shrink-0">EWO No.</label>
+                <input type="text" id="gm_ewoNo" class="w-full px-2.5 py-1.5 rounded border border-slate-200 bg-slate-50/50 text-slate-800 text-xs focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-500">
+              </div>
+              <div class="flex items-center justify-between gap-2">
+                <label class="w-32 text-slate-600 font-medium shrink-0">Booking No.</label>
+                <input type="text" id="gm_bookingNo" class="w-full px-2.5 py-1.5 rounded border border-slate-200 bg-slate-50/50 text-slate-800 text-xs focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-500">
+              </div>
+              <div class="flex items-center justify-between gap-2">
+                <label class="w-32 text-slate-600 font-medium shrink-0">Booking Date</label>
+                <input type="text" id="gm_bookingDate" class="w-full px-2.5 py-1.5 rounded border border-slate-200 bg-slate-50/50 text-slate-800 text-xs focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-500">
+              </div>
+              <div class="flex items-center justify-between gap-2">
+                <label class="w-32 text-slate-600 font-medium shrink-0">Gmt Unit</label>
+                <input type="text" id="gm_gmtUnit" class="w-full px-2.5 py-1.5 rounded border border-slate-200 bg-slate-50/50 text-slate-800 text-xs focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-500">
+              </div>
+              <div class="flex items-center justify-between gap-2">
+                <label class="w-32 text-slate-600 font-medium shrink-0">Floor</label>
+                <input type="text" id="gm_floor" class="w-full px-2.5 py-1.5 rounded border border-slate-200 bg-slate-50/50 text-slate-800 text-xs focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-500">
+              </div>
+              <div class="flex items-center justify-between gap-2">
+                <label class="w-32 text-slate-600 font-medium shrink-0">Final Confirmation</label>
+                <input type="text" id="gm_finalConfirmation" class="w-full px-2.5 py-1.5 rounded border border-slate-200 bg-slate-50/50 text-slate-800 text-xs focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-500">
+              </div>
+              <div class="flex items-center justify-between gap-2">
+                <label class="w-32 text-slate-600 font-medium shrink-0">BP Status</label>
+                <input type="text" id="gm_bpStatus" class="w-full px-2.5 py-1.5 rounded border border-slate-200 bg-slate-50/50 text-slate-800 text-xs focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-500">
+              </div>
+              <div class="flex items-center justify-between gap-2">
+                <label class="w-32 text-slate-600 font-medium shrink-0">PMC</label>
+                <input type="text" id="gm_pmc" class="w-full px-2.5 py-1.5 rounded border border-slate-200 bg-slate-50/50 text-slate-800 text-xs focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-500">
+              </div>
+              <div class="flex items-center justify-between gap-2">
+                <label class="w-32 text-blue-700 font-semibold shrink-0">Order Status</label>
+                <select id="gm_orderStatus" class="w-full px-2.5 py-1.5 rounded border border-blue-400 ring-1 ring-blue-300 bg-white text-blue-700 font-bold text-xs focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  <option value="On Process">On Process</option>
+                  <option value="Pending">Pending</option>
+                  <option value="Confirm">Confirm</option>
+                  <option value="Tentative">Tentative</option>
+                  <option value="Completed">Completed</option>
+                  <option value="Cancelled">Cancelled</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Column 2 -->
+            <div class="space-y-2">
+              <div class="flex items-center justify-between gap-2">
+                <label class="w-32 text-slate-600 font-medium shrink-0">Buyer Name(s)</label>
+                <input type="text" id="gm_buyerName" class="w-full px-2.5 py-1.5 rounded border border-slate-200 bg-slate-50/50 text-blue-600 font-bold text-xs focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-500">
+              </div>
+              <div class="flex items-center justify-between gap-2">
+                <label class="w-32 text-slate-600 font-medium shrink-0">Buyer Team</label>
+                <input type="text" id="gm_buyerTeam" class="w-full px-2.5 py-1.5 rounded border border-slate-200 bg-slate-50/50 text-slate-800 text-xs focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-500">
+              </div>
+              <div class="flex items-center justify-between gap-2">
+                <label class="w-32 text-slate-600 font-medium shrink-0">Booked By</label>
+                <input type="text" id="gm_bookedBy" class="w-full px-2.5 py-1.5 rounded border border-slate-200 bg-slate-50/50 text-slate-800 text-xs focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-500">
+              </div>
+              <div class="flex items-center justify-between gap-2">
+                <label class="w-32 text-slate-600 font-medium shrink-0">Style</label>
+                <input type="text" id="gm_style" class="w-full px-2.5 py-1.5 rounded border border-slate-200 bg-slate-50/50 text-slate-800 text-xs focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-500">
+              </div>
+              <div class="flex items-center justify-between gap-2">
+                <label class="w-32 text-slate-600 font-medium shrink-0">Order Qty. (Kg)</label>
+                <input type="text" id="gm_orderQty" class="w-full px-2.5 py-1.5 rounded border border-slate-200 bg-slate-50/50 text-slate-800 text-xs focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-500">
+              </div>
+              <div class="flex items-center justify-between gap-2">
+                <label class="w-32 text-slate-600 font-medium shrink-0">Event Day</label>
+                <input type="text" id="gm_eventDay" class="w-full px-2.5 py-1.5 rounded border border-slate-200 bg-slate-50/50 text-slate-800 text-xs focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-500">
+              </div>
+              <div class="flex items-center justify-between gap-2">
+                <label class="w-32 text-slate-600 font-medium shrink-0">1st Shipment Date</label>
+                <input type="text" id="gm_firstShipmentDate" class="w-full px-2.5 py-1.5 rounded border border-slate-200 bg-slate-50/50 text-slate-800 text-xs focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-500">
+              </div>
+              <div class="flex items-center justify-between gap-2">
+                <label class="w-32 text-slate-600 font-medium shrink-0">Last Shipment Date</label>
+                <input type="text" id="gm_lastShipmentDate" class="w-full px-2.5 py-1.5 rounded border border-slate-200 bg-slate-50/50 text-slate-800 text-xs focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-500">
+              </div>
+              <div class="flex items-center justify-between gap-2">
+                <label class="w-32 text-slate-600 font-medium shrink-0">T&A Yarn date</label>
+                <input type="text" id="gm_taYarnDate" class="w-full px-2.5 py-1.5 rounded border border-slate-200 bg-slate-50/50 text-slate-800 text-xs focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-500">
+              </div>
+            </div>
+
+            <!-- Column 3 -->
+            <div class="space-y-2 flex flex-col justify-between">
+              <div class="space-y-2">
+                <div class="flex items-center justify-between gap-2">
+                  <label class="w-32 text-slate-600 font-medium shrink-0">T&A Deli. Start</label>
+                  <input type="text" id="gm_taDeliStart" class="w-full px-2.5 py-1.5 rounded border border-slate-200 bg-slate-50/50 text-slate-800 text-xs focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-500">
+                </div>
+                <div class="flex items-center justify-between gap-2">
+                  <label class="w-32 text-slate-600 font-medium shrink-0">T&A Deli. End</label>
+                  <input type="text" id="gm_taDeliEnd" class="w-full px-2.5 py-1.5 rounded border border-slate-200 bg-slate-50/50 text-slate-800 text-xs focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-500">
+                </div>
+                <div class="flex items-center justify-between gap-2">
+                  <label class="w-32 text-slate-600 font-medium shrink-0">T&A Knitting Start</label>
+                  <input type="text" id="gm_taKnittingStart" class="w-full px-2.5 py-1.5 rounded border border-slate-200 bg-slate-50/50 text-slate-800 text-xs focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-500">
+                </div>
+                <div class="flex items-center justify-between gap-2">
+                  <label class="w-32 text-slate-600 font-medium shrink-0">T&A Knitting End</label>
+                  <input type="text" id="gm_taKnittingEnd" class="w-full px-2.5 py-1.5 rounded border border-slate-200 bg-slate-50/50 text-slate-800 text-xs focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-500">
+                </div>
+                <div class="flex items-center justify-between gap-2">
+                  <label class="w-32 text-slate-600 font-medium shrink-0">T&A Dyeing Start</label>
+                  <input type="text" id="gm_taDyeingStart" class="w-full px-2.5 py-1.5 rounded border border-slate-200 bg-slate-50/50 text-slate-800 text-xs focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-500">
+                </div>
+                <div class="flex items-center justify-between gap-2">
+                  <label class="w-32 text-slate-600 font-medium shrink-0">T&A Dyeing End</label>
+                  <input type="text" id="gm_taDyeingEnd" class="w-full px-2.5 py-1.5 rounded border border-slate-200 bg-slate-50/50 text-slate-800 text-xs focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-500">
+                </div>
+              </div>
+
+              <!-- Fabric Notes -->
+              <div class="mt-2">
+                <div class="bg-slate-100 text-slate-700 font-bold text-[11px] py-1 text-center border border-slate-200 rounded-t">
+                  Fabric Notes
+                </div>
+                <textarea id="gm_fabricNotes" rows="3" class="w-full p-2 text-xs border border-t-0 border-slate-200 rounded-b bg-white focus:outline-none focus:ring-1 focus:ring-blue-500" placeholder="Enter fabric notes..."></textarea>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- SECTION 2: (KNITTING PLAN) -->
+          <div class="space-y-2 pt-3 border-t border-slate-200">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <svg class="text-blue-600" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2L1 7l11 5 11-5-11-5zM1 12l11 5 11-5M1 17l11 5 11-5"/>
+                </svg>
+                <span class="px-3 py-1 bg-slate-200 text-slate-800 font-bold text-xs rounded shadow-2xs">(Knitting Plan)</span>
+              </div>
+              <button onclick="addKnittingPlanRow()" class="px-2.5 py-1 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 border border-blue-200 font-bold rounded shadow-2xs transition">
+                + Add Row
+              </button>
+            </div>
+
+            <div class="overflow-x-auto border border-slate-200 rounded-lg">
+              <table class="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr class="bg-slate-100 text-slate-700 font-bold text-[11.5px] border-b border-slate-200">
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">Color</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 min-w-[130px]">FabricConstruction</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[60px]">GSM</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[100px] bg-[#fef08a] text-slate-900 font-extrabold">Yarn Date</th>
+                    <th colspan="2" class="py-1 px-2 border border-slate-200 text-center bg-slate-100 font-bold">Knitting Planning</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">Plan Type</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 min-w-[120px]">Knitting Limitation</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 min-w-[100px]">Remarks</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">Grey Req.</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">Knit Prod.</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">Knit. Bal.</th>
+                    <th rowspan="2" class="py-2 px-1 border border-slate-200 text-center w-10">✕</th>
+                  </tr>
+                  <tr class="bg-slate-50 text-slate-700 font-semibold text-[11px] border-b border-slate-200">
+                    <th class="py-1 px-2 border border-slate-200 text-center min-w-[95px]">Start Date</th>
+                    <th class="py-1 px-2 border border-slate-200 text-center min-w-[95px]">End Date</th>
+                  </tr>
+                </thead>
+                <tbody id="knittingPlanTableBody" class="divide-y divide-slate-100 bg-white">
+                  <!-- Dynamic rows -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- SECTION 3: DYEING PLAN) -->
+          <div class="space-y-2 pt-3 border-t border-slate-200">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <svg class="text-blue-600" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2L1 7l11 5 11-5-11-5zM1 12l11 5 11-5M1 17l11 5 11-5"/>
+                </svg>
+                <span class="px-3 py-1 bg-slate-200 text-slate-800 font-bold text-xs rounded shadow-2xs">Dyeing Plan)</span>
+              </div>
+              <button onclick="addDyeingPlanRow()" class="px-2.5 py-1 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 border border-blue-200 font-bold rounded shadow-2xs transition">
+                + Add Row
+              </button>
+            </div>
+
+            <div class="overflow-x-auto border border-slate-200 rounded-lg">
+              <table class="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr class="bg-slate-100 text-slate-700 font-bold text-[11.5px] border-b border-slate-200">
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">Color</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[70px]">Unit</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 min-w-[110px]">Process Name</th>
+                    <th colspan="2" class="py-1 px-2 border border-slate-200 text-center bg-slate-100 font-bold">Knitting Planning</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[110px]">Knitting Plan Type</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 min-w-[120px]">Knitting Limitation</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 min-w-[120px]">Remarks (Knitting)</th>
+                    <th colspan="2" class="py-1 px-2 border border-slate-200 text-center bg-slate-100 font-bold">Dyeing Planning</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">Plan Type</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 min-w-[120px]">Dyeing Limitation</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 min-w-[100px]">Remarks</th>
+                    <th rowspan="2" class="py-2 px-1 border border-slate-200 text-center w-10">✕</th>
+                  </tr>
+                  <tr class="bg-slate-50 text-slate-700 font-semibold text-[11px] border-b border-slate-200">
+                    <th class="py-1 px-2 border border-slate-200 text-center min-w-[95px]">Start Date</th>
+                    <th class="py-1 px-2 border border-slate-200 text-center min-w-[95px]">End Date</th>
+                    <th class="py-1 px-2 border border-slate-200 text-center min-w-[95px]">Start Date</th>
+                    <th class="py-1 px-2 border border-slate-200 text-center min-w-[95px]">End Date</th>
+                  </tr>
+                </thead>
+                <tbody id="dyeingPlanTableBody" class="divide-y divide-slate-100 bg-white">
+                  <!-- Dynamic rows -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- SECTION 4: DELIVERY PLAN) -->
+          <div class="space-y-2 pt-3 border-t border-slate-200">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <svg class="text-blue-600" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2L1 7l11 5 11-5-11-5zM1 12l11 5 11-5M1 17l11 5 11-5"/>
+                </svg>
+                <span class="px-3 py-1 bg-slate-200 text-slate-800 font-bold text-xs rounded shadow-2xs">Delivery Plan)</span>
+              </div>
+              <button onclick="addDeliveryPlanRow()" class="px-2.5 py-1 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 border border-blue-200 font-bold rounded shadow-2xs transition">
+                + Add Row
+              </button>
+            </div>
+
+            <div class="overflow-x-auto border border-slate-200 rounded-lg">
+              <table class="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr class="bg-slate-100 text-slate-700 font-bold text-[11.5px] border-b border-slate-200">
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">Color</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 min-w-[130px]">FabricConstruction</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[60px]">GSM</th>
+                    <th colspan="2" class="py-1 px-2 border border-slate-200 text-center bg-slate-100 font-bold">Delivery Planning (Floor)</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[100px]">Plan Type (Floor)</th>
+                    <th colspan="2" class="py-1 px-2 border border-slate-200 text-center bg-slate-100 font-bold">Delivery Planning</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">Plan Type</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 min-w-[120px]">Delivery Limitation</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 min-w-[100px]">Remarks</th>
+                    <th colspan="2" class="py-1 px-2 border border-slate-200 text-center bg-slate-100 font-bold">Dyeing Planning</th>
+                    <th rowspan="2" class="py-2 px-1 border border-slate-200 text-center w-10">✕</th>
+                  </tr>
+                  <tr class="bg-slate-50 text-slate-700 font-semibold text-[11px] border-b border-slate-200">
+                    <th class="py-1 px-2 border border-slate-200 text-center min-w-[95px]">Start Date</th>
+                    <th class="py-1 px-2 border border-slate-200 text-center min-w-[95px]">End Date</th>
+                    <th class="py-1 px-2 border border-slate-200 text-center min-w-[95px]">Start Date</th>
+                    <th class="py-1 px-2 border border-slate-200 text-center min-w-[95px]">End Date</th>
+                    <th class="py-1 px-2 border border-slate-200 text-center min-w-[95px]">Start Date</th>
+                    <th class="py-1 px-2 border border-slate-200 text-center min-w-[95px]">End Date</th>
+                  </tr>
+                </thead>
+                <tbody id="deliveryPlanTableBody" class="divide-y divide-slate-100 bg-white">
+                  <!-- Dynamic rows -->
+                </tbody>
+              </table>
             </div>
           </div>
 
@@ -667,6 +959,7 @@
       selectedBuyer = null;
       currentPage = 1;
       resetInlineColumnFilterInputs();
+      closeOrderManageView();
 
       hideAllMainViews();
       document.getElementById('viewOrderPlan').classList.remove('hidden');
@@ -828,8 +1121,10 @@
         tr.className = 'hover:bg-slate-50/80 transition border-b border-slate-100';
 
         tr.innerHTML = `
-          <td class="py-3 px-3 text-center text-slate-400 font-medium">
-            -
+          <td class="py-2.5 px-3 text-center">
+            <button onclick="openOrderManageView('${item.orderNo}')" class="px-3 py-1 bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white border border-blue-200 rounded font-semibold text-xs shadow-2xs transition">
+              Manage
+            </button>
           </td>
           <td class="py-3 px-4 font-bold text-slate-800 text-xs">
             ${item.orderNo}
@@ -933,7 +1228,11 @@
         const tr = document.createElement('tr');
         tr.className = 'hover:bg-slate-50 transition border-b border-slate-100';
         tr.innerHTML = `
-          <td class="py-3 px-3 text-center text-slate-400 font-medium">-</td>
+          <td class="py-2.5 px-3 text-center">
+            <button onclick="openOrderManageView('${item.orderNo}')" class="px-3 py-1 bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white border border-blue-200 rounded font-semibold text-xs shadow-2xs transition">
+              Manage
+            </button>
+          </td>
           <td class="py-3 px-4 font-bold text-slate-800 text-xs">${item.orderNo}</td>
           <td class="py-3 px-4 text-slate-700 whitespace-nowrap">${item.bookingDate || '-'}</td>
           <td class="py-3 px-4 font-semibold text-slate-800 whitespace-nowrap">${item.buyer || '-'}</td>
@@ -947,6 +1246,353 @@
       document.getElementById('globalBookingSearchInput').value = '';
       currentPage = 1;
       renderPlanView();
+    }
+
+    // ==========================================
+    // ORDER MANAGEMENT INTERFACE LOGIC
+    // (General Info, Knitting Plan, Dyeing Plan, Delivery Plan)
+    // ==========================================
+
+    let currentManagingOrder = null;
+
+    function openOrderManageView(orderNo) {
+      const order = allOrdersData.find(o => String(o.orderNo) === String(orderNo));
+      if (!order) {
+        alert(`Order ${orderNo} not found.`);
+        return;
+      }
+      currentManagingOrder = order;
+      const d = order.fullData || {};
+      const add = order.additionalData || {};
+      const gi = add.generalInfo || {};
+
+      // Column 1
+      document.getElementById('gm_ewoNo').value = gi.ewoNo !== undefined ? gi.ewoNo : (d['EWO No.'] || d['EWO No'] || d['OrderNo'] || order.orderNo || '');
+      document.getElementById('gm_bookingNo').value = gi.bookingNo !== undefined ? gi.bookingNo : (d['Booking No.'] || d['Booking No'] || d['OrderNo'] || order.orderNo || '');
+      document.getElementById('gm_bookingDate').value = gi.bookingDate !== undefined ? gi.bookingDate : (d['BookingReceiveDate'] || d['Booking Date'] || order.bookingDate || '');
+      document.getElementById('gm_gmtUnit').value = gi.gmtUnit !== undefined ? gi.gmtUnit : (d['Booking Unit'] || d['Gmt Unit'] || '');
+      document.getElementById('gm_floor').value = gi.floor !== undefined ? gi.floor : (d['Unit'] || d['Floor'] || '');
+      document.getElementById('gm_finalConfirmation').value = gi.finalConfirmation !== undefined ? gi.finalConfirmation : (d['Final Confirmation'] || 'No');
+      document.getElementById('gm_bpStatus').value = gi.bpStatus !== undefined ? gi.bpStatus : (d['BP Status'] || 'Pending');
+      document.getElementById('gm_pmc').value = gi.pmc !== undefined ? gi.pmc : (d['PMC'] || '');
+      document.getElementById('gm_orderStatus').value = gi.orderStatus || add.orderStatus || d['Order Status'] || 'On Process';
+
+      // Column 2
+      document.getElementById('gm_buyerName').value = gi.buyerName !== undefined ? gi.buyerName : (order.buyer || d['Buyer'] || '');
+      document.getElementById('gm_buyerTeam').value = gi.buyerTeam !== undefined ? gi.buyerTeam : (order.buyerTeam || d['Buyer Team'] || '');
+      document.getElementById('gm_bookedBy').value = gi.bookedBy !== undefined ? gi.bookedBy : (d['BookingBy'] || d['Booked By'] || '');
+      document.getElementById('gm_style').value = gi.style !== undefined ? gi.style : (d['Style'] || '');
+      document.getElementById('gm_orderQty').value = gi.orderQty !== undefined ? gi.orderQty : (d['RequiredQtyKgs'] || d['Order Qty. (Kg)'] || '');
+      document.getElementById('gm_eventDay').value = gi.eventDay !== undefined ? gi.eventDay : (d['Event day'] || d['Event Day'] || '');
+      document.getElementById('gm_firstShipmentDate').value = gi.firstShipmentDate !== undefined ? gi.firstShipmentDate : (d['1st Shipment Date'] || '');
+      document.getElementById('gm_lastShipmentDate').value = gi.lastShipmentDate !== undefined ? gi.lastShipmentDate : (d['Last Shipment Date'] || 'N/A');
+      document.getElementById('gm_taYarnDate').value = gi.taYarnDate !== undefined ? gi.taYarnDate : (d['T&A Yarn date'] || d['T&A Yarn Date'] || '');
+
+      // Column 3
+      document.getElementById('gm_taDeliStart').value = gi.taDeliStart !== undefined ? gi.taDeliStart : (d['T&A Deli. Start'] || '');
+      document.getElementById('gm_taDeliEnd').value = gi.taDeliEnd !== undefined ? gi.taDeliEnd : (d['T&A Deli. End'] || '');
+      document.getElementById('gm_taKnittingStart').value = gi.taKnittingStart !== undefined ? gi.taKnittingStart : (d['T&A Knitting Start'] || '');
+      document.getElementById('gm_taKnittingEnd').value = gi.taKnittingEnd !== undefined ? gi.taKnittingEnd : (d['T&A Knitting End'] || '');
+      document.getElementById('gm_taDyeingStart').value = gi.taDyeingStart !== undefined ? gi.taDyeingStart : (d['T&A Dyeing Start'] || '');
+      document.getElementById('gm_taDyeingEnd').value = gi.taDyeingEnd !== undefined ? gi.taDyeingEnd : (d['T&A Dyeing End'] || '');
+      document.getElementById('gm_fabricNotes').value = gi.fabricNotes !== undefined ? gi.fabricNotes : (d['Fabric Notes'] || d['PMC Notes'] || '');
+
+      // Render Plan Tables
+      renderKnittingPlanTable(add.knittingPlan, d);
+      renderDyeingPlanTable(add.dyeingPlan, d);
+      renderDeliveryPlanTable(add.deliveryPlan, d);
+
+      // Switch View Containers
+      const listContainer = document.getElementById('planOrdersListContainer');
+      const manageInterface = document.getElementById('orderManageInterface');
+      if (listContainer) listContainer.classList.add('hidden');
+      if (manageInterface) manageInterface.classList.remove('hidden');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function closeOrderManageView() {
+      const listContainer = document.getElementById('planOrdersListContainer');
+      const manageInterface = document.getElementById('orderManageInterface');
+      if (manageInterface) manageInterface.classList.add('hidden');
+      if (listContainer) listContainer.classList.remove('hidden');
+    }
+
+    // Knitting Plan Table Operations
+    function renderKnittingPlanTable(savedRows, d) {
+      const tbody = document.getElementById('knittingPlanTableBody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      const rows = (Array.isArray(savedRows) && savedRows.length > 0)
+        ? savedRows
+        : [{
+            color: d['Color'] || '',
+            fabricConstruction: d['Body Fabric'] || d['Fabric'] || '',
+            gsm: d['Body GSM'] || d['GSM'] || '',
+            yarnDate: d['T&A Yarn date'] || d['T&A Yarn Date'] || '',
+            knitStartDate: d['T&A Knitting Start'] || '',
+            knitEndDate: d['T&A Knitting End'] || '',
+            planType: d['Program type'] || 'Solid',
+            knittingLimitation: '',
+            remarks: '',
+            greyReq: d['RequiredQtyKgs'] || '',
+            knitProd: '',
+            knitBal: ''
+          }];
+
+      rows.forEach(r => addKnittingPlanRow(r));
+    }
+
+    function addKnittingPlanRow(data = {}) {
+      const tbody = document.getElementById('knittingPlanTableBody');
+      if (!tbody) return;
+      const tr = document.createElement('tr');
+      tr.className = 'hover:bg-slate-50 text-slate-700';
+      tr.innerHTML = `
+        <td class="p-1 border border-slate-200"><input type="text" class="kp-color w-full px-1.5 py-1 text-xs border border-slate-200 rounded" value="${data.color || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="kp-fabric w-full px-1.5 py-1 text-xs border border-slate-200 rounded" value="${data.fabricConstruction || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="kp-gsm w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.gsm || ''}"></td>
+        <td class="p-1 border border-slate-200 bg-[#fef08a]/40"><input type="text" class="kp-yarndate w-full px-1.5 py-1 text-xs border border-yellow-300 bg-yellow-50 rounded text-center font-bold" value="${data.yarnDate || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="kp-knitstart w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.knitStartDate || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="kp-knitend w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.knitEndDate || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="kp-plantype w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.planType || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="kp-limit w-full px-1.5 py-1 text-xs border border-slate-200 rounded" value="${data.knittingLimitation || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="kp-remarks w-full px-1.5 py-1 text-xs border border-slate-200 rounded" value="${data.remarks || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="kp-greyreq w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.greyReq || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="kp-prod w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.knitProd || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="kp-bal w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.knitBal || ''}"></td>
+        <td class="p-1 border border-slate-200 text-center"><button onclick="this.closest('tr').remove()" class="text-rose-500 hover:text-rose-700 font-bold px-1.5 py-0.5 rounded hover:bg-rose-50">✕</button></td>
+      `;
+      tbody.appendChild(tr);
+    }
+
+    // Dyeing Plan Table Operations
+    function renderDyeingPlanTable(savedRows, d) {
+      const tbody = document.getElementById('dyeingPlanTableBody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      const rows = (Array.isArray(savedRows) && savedRows.length > 0)
+        ? savedRows
+        : [{
+            color: d['Color'] || '',
+            unit: d['Unit'] || '',
+            processName: d['Program type'] || 'Solid Dyeing',
+            knitStartDate: d['T&A Knitting Start'] || '',
+            knitEndDate: d['T&A Knitting End'] || '',
+            knittingPlanType: d['Program type'] || 'Solid',
+            knittingLimitation: '',
+            remarksKnitting: '',
+            dyeStartDate: d['T&A Dyeing Start'] || '',
+            dyeEndDate: d['T&A Dyeing End'] || '',
+            planType: d['Program type'] || 'Solid',
+            dyeingLimitation: '',
+            remarks: ''
+          }];
+
+      rows.forEach(r => addDyeingPlanRow(r));
+    }
+
+    function addDyeingPlanRow(data = {}) {
+      const tbody = document.getElementById('dyeingPlanTableBody');
+      if (!tbody) return;
+      const tr = document.createElement('tr');
+      tr.className = 'hover:bg-slate-50 text-slate-700';
+      tr.innerHTML = `
+        <td class="p-1 border border-slate-200"><input type="text" class="dp-color w-full px-1.5 py-1 text-xs border border-slate-200 rounded" value="${data.color || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="dp-unit w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.unit || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="dp-process w-full px-1.5 py-1 text-xs border border-slate-200 rounded" value="${data.processName || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="dp-knitstart w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.knitStartDate || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="dp-knitend w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.knitEndDate || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="dp-knitplantype w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.knittingPlanType || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="dp-knitlimit w-full px-1.5 py-1 text-xs border border-slate-200 rounded" value="${data.knittingLimitation || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="dp-remarksকেnit w-full px-1.5 py-1 text-xs border border-slate-200 rounded" value="${data.remarksKnitting || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="dp-dyestart w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.dyeStartDate || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="dp-dyeend w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.dyeEndDate || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="dp-plantype w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.planType || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="dp-dyelimit w-full px-1.5 py-1 text-xs border border-slate-200 rounded" value="${data.dyeingLimitation || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="dp-remarks w-full px-1.5 py-1 text-xs border border-slate-200 rounded" value="${data.remarks || ''}"></td>
+        <td class="p-1 border border-slate-200 text-center"><button onclick="this.closest('tr').remove()" class="text-rose-500 hover:text-rose-700 font-bold px-1.5 py-0.5 rounded hover:bg-rose-50">✕</button></td>
+      `;
+      tbody.appendChild(tr);
+    }
+
+    // Delivery Plan Table Operations
+    function renderDeliveryPlanTable(savedRows, d) {
+      const tbody = document.getElementById('deliveryPlanTableBody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      const rows = (Array.isArray(savedRows) && savedRows.length > 0)
+        ? savedRows
+        : [{
+            color: d['Color'] || '',
+            fabricConstruction: d['Body Fabric'] || d['Fabric'] || '',
+            gsm: d['Body GSM'] || d['GSM'] || '',
+            floorDeliStart: d['T&A Deli. Start'] || '',
+            floorDeliEnd: d['T&A Deli. End'] || '',
+            floorPlanType: d['Unit'] || '',
+            deliStart: d['T&A Deli. Start'] || '',
+            deliEnd: d['T&A Deli. End'] || '',
+            planType: d['Program type'] || 'Solid',
+            deliveryLimitation: '',
+            remarks: '',
+            dyeStartDate: d['T&A Dyeing Start'] || '',
+            dyeEndDate: d['T&A Dyeing End'] || ''
+          }];
+
+      rows.forEach(r => addDeliveryPlanRow(r));
+    }
+
+    function addDeliveryPlanRow(data = {}) {
+      const tbody = document.getElementById('deliveryPlanTableBody');
+      if (!tbody) return;
+      const tr = document.createElement('tr');
+      tr.className = 'hover:bg-slate-50 text-slate-700';
+      tr.innerHTML = `
+        <td class="p-1 border border-slate-200"><input type="text" class="del-color w-full px-1.5 py-1 text-xs border border-slate-200 rounded" value="${data.color || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="del-fabric w-full px-1.5 py-1 text-xs border border-slate-200 rounded" value="${data.fabricConstruction || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="del-gsm w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.gsm || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="del-floorstart w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.floorDeliStart || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="del-floorend w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.floorDeliEnd || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="del-floorplantype w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.floorPlanType || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="del-delistart w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.deliStart || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="del-deliend w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.deliEnd || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="del-plantype w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.planType || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="del-limit w-full px-1.5 py-1 text-xs border border-slate-200 rounded" value="${data.deliveryLimitation || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="del-remarks w-full px-1.5 py-1 text-xs border border-slate-200 rounded" value="${data.remarks || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="del-dyestart w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.dyeStartDate || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="del-dyeend w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.dyeEndDate || ''}"></td>
+        <td class="p-1 border border-slate-200 text-center"><button onclick="this.closest('tr').remove()" class="text-rose-500 hover:text-rose-700 font-bold px-1.5 py-0.5 rounded hover:bg-rose-50">✕</button></td>
+      `;
+      tbody.appendChild(tr);
+    }
+
+    // Save All Plan Data (General Info, Knitting Plan, Dyeing Plan, Delivery Plan)
+    async function saveOrderPlanData() {
+      if (!currentManagingOrder) return;
+
+      const generalInfo = {
+        ewoNo: document.getElementById('gm_ewoNo').value,
+        bookingNo: document.getElementById('gm_bookingNo').value,
+        bookingDate: document.getElementById('gm_bookingDate').value,
+        gmtUnit: document.getElementById('gm_gmtUnit').value,
+        floor: document.getElementById('gm_floor').value,
+        finalConfirmation: document.getElementById('gm_finalConfirmation').value,
+        bpStatus: document.getElementById('gm_bpStatus').value,
+        pmc: document.getElementById('gm_pmc').value,
+        orderStatus: document.getElementById('gm_orderStatus').value,
+        buyerName: document.getElementById('gm_buyerName').value,
+        buyerTeam: document.getElementById('gm_buyerTeam').value,
+        bookedBy: document.getElementById('gm_bookedBy').value,
+        style: document.getElementById('gm_style').value,
+        orderQty: document.getElementById('gm_orderQty').value,
+        eventDay: document.getElementById('gm_eventDay').value,
+        firstShipmentDate: document.getElementById('gm_firstShipmentDate').value,
+        lastShipmentDate: document.getElementById('gm_lastShipmentDate').value,
+        taYarnDate: document.getElementById('gm_taYarnDate').value,
+        taDeliStart: document.getElementById('gm_taDeliStart').value,
+        taDeliEnd: document.getElementById('gm_taDeliEnd').value,
+        taKnittingStart: document.getElementById('gm_taKnittingStart').value,
+        taKnittingEnd: document.getElementById('gm_taKnittingEnd').value,
+        taDyeingStart: document.getElementById('gm_taDyeingStart').value,
+        taDyeingEnd: document.getElementById('gm_taDyeingEnd').value,
+        fabricNotes: document.getElementById('gm_fabricNotes').value
+      };
+
+      // Extract Knitting Plan Rows
+      const knittingPlan = [];
+      document.querySelectorAll('#knittingPlanTableBody tr').forEach(tr => {
+        knittingPlan.push({
+          color: tr.querySelector('.kp-color')?.value || '',
+          fabricConstruction: tr.querySelector('.kp-fabric')?.value || '',
+          gsm: tr.querySelector('.kp-gsm')?.value || '',
+          yarnDate: tr.querySelector('.kp-yarndate')?.value || '',
+          knitStartDate: tr.querySelector('.kp-knitstart')?.value || '',
+          knitEndDate: tr.querySelector('.kp-knitend')?.value || '',
+          planType: tr.querySelector('.kp-plantype')?.value || '',
+          knittingLimitation: tr.querySelector('.kp-limit')?.value || '',
+          remarks: tr.querySelector('.kp-remarks')?.value || '',
+          greyReq: tr.querySelector('.kp-greyreq')?.value || '',
+          knitProd: tr.querySelector('.kp-prod')?.value || '',
+          knitBal: tr.querySelector('.kp-bal')?.value || ''
+        });
+      });
+
+      // Extract Dyeing Plan Rows
+      const dyeingPlan = [];
+      document.querySelectorAll('#dyeingPlanTableBody tr').forEach(tr => {
+        dyeingPlan.push({
+          color: tr.querySelector('.dp-color')?.value || '',
+          unit: tr.querySelector('.dp-unit')?.value || '',
+          processName: tr.querySelector('.dp-process')?.value || '',
+          knitStartDate: tr.querySelector('.dp-knitstart')?.value || '',
+          knitEndDate: tr.querySelector('.dp-knitend')?.value || '',
+          knittingPlanType: tr.querySelector('.dp-knitplantype')?.value || '',
+          knittingLimitation: tr.querySelector('.dp-knitlimit')?.value || '',
+          remarksKnitting: tr.querySelector('.dp-remarksকেnit')?.value || '',
+          dyeStartDate: tr.querySelector('.dp-dyestart')?.value || '',
+          dyeEndDate: tr.querySelector('.dp-dyeend')?.value || '',
+          planType: tr.querySelector('.dp-plantype')?.value || '',
+          dyeingLimitation: tr.querySelector('.dp-dyelimit')?.value || '',
+          remarks: tr.querySelector('.dp-remarks')?.value || ''
+        });
+      });
+
+      // Extract Delivery Plan Rows
+      const deliveryPlan = [];
+      document.querySelectorAll('#deliveryPlanTableBody tr').forEach(tr => {
+        deliveryPlan.push({
+          color: tr.querySelector('.del-color')?.value || '',
+          fabricConstruction: tr.querySelector('.del-fabric')?.value || '',
+          gsm: tr.querySelector('.del-gsm')?.value || '',
+          floorDeliStart: tr.querySelector('.del-floorstart')?.value || '',
+          floorDeliEnd: tr.querySelector('.del-floorend')?.value || '',
+          floorPlanType: tr.querySelector('.del-floorplantype')?.value || '',
+          deliStart: tr.querySelector('.del-delistart')?.value || '',
+          deliEnd: tr.querySelector('.del-deliend')?.value || '',
+          planType: tr.querySelector('.del-plantype')?.value || '',
+          deliveryLimitation: tr.querySelector('.del-limit')?.value || '',
+          remarks: tr.querySelector('.del-remarks')?.value || '',
+          dyeStartDate: tr.querySelector('.del-dyestart')?.value || '',
+          dyeEndDate: tr.querySelector('.del-dyeend')?.value || ''
+        });
+      });
+
+      const payload = {
+        generalInfo,
+        knittingPlan,
+        dyeingPlan,
+        deliveryPlan,
+        orderStatus: generalInfo.orderStatus
+      };
+
+      try {
+        const targetId = currentManagingOrder.id || currentManagingOrder.orderNo;
+        const res = await fetch(`/api/orders/plan-manage/${encodeURIComponent(targetId)}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+        if (res.ok && data.success) {
+          if (!currentManagingOrder.additionalData) currentManagingOrder.additionalData = {};
+          currentManagingOrder.additionalData.generalInfo = generalInfo;
+          currentManagingOrder.additionalData.knittingPlan = knittingPlan;
+          currentManagingOrder.additionalData.dyeingPlan = dyeingPlan;
+          currentManagingOrder.additionalData.deliveryPlan = deliveryPlan;
+          currentManagingOrder.additionalData.orderStatus = generalInfo.orderStatus;
+          currentManagingOrder.status = generalInfo.orderStatus;
+
+          alert('Plan data saved successfully!');
+        } else {
+          alert(`Save failed: ${data.message || 'Unknown error'}`);
+        }
+      } catch (err) {
+        alert(`Error saving plan data: ${err.message}`);
+      }
     }
 
     // ==========================================
