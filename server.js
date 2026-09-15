@@ -1110,7 +1110,7 @@ app.post('/api/upload/file', optionalAuth, upload.single('file'), async (req, re
         rowHeaders.forEach(h => allHeadersSet.add(h));
 
         // Locate Record ID (e.g. Order No, PO No, Job No, Style, Batch No, or Row index)
-        const recordIdVal = row['Order No'] || row['Order'] || row['Order Number'] || row['PO No'] || row['PO'] || row['Job No'] || row['Style'] || row['Batch No'] || row['orderno'] || `ROW-${i + 1}`;
+        const recordIdVal = row['OrderNo'] || row['Order No'] || row['Booking No.'] || row['Booking No'] || row['Order'] || row['Order Number'] || row['PO No'] || row['PO'] || row['Job No'] || row['Style'] || row['Batch No'] || row['orderno'] || `ROW-${i + 1}`;
         const recordId = String(recordIdVal).trim();
 
         recordsToInsert.push({
@@ -1329,71 +1329,133 @@ app.put('/api/data/records/:recordId/additional', optionalAuth, async (req, res)
   }
 });
 
-// GET /api/orders/plan-view - Dynamic Solid Plan & YD Plan order list with dynamic buyers
+// GET /api/orders/plan-view - Dynamic Solid Plan & YD Plan order list strictly from uploaded files
 app.get('/api/orders/plan-view', async (req, res) => {
   try {
-    const { planType, status, buyer, search } = req.query;
+    const { planType } = req.query;
     const isYD = planType && planType.toLowerCase().includes('yd');
     const categoryPattern = isYD ? /yd\s*plan/i : /general/i;
 
-    // 1. Fetch records from SourceDataRecord matching category
-    let records = await SourceDataRecord.find({
-      category: categoryPattern
-    }).sort({ createdAt: -1 }).limit(300);
+    // 1. Fetch only real records from SourceDataRecord that belong to an uploaded file
+    const records = await SourceDataRecord.find({
+      category: categoryPattern,
+      fileId: { $exists: true, $ne: null }
+    }).sort({ createdAt: -1 });
 
-    // Fallback: If no records uploaded yet, check UnifiedOrder
-    if (records.length === 0) {
-      const unified = await UnifiedOrder.find().limit(50);
-      records = unified.map((u, idx) => ({
-        _id: u._id,
-        recordId: u.orderNo || `ORD-2026-00${idx + 1}`,
-        category: isYD ? 'YD Plan Data' : 'General Data',
-        data: {
-          'Order No': u.orderNo,
-          'Buyer': u.buyer,
-          'Style': u.style,
-          'Booking Date': u.bookingDate ? u.bookingDate.toISOString().split('T')[0] : '14-Sep-2026',
-          'Order Qty': u.totalOrderQty || 5000,
-          'Status': u.overallStatus || 'Pending'
-        },
-        additionalData: {}
-      }));
-    }
-
-    // 2. Extract distinct buyers
+    // 2. Extract distinct buyers and format orders strictly from uploaded data
     const buyerSet = new Set();
     const ordersList = [];
 
-    records.forEach((rec, idx) => {
+    records.forEach((rec) => {
       const d = rec.data || {};
-      const b = d['Buyer'] || d['buyer'] || d['Customer'] || (rec.buyer) || 'STANLEY STELLA';
+      
+      const b = String(d['Buyer'] || d['buyer'] || d['Customer'] || d['BUYER'] || '').trim();
       if (b) buyerSet.add(b);
 
-      const orderNo = rec.recordId || d['Order No'] || d['Order'] || d['orderno'] || `27273${idx}`;
-      const bookingDate = d['Booking Date'] || d['BookingDate'] || d['Order Date'] || d['bookingdate'] || '14-Sep-2026';
-      const orderStatus = d['Status'] || d['status'] || rec.additionalData?.status || (idx % 3 === 0 ? 'Pending' : (idx % 3 === 1 ? 'Confirm' : 'Tentative'));
-      const statusDetail = d['Remarks'] ? `YB: ${d['Order Qty'] || '12575.2'}, Remarks: ${d['Remarks']}` : `YB: ${d['Order Qty'] || '12575.2'}, Remarks: Null`;
+      const orderNo = String(
+        d['OrderNo'] ||
+        d['Order No'] ||
+        d['Booking No.'] ||
+        d['Booking No'] ||
+        d['Order'] ||
+        d['Order Number'] ||
+        d['PO No'] ||
+        d['PO'] ||
+        d['Job No'] ||
+        d['orderno'] ||
+        (rec.recordId && !rec.recordId.startsWith('ROW-') ? rec.recordId : '') ||
+        ''
+      ).trim();
 
-      ordersList.push({
-        id: rec._id,
-        orderNo: String(orderNo),
-        bookingDate: String(bookingDate).substring(0, 15),
-        buyer: String(b),
-        status: orderStatus,
-        statusDetail,
-        fullData: d,
-        additionalData: rec.additionalData || {}
-      });
+      const bookingDateRaw = d['BookingReceiveDate'] ||
+        d['YD Booking Date'] ||
+        d['Booking Date'] ||
+        d['BookingDate'] ||
+        d['Order Date'] ||
+        d['bookingdate'] ||
+        '';
+      const bookingDate = bookingDateRaw ? String(bookingDateRaw).trim() : '';
+
+      const buyerTeam = String(
+        d['Buyer Team'] ||
+        d['BuyerTeam'] ||
+        d['buyer team'] ||
+        d['Team'] ||
+        d['Booking Type'] ||
+        d['Style'] ||
+        ''
+      ).trim();
+
+      let orderStatus = 'Pending';
+      if (rec.additionalData?.status) {
+        orderStatus = rec.additionalData.status;
+      } else if (isYD) {
+        const dyed = parseFloat(d['DYED'] || 0);
+        if (dyed > 0) {
+          orderStatus = 'Confirm';
+        } else {
+          orderStatus = 'Pending';
+        }
+      } else {
+        const bpStatus = String(d['BP Status'] || '').trim().toLowerCase();
+        const finalConf = String(d['Final Confirmation'] || '').trim().toLowerCase();
+        const statusCol = String(d['Status'] || '').trim().toLowerCase();
+
+        if (bpStatus === 'pending') {
+          orderStatus = 'Pending';
+        } else if (bpStatus && bpStatus !== '-' && bpStatus !== 'null' && bpStatus !== 'pending') {
+          orderStatus = 'Confirm';
+        } else if (finalConf === 'yes' && bpStatus !== 'pending') {
+          orderStatus = 'Confirm';
+        } else if (bpStatus.includes('tentative') || statusCol.includes('tentative')) {
+          orderStatus = 'Tentative';
+        } else {
+          orderStatus = 'Pending';
+        }
+      }
+
+      const statusDetail = d['Status'] ||
+        d['Remarks'] ||
+        d['remarks'] ||
+        (d['RequiredQtyKgs'] ? `Req: ${d['RequiredQtyKgs']} kg` : '') ||
+        (d['YD REQ.'] ? `YD Req: ${d['YD REQ.']}, Dyed: ${d['DYED'] || 0}` : '') ||
+        'Null';
+
+      if (orderNo) {
+        ordersList.push({
+          id: rec._id,
+          orderNo,
+          bookingDate,
+          buyer: b,
+          buyerTeam,
+          status: orderStatus,
+          statusDetail,
+          fullData: d,
+          additionalData: rec.additionalData || {}
+        });
+      }
     });
 
     return res.status(200).json({
       success: true,
       planType: isYD ? 'YD Plan' : 'Solid Plan',
-      buyers: Array.from(buyerSet),
+      totalOrders: ordersList.length,
+      buyers: Array.from(buyerSet).sort(),
       orders: ordersList
     });
   } catch (err) {
     return res.status(500).json({ success: false, message: 'Failed to fetch plan view data.', error: err.message });
+  }
+});
+
+// POST /api/upload/clean-dummy-data - Clean out any unlinked or dummy data
+app.post('/api/upload/clean-dummy-data', async (req, res) => {
+  try {
+    const r1 = await SourceDataRecord.deleteMany({ $or: [{ fileId: { $exists: false } }, { fileId: null }] });
+    const r2 = await UnifiedOrder.deleteMany({ orderNo: { $regex: /^ORD-2026-00[1-5]$/ } });
+    return res.status(200).json({ success: true, message: 'Dummy data removed.', deletedSourceRecords: r1.deletedCount, deletedUnified: r2.deletedCount });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: 'Failed to clean dummy data.', error: err.message });
   }
 });
 

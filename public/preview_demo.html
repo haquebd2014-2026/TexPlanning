@@ -287,21 +287,21 @@
           <div class="overflow-x-auto border border-slate-200 rounded-lg">
             <table class="w-full text-left text-xs border-collapse">
               <thead>
-                <!-- Table Header Names -->
+                <!-- Table Header Names (manage, Order No, Booking date, Buyer, Buyer team) -->
                 <tr class="bg-slate-50 text-slate-700 font-extrabold border-b border-slate-200 text-[11.5px]">
-                  <th class="py-3 px-3 w-16 text-slate-600">Manage</th>
-                  <th class="py-3 px-4 min-w-[160px] text-slate-800">Order/Booking No.</th>
-                  <th class="py-3 px-4 min-w-[140px] text-slate-800">Booking Date</th>
-                  <th class="py-3 px-4 min-w-[180px] text-slate-800">Buyer</th>
-                  <th class="py-3 px-4 text-slate-800">Status</th>
+                  <th class="py-3 px-3 w-16 text-center text-slate-600">Manage</th>
+                  <th class="py-3 px-4 min-w-[150px] text-slate-800">Order No</th>
+                  <th class="py-3 px-4 min-w-[140px] text-slate-800">Booking date</th>
+                  <th class="py-3 px-4 min-w-[160px] text-slate-800">Buyer</th>
+                  <th class="py-3 px-4 min-w-[160px] text-slate-800">Buyer team</th>
                 </tr>
-                <!-- Inline Column Search Input Filters (Directly Below Headers as in Screenshot) -->
+                <!-- Inline Column Search Input Filters (Directly Below Headers) -->
                 <tr class="bg-white border-b border-slate-200">
                   <th class="py-2 px-3 text-center">
                     <button onclick="resetInlineColumnFilters()" title="Reset Column Filters" class="text-slate-400 hover:text-slate-700 text-[11px] font-bold">↺</button>
                   </th>
                   <th class="py-2 px-3">
-                    <input type="text" id="colSearch_orderNo" oninput="applyInlineColumnFilters()" placeholder="Search No..." class="w-full px-2 py-1 text-[11px] rounded border border-slate-200 bg-slate-50/70 text-slate-800 focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-500">
+                    <input type="text" id="colSearch_orderNo" oninput="applyInlineColumnFilters()" placeholder="Search Order No..." class="w-full px-2 py-1 text-[11px] rounded border border-slate-200 bg-slate-50/70 text-slate-800 focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-500">
                   </th>
                   <th class="py-2 px-3">
                     <input type="text" id="colSearch_bookingDate" oninput="applyInlineColumnFilters()" placeholder="Search Date..." class="w-full px-2 py-1 text-[11px] rounded border border-slate-200 bg-slate-50/70 text-slate-800 focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-500">
@@ -310,7 +310,7 @@
                     <input type="text" id="colSearch_buyer" oninput="applyInlineColumnFilters()" placeholder="Search Buyer..." class="w-full px-2 py-1 text-[11px] rounded border border-slate-200 bg-slate-50/70 text-slate-800 focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-500">
                   </th>
                   <th class="py-2 px-3">
-                    <input type="text" id="colSearch_status" oninput="applyInlineColumnFilters()" placeholder="Search Status..." class="w-full px-2 py-1 text-[11px] rounded border border-slate-200 bg-slate-50/70 text-slate-800 focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-500">
+                    <input type="text" id="colSearch_buyerTeam" oninput="applyInlineColumnFilters()" placeholder="Search Buyer Team..." class="w-full px-2 py-1 text-[11px] rounded border border-slate-200 bg-slate-50/70 text-slate-800 focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-500">
                   </th>
                 </tr>
               </thead>
@@ -476,83 +476,194 @@
   </div>
 
   <!-- ========================================== -->
+  <!-- MODAL: PRESERVED DATA & COLUMNS EXPLORER   -->
+  <!-- ========================================== -->
+  <div id="dataExplorerModal" class="fixed inset-0 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
+    <div class="bg-white rounded-2xl w-full max-w-6xl max-h-[92vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden text-slate-800">
+      
+      <!-- Modal Header -->
+      <div class="px-6 py-4 border-b border-slate-200 flex justify-between items-center bg-slate-50">
+        <div>
+          <h3 class="text-sm font-extrabold text-slate-900 flex items-center gap-2">
+            <span>📊</span> <span id="explorerModalTitle">Preserved Spreadsheet Data &amp; Columns</span>
+          </h3>
+          <p class="text-[11px] text-slate-500">All original columns and rows preserved in MongoDB Atlas with dynamic cross-menu search.</p>
+        </div>
+        <button onclick="closeDataExplorerModal()" class="text-slate-400 hover:text-slate-800 text-xl font-bold leading-none">&times;</button>
+      </div>
+
+      <!-- Search & Action Bar -->
+      <div class="p-4 bg-slate-50/80 border-b border-slate-200 flex flex-wrap items-center justify-between gap-3 text-xs">
+        <div class="flex items-center gap-2 flex-1 min-w-[250px]">
+          <input type="text" id="explorerSearchInput" oninput="filterExplorerRecords()" placeholder="Search any Order No, Buyer, Style, or value..." class="w-full bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-500">
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="openAddDataModal()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition">
+            <span>➕</span> Add Additional Data
+          </button>
+        </div>
+      </div>
+
+      <!-- Detected Column Headers Badges -->
+      <div class="px-6 py-3 bg-white border-b border-slate-200 text-xs">
+        <span class="text-slate-500 font-semibold mr-2">Preserved Column Headers:</span>
+        <div id="explorerHeadersList" class="inline-flex flex-wrap gap-1.5 align-middle mt-1">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+      <!-- Records Table -->
+      <div class="p-6 overflow-auto flex-1">
+        <div class="border border-slate-200 rounded-lg overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead id="explorerTableHead" class="bg-slate-50 border-b border-slate-200 font-bold text-slate-700"></thead>
+            <tbody id="explorerTableBody" class="divide-y divide-slate-100 font-medium text-slate-700"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="px-6 py-3 border-t border-slate-200 bg-slate-50 flex justify-between items-center text-xs">
+        <span id="explorerRecordCountText" class="text-slate-500 font-medium">Showing 0 records</span>
+        <button onclick="closeDataExplorerModal()" class="px-4 py-1.5 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-100 font-semibold">Close</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: ADD ADDITIONAL DATA AGAINST ID      -->
+  <!-- ========================================== -->
+  <div id="addDataModal" class="fixed inset-0 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
+    <div class="bg-white rounded-2xl w-full max-w-lg shadow-2xl border border-slate-200 overflow-hidden text-slate-800">
+      
+      <div class="px-6 py-4 border-b border-slate-200 flex justify-between items-center bg-slate-50">
+        <h3 class="text-sm font-extrabold text-slate-900 flex items-center gap-2">
+          <span>➕</span> Add Additional Data Against Record ID
+        </h3>
+        <button onclick="closeAddDataModal()" class="text-slate-400 hover:text-slate-800 text-xl font-bold leading-none">&times;</button>
+      </div>
+
+      <div class="p-6 space-y-4 text-xs">
+        <div>
+          <label class="block text-slate-700 font-bold mb-1">Target Order No / Record ID *</label>
+          <input type="text" id="addCustom_recordId" placeholder="e.g. 272654 or 272159" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-500">
+        </div>
+        <div>
+          <label class="block text-slate-700 font-bold mb-1">New Attribute / Column Heading *</label>
+          <input type="text" id="addCustom_field" placeholder="e.g. Yarn Arrival Status, Factory Remarks, Lab Dip Date" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-500">
+        </div>
+        <div>
+          <label class="block text-slate-700 font-bold mb-1">Custom Value *</label>
+          <input type="text" id="addCustom_value" placeholder="e.g. In-House Confirmed, Batch 4 Passed" class="w-full bg-white border border-slate-300 rounded-lg p-2 text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-500">
+        </div>
+      </div>
+
+      <div class="px-6 py-3 border-t border-slate-200 bg-slate-50 flex justify-end gap-2 text-xs">
+        <button onclick="closeAddDataModal()" class="px-4 py-1.5 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-100 font-semibold">Cancel</button>
+        <button onclick="saveAdditionalData()" class="px-4 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold">Save Data</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="uploadToast" class="fixed bottom-6 right-6 z-50 hidden max-w-md">
+    <div id="uploadToastContent" class="rounded-xl p-4 text-xs font-semibold flex items-center justify-between shadow-lg bg-slate-900 text-white border border-slate-700"></div>
+  </div>
+
+  <!-- ========================================== -->
   <!-- JAVASCRIPT LOGIC                           -->
   <!-- ========================================== -->
   <script>
+    // State
     let currentPlanType = 'Solid Plan'; // 'Solid Plan' or 'YD Plan'
     let currentStatusFilter = 'Pending'; // 'Pending', 'Confirm', 'Tentative'
     let selectedBuyer = null; // null for All Buyers
 
-    // Rich dataset for Solid Plan & YD Plan matching user screenshot
-    let allOrdersData = [
-      { id: '1', orderNo: '272736', bookingDate: '14-Sep-2026', buyer: 'STANLEY STELLA', status: 'Pending', statusDetail: 'YB: 12575.2, Remarks: Null', planType: 'Solid Plan' },
-      { id: '2', orderNo: '272734', bookingDate: '13-Sep-2026', buyer: 'M&S', status: 'Pending', statusDetail: 'YB: 621.5, Remarks: Null', planType: 'Solid Plan' },
-      { id: '3', orderNo: '272740', bookingDate: '14-Sep-2026', buyer: 'CALVIN KLEIN JEANS', status: 'Pending', statusDetail: 'YB: 3400.0, Remarks: High Priority', planType: 'Solid Plan' },
-      { id: '4', orderNo: '272745', bookingDate: '12-Sep-2026', buyer: 'AUSTRALIAN OPEN', status: 'Pending', statusDetail: 'YB: 8500.0, Remarks: Null', planType: 'Solid Plan' },
-      { id: '5', orderNo: '272750', bookingDate: '11-Sep-2026', buyer: 'BESTSELLER', status: 'Confirm', statusDetail: 'YB: 4200.0, Remarks: Confirmed for Knitting', planType: 'Solid Plan' },
-      { id: '6', orderNo: '272755', bookingDate: '10-Sep-2026', buyer: 'BONDS', status: 'Confirm', statusDetail: 'YB: 5100.0, Remarks: Ready', planType: 'Solid Plan' },
-      { id: '7', orderNo: '272760', bookingDate: '09-Sep-2026', buyer: 'C&A', status: 'Tentative', statusDetail: 'YB: 2200.0, Remarks: Awaiting yarn approval', planType: 'Solid Plan' },
-      { id: '8', orderNo: '272765', bookingDate: '08-Sep-2026', buyer: 'CARHARTT', status: 'Pending', statusDetail: 'YB: 7600.0, Remarks: Null', planType: 'Solid Plan' },
-      { id: '9', orderNo: '272770', bookingDate: '07-Sep-2026', buyer: 'CHAMPION AUSTRALIA', status: 'Pending', statusDetail: 'YB: 1900.0, Remarks: Null', planType: 'Solid Plan' },
-      { id: '10', orderNo: '272775', bookingDate: '06-Sep-2026', buyer: 'COUNTRY ROAD', status: 'Confirm', statusDetail: 'YB: 3100.0, Remarks: In Dyeing', planType: 'Solid Plan' },
-      { id: '11', orderNo: '272780', bookingDate: '05-Sep-2026', buyer: 'G-STAR', status: 'Tentative', statusDetail: 'YB: 4400.0, Remarks: Lab dip pending', planType: 'Solid Plan' },
-      { id: '12', orderNo: '272785', bookingDate: '04-Sep-2026', buyer: 'J.CREW', status: 'Pending', statusDetail: 'YB: 5800.0, Remarks: Null', planType: 'Solid Plan' },
-      { id: '13', orderNo: '272790', bookingDate: '03-Sep-2026', buyer: 'KLATTERMUSEN', status: 'Confirm', statusDetail: 'YB: 1200.0, Remarks: Fabric in inspection', planType: 'Solid Plan' },
+    let currentCategory = {
+      fullName: 'General Data',
+      shortName: 'General'
+    };
 
-      // YD Plan Sample Data
-      { id: 'yd-1', orderNo: 'YD-9801', bookingDate: '14-Sep-2026', buyer: 'CALVIN KLEIN JEANS', status: 'Pending', statusDetail: 'YD Yarn Count: 30s/1, Remarks: Color stripe match', planType: 'YD Plan' },
-      { id: 'yd-2', orderNo: 'YD-9802', bookingDate: '13-Sep-2026', buyer: 'H&M', status: 'Pending', statusDetail: 'YD Yarn Count: 26s/1, Remarks: Feeder stripe sample', planType: 'YD Plan' },
-      { id: 'yd-3', orderNo: 'YD-9803', bookingDate: '12-Sep-2026', buyer: 'ZARA', status: 'Confirm', statusDetail: 'YD Yarn Count: 40s/2, Remarks: Dye batch loaded', planType: 'YD Plan' },
-      { id: 'yd-4', orderNo: 'YD-9804', bookingDate: '10-Sep-2026', buyer: 'NEXT', status: 'Tentative', statusDetail: 'YD Yarn Count: 20s/1, Remarks: Awaiting shade approval', planType: 'YD Plan' }
+    let selectedFileObj = null;
+    let allOrdersData = []; // Strictly empty: all data originates from uploaded files in MongoDB Atlas
+    let cachedFilesList = []; // Strictly empty: files originate from MongoDB Atlas
+    let activeExplorerRecords = [];
+    let activeExplorerHeaders = [];
+
+    // System Permissions
+    let systemPermissions = [
+      { id: 'menu:data_management', name: 'Data Management (Main Menu)', category: 'Navigation Menus' },
+      { id: 'menu:source_upload', name: 'Source File Upload (Submenu)', category: 'Navigation Menus' },
+      { id: 'menu:setup_dropdowns', name: 'Setup (Dropdowns) (Submenu)', category: 'Navigation Menus' },
+      { id: 'menu:order_management', name: 'Order Management', category: 'Navigation Menus' },
+      { id: 'menu:solid_plan', name: 'Solid Plan (Submenu)', category: 'Navigation Menus' },
+      { id: 'menu:yd_plan', name: 'YD Plan (Submenu)', category: 'Navigation Menus' },
+      { id: 'menu:report', name: 'Report', category: 'Navigation Menus' },
+      { id: 'menu:plan_filter', name: 'Plan Filter', category: 'Navigation Menus' },
+      { id: 'menu:plan_vs_actual', name: 'Plan Vs Actual Tracking', category: 'Navigation Menus' },
+      { id: 'menu:tracking_report', name: 'Tracking Report', category: 'Navigation Menus' },
+      { id: 'menu:tracking_filter', name: 'Plan Vs Actual Tracking Filter', category: 'Navigation Menus' },
+      { id: 'menu:load_calculation', name: 'Load Calculation', category: 'Navigation Menus' },
+      { id: 'menu:manage_users', name: 'Manage Users', category: 'Navigation Menus' },
+      { id: 'btn:upload_source_data', name: 'Upload Data Button', category: 'Action Buttons' },
+      { id: 'btn:delete_source_file', name: 'Delete Uploaded File Button', category: 'Action Buttons' },
+      { id: 'btn:add_additional_data', name: 'Add Additional Data Button', category: 'Action Buttons' }
     ];
 
+    let users = [
+      { id: '1', username: 'admin', role: 'Admin', allowedBuyers: [], permissions: ['*'], status: 'Active' },
+      { id: '2', username: 'planner', role: 'Planner', allowedBuyers: ['H&M', 'Zara', 'Next'], permissions: ['menu:data_management', 'menu:source_upload', 'menu:order_management', 'btn:upload_source_data'], status: 'Active' }
+    ];
+
+    // Page initialization
     document.addEventListener('DOMContentLoaded', () => {
       switchOrderPlanView('Solid Plan');
-      fetchLivePlanViewData();
+      loadUploadedFiles();
+      renderUsers();
     });
 
-    // Fetch Live Data from Backend API if connected
+    // ==========================================
+    // ORDER PLAN VIEW (Solid Plan & YD Plan)
+    // ==========================================
+
+    // Fetch Live Data strictly from backend MongoDB Atlas
     async function fetchLivePlanViewData() {
       try {
         const res = await fetch(`/api/orders/plan-view?planType=${encodeURIComponent(currentPlanType)}`);
         if (res.ok) {
           const json = await res.json();
-          if (json.orders && json.orders.length > 0) {
-            // Merge with current dataset
-            json.orders.forEach(o => {
-              o.planType = currentPlanType;
-              if (!allOrdersData.some(x => x.orderNo === o.orderNo)) {
-                allOrdersData.unshift(o);
-              }
-            });
-            renderPlanView();
-          }
+          const liveOrders = (json.orders || []).map(o => ({ ...o, planType: currentPlanType }));
+          // Keep other plan cached orders, replace current plan orders
+          const otherPlans = allOrdersData.filter(o => o.planType !== currentPlanType);
+          allOrdersData = [...otherPlans, ...liveOrders];
+          renderPlanView();
         }
       } catch (e) {
-        // Continue with local rich dataset
+        console.warn('API connection offline or pending:', e);
       }
     }
 
-    // Switch between Solid Plan and YD Plan submenus
+    // Switch between Solid Plan and YD Plan
     function switchOrderPlanView(planType) {
       currentPlanType = planType;
-      selectedBuyer = null; // Reset buyer filter
+      selectedBuyer = null;
       resetInlineColumnFilterInputs();
 
-      // Show Order Plan view, hide others
       hideAllMainViews();
       document.getElementById('viewOrderPlan').classList.remove('hidden');
 
-      // Update Sidebar Submenu Button Highlight
+      // Sidebar submenu highlight
       const subSolid = document.getElementById('subBtn_solid_plan');
       const subYD = document.getElementById('subBtn_yd_plan');
 
       if (planType === 'Solid Plan') {
-        subSolid.className = 'w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-bold transition text-slate-900 bg-slate-300/90 border border-slate-400/60 shadow-xs text-left';
-        subYD.className = 'w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-700 hover:text-slate-950 hover:bg-slate-300/50 transition text-left';
+        if (subSolid) subSolid.className = 'w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-bold transition text-slate-900 bg-slate-300/90 border border-slate-400/60 shadow-xs text-left';
+        if (subYD) subYD.className = 'w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-700 hover:text-slate-950 hover:bg-slate-300/50 transition text-left';
       } else {
-        subYD.className = 'w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-bold transition text-slate-900 bg-slate-300/90 border border-slate-400/60 shadow-xs text-left';
-        subSolid.className = 'w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-700 hover:text-slate-950 hover:bg-slate-300/50 transition text-left';
+        if (subYD) subYD.className = 'w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-bold transition text-slate-900 bg-slate-300/90 border border-slate-400/60 shadow-xs text-left';
+        if (subSolid) subSolid.className = 'w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-700 hover:text-slate-950 hover:bg-slate-300/50 transition text-left';
       }
 
       // Update Top Tab Badge & Source label
@@ -566,6 +677,7 @@
     // Select Status List: 'Pending', 'Confirm', 'Tentative'
     function selectStatusList(status) {
       currentStatusFilter = status;
+      selectedBuyer = null; // Reset buyer filter when changing status
 
       const btnPending = document.getElementById('btnStatus_pending');
       const btnConfirm = document.getElementById('btnStatus_confirm');
@@ -574,71 +686,80 @@
       const activeClass = 'px-5 py-2 rounded text-xs font-extrabold tracking-wide uppercase transition shadow-xs bg-[#1e293b] text-white border border-[#1e293b]';
       const inactiveClass = 'px-5 py-2 rounded text-xs font-extrabold tracking-wide uppercase transition bg-white text-slate-700 border border-slate-300 hover:bg-slate-50';
 
-      btnPending.className = status === 'Pending' ? activeClass : inactiveClass;
-      btnConfirm.className = status === 'Confirm' ? activeClass : inactiveClass;
-      btnTentative.className = status === 'Tentative' ? activeClass : inactiveClass;
+      if (btnPending) btnPending.className = status === 'Pending' ? activeClass : inactiveClass;
+      if (btnConfirm) btnConfirm.className = status === 'Confirm' ? activeClass : inactiveClass;
+      if (btnTentative) btnTentative.className = status === 'Tentative' ? activeClass : inactiveClass;
 
       renderPlanView();
     }
 
-    // Render Full Plan View: Buyer Buttons and Filtered Table
+    // Render Full Plan View strictly from uploaded file data
     function renderPlanView() {
-      // 1. Filter orders by Plan Type (Solid Plan vs YD Plan) and Status List
+      // 1. Filter orders strictly by Plan Type and Status List
       const scopedOrders = allOrdersData.filter(o => 
         (o.planType === currentPlanType) &&
-        (o.status.toLowerCase() === currentStatusFilter.toLowerCase())
+        (String(o.status || '').toLowerCase() === currentStatusFilter.toLowerCase())
       );
 
-      // 2. Extract distinct buyers from scoped orders
+      // 2. Extract distinct buyers strictly from scoped orders
       const buyerSet = new Set();
-      scopedOrders.forEach(o => { if (o.buyer) buyerSet.add(o.buyer); });
-      const buyersList = Array.from(buyerSet);
+      scopedOrders.forEach(o => {
+        const b = String(o.buyer || '').trim();
+        if (b) buyerSet.add(b);
+      });
+      const buyersList = Array.from(buyerSet).sort();
 
-      // If empty, add standard buyer names from screenshot so buttons always render nicely
-      if (buyersList.length === 0) {
-        buyersList.push('AUSTRALIAN OPEN', 'BESTSELLER', 'BONDS', 'C&A', 'CALVIN KLEIN JEANS', 'CARHARTT', 'CHAMPION AUSTRALIA', 'COUNTRY ROAD', 'G-STAR', 'J.CREW', 'KLATTERMUSEN');
+      // If selectedBuyer is not in current buyers list, reset it
+      if (selectedBuyer && !buyerSet.has(selectedBuyer)) {
+        selectedBuyer = null;
       }
 
-      // 3. Render Buyer Filter Buttons (Horizontal Bar matching screenshot)
+      // 3. Render Buyer Filter Buttons (Horizontal Bar matching user specifications)
       const buyerContainer = document.getElementById('buyerButtonsContainer');
       buyerContainer.innerHTML = '';
 
-      // "ALL" Button
-      const allBtn = document.createElement('button');
-      allBtn.className = selectedBuyer === null
-        ? 'px-3.5 py-1.5 rounded text-xs font-bold transition shadow-xs bg-slate-800 text-white border border-slate-800 whitespace-nowrap'
-        : 'px-3.5 py-1.5 rounded text-xs font-bold transition bg-white text-slate-700 border border-slate-300 hover:bg-slate-100 whitespace-nowrap';
-      allBtn.textContent = 'ALL BUYERS';
-      allBtn.onclick = () => { selectedBuyer = null; renderPlanView(); };
-      buyerContainer.appendChild(allBtn);
-
-      buyersList.forEach(buyerName => {
-        const btn = document.createElement('button');
-        const isActive = selectedBuyer === buyerName;
-        btn.className = isActive
+      if (buyersList.length === 0) {
+        const sourceName = currentPlanType === 'Solid Plan' ? 'General Data' : 'YD Plan Data';
+        buyerContainer.innerHTML = `<span class="text-slate-400 italic text-[11px] py-1">No buyers with ${currentStatusFilter} status. Upload or check ${sourceName} file in Data Management &gt; Source File Upload.</span>`;
+      } else {
+        // "ALL BUYERS" Button
+        const allBtn = document.createElement('button');
+        allBtn.className = selectedBuyer === null
           ? 'px-3.5 py-1.5 rounded text-xs font-bold transition shadow-xs bg-slate-800 text-white border border-slate-800 whitespace-nowrap'
           : 'px-3.5 py-1.5 rounded text-xs font-bold transition bg-white text-slate-700 border border-slate-300 hover:bg-slate-100 whitespace-nowrap';
-        btn.textContent = buyerName;
-        btn.onclick = () => {
-          selectedBuyer = (selectedBuyer === buyerName) ? null : buyerName;
-          renderPlanView();
-        };
-        buyerContainer.appendChild(btn);
-      });
+        allBtn.textContent = 'ALL BUYERS';
+        allBtn.onclick = () => { selectedBuyer = null; renderPlanView(); };
+        buyerContainer.appendChild(allBtn);
+
+        // Buyer buttons
+        buyersList.forEach(buyerName => {
+          const btn = document.createElement('button');
+          const isActive = selectedBuyer === buyerName;
+          btn.className = isActive
+            ? 'px-3.5 py-1.5 rounded text-xs font-bold transition shadow-xs bg-slate-800 text-white border border-slate-800 whitespace-nowrap'
+            : 'px-3.5 py-1.5 rounded text-xs font-bold transition bg-white text-slate-700 border border-slate-300 hover:bg-slate-100 whitespace-nowrap';
+          btn.textContent = buyerName;
+          btn.onclick = () => {
+            selectedBuyer = (selectedBuyer === buyerName) ? null : buyerName;
+            renderPlanView();
+          };
+          buyerContainer.appendChild(btn);
+        });
+      }
 
       // 4. Filter by selected buyer if set
       let displayOrders = selectedBuyer ? scopedOrders.filter(o => o.buyer === selectedBuyer) : scopedOrders;
 
       // 5. Apply inline column filter inputs
-      const fNo = (document.getElementById('colSearch_orderNo').value || '').toLowerCase().trim();
-      const fDate = (document.getElementById('colSearch_bookingDate').value || '').toLowerCase().trim();
-      const fBuyer = (document.getElementById('colSearch_buyer').value || '').toLowerCase().trim();
-      const fStatus = (document.getElementById('colSearch_status').value || '').toLowerCase().trim();
+      const fNo = (document.getElementById('colSearch_orderNo')?.value || '').toLowerCase().trim();
+      const fDate = (document.getElementById('colSearch_bookingDate')?.value || '').toLowerCase().trim();
+      const fBuyer = (document.getElementById('colSearch_buyer')?.value || '').toLowerCase().trim();
+      const fTeam = (document.getElementById('colSearch_buyerTeam')?.value || '').toLowerCase().trim();
 
-      if (fNo) displayOrders = displayOrders.filter(o => (o.orderNo || '').toLowerCase().includes(fNo));
-      if (fDate) displayOrders = displayOrders.filter(o => (o.bookingDate || '').toLowerCase().includes(fDate));
-      if (fBuyer) displayOrders = displayOrders.filter(o => (o.buyer || '').toLowerCase().includes(fBuyer));
-      if (fStatus) displayOrders = displayOrders.filter(o => (o.statusDetail || o.status || '').toLowerCase().includes(fStatus));
+      if (fNo) displayOrders = displayOrders.filter(o => String(o.orderNo || '').toLowerCase().includes(fNo));
+      if (fDate) displayOrders = displayOrders.filter(o => String(o.bookingDate || '').toLowerCase().includes(fDate));
+      if (fBuyer) displayOrders = displayOrders.filter(o => String(o.buyer || '').toLowerCase().includes(fBuyer));
+      if (fTeam) displayOrders = displayOrders.filter(o => String(o.buyerTeam || '').toLowerCase().includes(fTeam));
 
       // 6. Render Table Rows
       const tbody = document.getElementById('orderPlanTbody');
@@ -647,10 +768,19 @@
       document.getElementById('orderPlanCountDisplay').textContent = `Showing ${displayOrders.length} order(s) for ${currentPlanType} (${currentStatusFilter} List)`;
 
       if (displayOrders.length === 0) {
+        const sourceName = currentPlanType === 'Solid Plan' ? 'General Data' : 'YD Plan Data';
         tbody.innerHTML = `
           <tr>
-            <td colspan="5" class="py-8 text-center text-slate-400 font-medium">
-              No orders found matching the filter criteria.
+            <td colspan="5" class="py-12 text-center text-slate-400">
+              <div class="flex flex-col items-center justify-center gap-2">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-slate-300">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="9" y1="15" x2="15" y2="15"></line>
+                </svg>
+                <div class="text-sm font-semibold text-slate-600">No orders found for ${currentPlanType} (${currentStatusFilter} List)</div>
+                <div class="text-xs text-slate-400">Upload a ${sourceName} spreadsheet in Data Management &gt; Source File Upload to populate this list.</div>
+              </div>
             </td>
           </tr>
         `;
@@ -663,8 +793,8 @@
 
         tr.innerHTML = `
           <td class="py-3 px-3 text-center">
-            <!-- Manage Eye Icon Button (Matches Screenshot) -->
-            <button onclick="inspectOrder('${item.orderNo}')" title="Manage / View Order Plan" class="p-1.5 rounded-lg text-blue-600 hover:text-blue-800 hover:bg-blue-50 transition">
+            <!-- Manage Eye Icon Button -->
+            <button onclick="inspectOrder('${item.orderNo}')" title="Manage / View Order Details" class="p-1.5 rounded-lg text-blue-600 hover:text-blue-800 hover:bg-blue-50 transition">
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                 <circle cx="12" cy="12" r="3"></circle>
@@ -677,13 +807,13 @@
             </button>
           </td>
           <td class="py-3 px-4 text-slate-700 font-medium whitespace-nowrap">
-            ${item.bookingDate}
+            ${item.bookingDate || '-'}
           </td>
-          <td class="py-3 px-4 font-semibold text-slate-800">
-            ${item.buyer}
+          <td class="py-3 px-4 font-semibold text-slate-800 whitespace-nowrap">
+            ${item.buyer || '-'}
           </td>
-          <td class="py-3 px-4 text-slate-600 text-xs">
-            ${item.statusDetail || item.status}
+          <td class="py-3 px-4 text-slate-700 text-xs font-medium">
+            ${item.buyerTeam || '-'}
           </td>
         `;
         tbody.appendChild(tr);
@@ -696,10 +826,10 @@
     }
 
     function resetInlineColumnFilterInputs() {
-      document.getElementById('colSearch_orderNo').value = '';
-      document.getElementById('colSearch_bookingDate').value = '';
-      document.getElementById('colSearch_buyer').value = '';
-      document.getElementById('colSearch_status').value = '';
+      if (document.getElementById('colSearch_orderNo')) document.getElementById('colSearch_orderNo').value = '';
+      if (document.getElementById('colSearch_bookingDate')) document.getElementById('colSearch_bookingDate').value = '';
+      if (document.getElementById('colSearch_buyer')) document.getElementById('colSearch_buyer').value = '';
+      if (document.getElementById('colSearch_buyerTeam')) document.getElementById('colSearch_buyerTeam').value = '';
     }
 
     function resetInlineColumnFilters() {
@@ -707,26 +837,26 @@
       renderPlanView();
     }
 
-    // Global Search Booking No
+    // Global Search Order Number across Pending, Confirm, and Tentative lists
     function performGlobalBookingSearch() {
-      const q = document.getElementById('globalBookingSearchInput').value.trim().toLowerCase();
+      const q = (document.getElementById('globalBookingSearchInput').value || '').trim().toLowerCase();
       if (!q) {
         renderPlanView();
         return;
       }
 
-      // Search across all status lists for this plan type
+      // Search across all status lists for current plan type
       const matches = allOrdersData.filter(o => 
         (o.planType === currentPlanType) &&
-        (o.orderNo.toLowerCase().includes(q))
+        (String(o.orderNo || '').toLowerCase().includes(q))
       );
 
       const tbody = document.getElementById('orderPlanTbody');
       tbody.innerHTML = '';
-      document.getElementById('orderPlanCountDisplay').textContent = `Found ${matches.length} matching order(s) for "${q}"`;
+      document.getElementById('orderPlanCountDisplay').textContent = `Found ${matches.length} matching order(s) for "${q}" across all status lists`;
 
       if (matches.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-rose-500 font-bold">No Order found with Booking No "${q}".</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-rose-500 font-bold">No Order found with Order No "${q}".</td></tr>`;
         return;
       }
 
@@ -736,15 +866,13 @@
         tr.innerHTML = `
           <td class="py-3 px-3 text-center">
             <button onclick="inspectOrder('${item.orderNo}')" class="p-1.5 rounded-lg text-blue-600 hover:text-blue-800 hover:bg-blue-50 transition">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle>
-              </svg>
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
             </button>
           </td>
           <td class="py-3 px-4"><span class="font-bold text-blue-600">${item.orderNo}</span></td>
-          <td class="py-3 px-4 text-slate-700">${item.bookingDate}</td>
-          <td class="py-3 px-4 font-semibold text-slate-800">${item.buyer}</td>
-          <td class="py-3 px-4 text-slate-600">${item.statusDetail} <span class="ml-2 px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100">${item.status}</span></td>
+          <td class="py-3 px-4 text-slate-700 whitespace-nowrap">${item.bookingDate || '-'}</td>
+          <td class="py-3 px-4 font-semibold text-slate-800 whitespace-nowrap">${item.buyer || '-'}</td>
+          <td class="py-3 px-4 text-slate-700 text-xs">${item.buyerTeam || '-'} <span class="ml-2 px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100">${item.status}</span></td>
         `;
         tbody.appendChild(tr);
       });
@@ -757,24 +885,31 @@
 
     // Inspect Order Modal
     function inspectOrder(orderNo) {
-      const order = allOrdersData.find(o => o.orderNo === orderNo);
+      const order = allOrdersData.find(o => String(o.orderNo) === String(orderNo));
       if (!order) return;
 
       document.getElementById('modalOrderNoHeading').textContent = `Order / Booking: ${order.orderNo}`;
-      document.getElementById('modalOrderBuyerSub').textContent = `Buyer: ${order.buyer} | Plan: ${order.planType} | Status: ${order.status}`;
+      document.getElementById('modalOrderBuyerSub').textContent = `Buyer: ${order.buyer} | Team: ${order.buyerTeam || 'N/A'} | Status: ${order.status}`;
 
       const content = document.getElementById('orderDetailModalContent');
+      let extraHtml = '';
+      if (order.fullData && typeof order.fullData === 'object') {
+        const rows = Object.entries(order.fullData).map(([k, v]) => `
+          <div class="flex justify-between py-1 border-b border-slate-100"><span class="text-slate-500">${k}:</span> <span class="font-semibold text-slate-800 text-right">${v || '-'}</span></div>
+        `).join('');
+        extraHtml = `<div class="p-3 bg-white rounded-lg border border-slate-200 mt-2 max-h-48 overflow-y-auto"><div class="font-bold text-slate-700 mb-2">Original Spreadsheet Attributes:</div>${rows}</div>`;
+      }
+
       content.innerHTML = `
         <div class="grid grid-cols-2 gap-3 p-3 bg-slate-50 rounded-lg border border-slate-200">
           <div><span class="text-slate-500">Order/Booking No:</span> <b class="text-blue-600">${order.orderNo}</b></div>
-          <div><span class="text-slate-500">Booking Date:</span> <b>${order.bookingDate}</b></div>
-          <div><span class="text-slate-500">Buyer Name:</span> <b>${order.buyer}</b></div>
+          <div><span class="text-slate-500">Booking Date:</span> <b>${order.bookingDate || '-'}</b></div>
+          <div><span class="text-slate-500">Buyer Name:</span> <b>${order.buyer || '-'}</b></div>
+          <div><span class="text-slate-500">Buyer Team:</span> <b>${order.buyerTeam || '-'}</b></div>
           <div><span class="text-slate-500">Current Status:</span> <b class="text-emerald-600">${order.status}</b></div>
+          <div><span class="text-slate-500">Details / Remarks:</span> <b>${order.statusDetail || 'Null'}</b></div>
         </div>
-        <div class="p-3 bg-white rounded-lg border border-slate-200">
-          <div class="font-bold text-slate-700 mb-1">Status Details &amp; Quantities:</div>
-          <div class="text-slate-600">${order.statusDetail}</div>
-        </div>
+        ${extraHtml}
       `;
 
       document.getElementById('orderDetailModal').classList.remove('hidden');
@@ -784,7 +919,312 @@
       document.getElementById('orderDetailModal').classList.add('hidden');
     }
 
-    // View Navigation Helper
+    // ==========================================
+    // SOURCE FILE UPLOAD & DATA MANAGEMENT
+    // ==========================================
+
+    async function loadUploadedFiles() {
+      try {
+        const res = await fetch(`/api/upload/files?category=${encodeURIComponent(currentCategory.fullName)}`);
+        if (res.ok) {
+          const json = await res.json();
+          cachedFilesList = json.files || [];
+        } else {
+          cachedFilesList = [];
+        }
+      } catch (e) {
+        cachedFilesList = [];
+      }
+      renderUploadedFilesTable();
+    }
+
+    function selectUploadCategory(fullName, shortName) {
+      currentCategory = { fullName, shortName };
+
+      const tabIds = {
+        'General Data': 'tab_general',
+        'YD Plan Data': 'tab_yd',
+        'Knitting Plan Data': 'tab_knitting',
+        'Dyeing Plan Data': 'tab_dyeing',
+        'Finishing Plan Data': 'tab_finishing',
+        'Delivery Plan Data': 'tab_delivery'
+      };
+
+      Object.entries(tabIds).forEach(([name, id]) => {
+        const el = document.getElementById(id);
+        if (el) {
+          if (name === fullName) {
+            el.className = 'pb-2 text-emerald-600 border-b-2 border-emerald-600 font-bold whitespace-nowrap';
+          } else {
+            el.className = 'pb-2 text-slate-500 border-b-2 border-transparent hover:text-slate-800 whitespace-nowrap';
+          }
+        }
+      });
+
+      document.getElementById('currentUploadCategoryLabel').textContent = fullName;
+      document.getElementById('directoryCategoryTitle').textContent = `Uploaded Files Directory (${shortName})`;
+
+      loadUploadedFiles();
+    }
+
+    function handleFileSelected(input) {
+      if (input.files && input.files[0]) {
+        selectedFileObj = input.files[0];
+        document.getElementById('selectedFileNameDisplay').textContent = selectedFileObj.name;
+        document.getElementById('selectedFileNameDisplay').className = 'text-slate-900 font-semibold text-xs';
+      } else {
+        selectedFileObj = null;
+        document.getElementById('selectedFileNameDisplay').textContent = 'No file selected.';
+        document.getElementById('selectedFileNameDisplay').className = 'text-slate-500 text-xs';
+      }
+    }
+
+    async function handleUploadFile() {
+      if (!selectedFileObj) {
+        showUploadToast('Please click "Browse..." to select an Excel or CSV file first.', 'error');
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('file', selectedFileObj);
+      formData.append('category', currentCategory.fullName);
+      formData.append('uploadedBy', 'Shimul');
+
+      try {
+        const res = await fetch('/api/upload/file', {
+          method: 'POST',
+          body: formData
+        });
+
+        const json = await res.json();
+        if (res.ok && json.success) {
+          showUploadToast(`"${selectedFileObj.name}" uploaded and ${json.file?.totalRows || ''} rows preserved in MongoDB Atlas!`, 'success');
+          selectedFileObj = null;
+          document.getElementById('sourceFileInput').value = '';
+          document.getElementById('selectedFileNameDisplay').textContent = 'No file selected.';
+          loadUploadedFiles();
+          // Update Order Plan if related category
+          if (currentCategory.fullName === 'General Data' || currentCategory.fullName === 'YD Plan Data') {
+            fetchLivePlanViewData();
+          }
+        } else {
+          showUploadToast(json.message || 'Upload failed. Please check file format.', 'error');
+        }
+      } catch (e) {
+        showUploadToast('Failed to connect to server for file upload.', 'error');
+      }
+    }
+
+    function renderUploadedFilesTable() {
+      const tbody = document.getElementById('uploadedFilesTbody');
+      tbody.innerHTML = '';
+
+      const filtered = cachedFilesList.filter(f => {
+        const cat = String(f.category || '').toLowerCase();
+        return cat.includes(currentCategory.shortName.toLowerCase()) || cat.includes(currentCategory.fullName.toLowerCase());
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="5" class="py-8 text-center text-slate-400 font-medium">
+              No files uploaded yet for <span class="text-slate-600 font-semibold">${currentCategory.fullName}</span>. Click "Browse..." and "Upload Data" above to add files.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      filtered.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-50 transition border-b border-slate-100';
+        const dateFormatted = item.createdAt ? new Date(item.createdAt).toLocaleString() : 'Recent';
+
+        tr.innerHTML = `
+          <td class="py-2.5 px-3">
+            <span class="bg-indigo-50 text-indigo-700 border border-indigo-200 px-2 py-0.5 rounded-full text-[10.5px] font-bold">
+              ${currentCategory.shortName}
+            </span>
+          </td>
+          <td class="py-2.5 px-3 font-semibold text-slate-800">
+            <div>${item.fileName}</div>
+            <div class="text-[10px] text-slate-400 font-normal">
+              ${item.totalRows || 'All'} rows preserved &bull; 
+              <button onclick="openFileExplorer('${item._id}', '${encodeURIComponent(item.fileName)}')" class="text-blue-600 hover:underline font-bold">
+                View Columns &amp; Rows
+              </button>
+            </div>
+          </td>
+          <td class="py-2.5 px-3 text-slate-600">${item.uploadedBy || 'Shimul'}</td>
+          <td class="py-2.5 px-3 text-slate-500 text-[11px] whitespace-nowrap">${dateFormatted}</td>
+          <td class="py-2.5 px-3 text-right">
+            <!-- Strictly Delete button only - NO download link per security requirement -->
+            <button onclick="deleteUploadedFile('${item._id}')" title="Delete File & Data" class="p-1 rounded bg-rose-50 hover:bg-rose-600 text-rose-600 hover:text-white border border-rose-200 transition">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+              </svg>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    async function deleteUploadedFile(fileId) {
+      if (!confirm('Are you sure you want to delete this file and all its preserved data rows from MongoDB Atlas?')) return;
+      try {
+        const res = await fetch(`/api/upload/files/${fileId}`, { method: 'DELETE' });
+        if (res.ok) {
+          showUploadToast('File and all preserved records deleted successfully.', 'info');
+        }
+      } catch (e) {}
+      cachedFilesList = cachedFilesList.filter(f => f._id !== fileId);
+      renderUploadedFilesTable();
+      fetchLivePlanViewData();
+    }
+
+    // Data & Columns Explorer
+    async function openFileExplorer(fileId, fileNameEncoded) {
+      const fileName = decodeURIComponent(fileNameEncoded);
+      document.getElementById('explorerModalTitle').textContent = `Preserved Content: ${fileName}`;
+      document.getElementById('dataExplorerModal').classList.remove('hidden');
+      await fetchAndDisplayRecords(fileId);
+    }
+
+    function closeDataExplorerModal() {
+      document.getElementById('dataExplorerModal').classList.add('hidden');
+    }
+
+    async function fetchAndDisplayRecords(fileId = null) {
+      const thead = document.getElementById('explorerTableHead');
+      const tbody = document.getElementById('explorerTableBody');
+      const headersContainer = document.getElementById('explorerHeadersList');
+
+      tbody.innerHTML = '<tr><td colspan="10" class="py-8 text-center text-slate-400">Fetching preserved data from MongoDB Atlas...</td></tr>';
+      headersContainer.innerHTML = '';
+
+      try {
+        let url = `/api/data/records?category=${encodeURIComponent(currentCategory.fullName)}&limit=100`;
+        if (fileId) url += `&fileId=${fileId}`;
+
+        const res = await fetch(url);
+        if (res.ok) {
+          const json = await res.json();
+          activeExplorerRecords = json.records || [];
+        } else {
+          activeExplorerRecords = [];
+        }
+      } catch (e) {
+        activeExplorerRecords = [];
+      }
+
+      if (activeExplorerRecords.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="10" class="py-8 text-center text-slate-400">No records found. Upload a spreadsheet to populate.</td></tr>';
+        document.getElementById('explorerRecordCountText').textContent = 'Showing 0 records';
+        return;
+      }
+
+      const headerSet = new Set();
+      headerSet.add('OrderNo');
+      headerSet.add('Buyer');
+      activeExplorerRecords.forEach(r => {
+        if (r.data) Object.keys(r.data).forEach(h => headerSet.add(h));
+      });
+      activeExplorerHeaders = Array.from(headerSet);
+
+      headersContainer.innerHTML = activeExplorerHeaders.map(h => `
+        <span class="bg-blue-50 text-blue-700 border border-blue-200 px-2 py-0.5 rounded text-[10px] font-bold">${h}</span>
+      `).join('');
+
+      thead.innerHTML = `<tr>${activeExplorerHeaders.map(h => `<th class="py-2.5 px-3 whitespace-nowrap">${h}</th>`).join('')}</tr>`;
+      renderExplorerRows(activeExplorerRecords);
+    }
+
+    function renderExplorerRows(records) {
+      const tbody = document.getElementById('explorerTableBody');
+      tbody.innerHTML = '';
+      document.getElementById('explorerRecordCountText').textContent = `Showing ${records.length} records`;
+
+      records.forEach(r => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-50 transition border-b border-slate-100';
+        tr.innerHTML = activeExplorerHeaders.map(h => {
+          const val = r.data ? (r.data[h] || '-') : '-';
+          return `<td class="py-2 px-3 whitespace-nowrap text-slate-700">${val}</td>`;
+        }).join('');
+        tbody.appendChild(tr);
+      });
+    }
+
+    function filterExplorerRecords() {
+      const q = (document.getElementById('explorerSearchInput').value || '').trim().toLowerCase();
+      if (!q) {
+        renderExplorerRows(activeExplorerRecords);
+        return;
+      }
+      const filtered = activeExplorerRecords.filter(r => {
+        const text = JSON.stringify(r.data || {}).toLowerCase();
+        return text.includes(q);
+      });
+      renderExplorerRows(filtered);
+    }
+
+    // Additional data modal
+    function openAddDataModal() {
+      document.getElementById('addCustom_recordId').value = '';
+      document.getElementById('addCustom_field').value = '';
+      document.getElementById('addCustom_value').value = '';
+      document.getElementById('addDataModal').classList.remove('hidden');
+    }
+
+    function closeAddDataModal() {
+      document.getElementById('addDataModal').classList.add('hidden');
+    }
+
+    async function saveAdditionalData() {
+      const recordId = (document.getElementById('addCustom_recordId').value || '').trim();
+      const field = (document.getElementById('addCustom_field').value || '').trim();
+      const value = (document.getElementById('addCustom_value').value || '').trim();
+
+      if (!recordId || !field || !value) {
+        alert('Please fill in all fields (Order/Record ID, Attribute Heading, and Value).');
+        return;
+      }
+
+      try {
+        await fetch(`/api/data/records/${encodeURIComponent(recordId)}/additional`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ field, value, category: currentCategory.fullName, updatedBy: 'Shimul' })
+        });
+      } catch (e) {}
+
+      closeAddDataModal();
+      showUploadToast(`Added "${field}: ${value}" to Order No "${recordId}".`, 'success');
+      fetchLivePlanViewData();
+    }
+
+    // Toasts
+    function showUploadToast(msg, type = 'success') {
+      const toast = document.getElementById('uploadToast');
+      const content = document.getElementById('uploadToastContent');
+      toast.classList.remove('hidden');
+
+      if (type === 'success') {
+        content.className = 'rounded-xl p-3.5 text-xs font-semibold flex items-center justify-between shadow-lg bg-emerald-900 text-emerald-100 border border-emerald-600';
+        content.innerHTML = `<span>✅ ${msg}</span>`;
+      } else if (type === 'error') {
+        content.className = 'rounded-xl p-3.5 text-xs font-semibold flex items-center justify-between shadow-lg bg-rose-900 text-rose-100 border border-rose-600';
+        content.innerHTML = `<span>⚠️ ${msg}</span>`;
+      } else {
+        content.className = 'rounded-xl p-3.5 text-xs font-semibold flex items-center justify-between shadow-lg bg-blue-900 text-blue-100 border border-blue-600';
+        content.innerHTML = `<span>ℹ️ ${msg}</span>`;
+      }
+
+      setTimeout(() => { toast.classList.add('hidden'); }, 5000);
+    }
+
+    // View Switching
     function hideAllMainViews() {
       document.getElementById('viewOrderPlan').classList.add('hidden');
       document.getElementById('viewSourceUpload').classList.add('hidden');
@@ -800,8 +1240,10 @@
         document.getElementById('viewWelcome').classList.remove('hidden');
       } else if (viewName === 'source_file_upload') {
         document.getElementById('viewSourceUpload').classList.remove('hidden');
+        loadUploadedFiles();
       } else if (viewName === 'manage_users') {
         document.getElementById('viewManageUsers').classList.remove('hidden');
+        renderUsers();
       } else {
         const titles = {
           order_management: 'Order Management',
@@ -818,7 +1260,7 @@
       }
     }
 
-    // Submenu Toggle
+    // Sidebar and Navigation Helpers
     function toggleSubmenu(submenuId, chevronId) {
       const sub = document.getElementById(submenuId);
       const chev = document.getElementById(chevronId);
@@ -846,6 +1288,34 @@
       alert('Logging out...');
       switchView('welcome');
     }
+
+    // Users Management
+    function renderUsers() {
+      const tbody = document.getElementById('userListTbody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+      users.forEach(u => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-50 transition border-b border-slate-100';
+        const buyerText = u.allowedBuyers.length ? u.allowedBuyers.join(', ') : '<span class="text-slate-400 font-normal">All Buyers</span>';
+        const permCount = u.permissions.includes('*') ? '<span class="bg-purple-100 text-purple-700 border border-purple-200 font-bold px-2 py-0.5 rounded text-[10px]">All (Admin)</span>' : `<span class="bg-slate-100 text-slate-700 px-2 py-0.5 rounded text-[10px] font-semibold">${u.permissions.length} items</span>`;
+
+        tr.innerHTML = `
+          <td class="py-3 px-3.5 font-bold text-slate-800">${u.username}</td>
+          <td class="py-3 px-3.5"><span class="px-2.5 py-0.5 rounded-full text-[10.5px] font-bold ${u.role === 'Admin' ? 'bg-purple-100 text-purple-700 border border-purple-200' : 'bg-blue-100 text-blue-700 border border-blue-200'}">${u.role}</span></td>
+          <td class="py-3 px-3.5 text-slate-600">${buyerText}</td>
+          <td class="py-3 px-3.5">${permCount}</td>
+          <td class="py-3 px-3.5"><span class="text-emerald-600 font-bold flex items-center gap-1 text-[11px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> ${u.status}</span></td>
+          <td class="py-3 px-3.5 text-right"><span class="text-slate-400 text-xs">Active</span></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function openUserModal() {
+      alert('User creation modal. (Users are managed via system accounts).');
+    }
   </script>
 </body>
 </html>
+
