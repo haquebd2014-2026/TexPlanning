@@ -538,7 +538,11 @@
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 min-w-[100px]">Remarks</th>
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">Grey Req.</th>
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">Knit Prod.</th>
-                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">Knit. Bal.</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">Knit. Bala.</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">Yarn req.</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[90px]">Allocated Qty</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">Yarn bala.</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">Allowance %</th>
                     <th rowspan="2" class="py-2 px-1 border border-slate-200 text-center w-10">✕</th>
                   </tr>
                   <tr class="bg-slate-50 text-slate-700 font-semibold text-[11px] border-b border-slate-200">
@@ -582,6 +586,11 @@
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">Plan Type</th>
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 min-w-[120px]">Dyeing Limitation</th>
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 min-w-[100px]">Remarks</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">BP Qty</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">Dyeing Prod.</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">Dyeing Bala.</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">Knit Prod.</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">Knit. Bala.</th>
                     <th rowspan="2" class="py-2 px-1 border border-slate-200 text-center w-10">✕</th>
                   </tr>
                   <tr class="bg-slate-50 text-slate-700 font-semibold text-[11px] border-b border-slate-200">
@@ -626,9 +635,20 @@
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 min-w-[120px]">Delivery Limitation</th>
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 min-w-[100px]">Remarks</th>
                     <th colspan="2" class="py-1 px-2 border border-slate-200 text-center bg-slate-100 font-bold">Dyeing Planning</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[100px]">Dyeing Plan Type</th>
+                    <th colspan="2" class="py-1 px-2 border border-slate-200 text-center bg-slate-100 font-bold">Knitting Planning</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[90px]">RequiredQtyKgs</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[105px]">NetReceivedQtyKgs</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[105px]">NetDeliveryQtyKgs</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">Deli. Bal.</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[70px]">RFD</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">Slowmoving</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">FF Stock</th>
                     <th rowspan="2" class="py-2 px-1 border border-slate-200 text-center w-10">✕</th>
                   </tr>
                   <tr class="bg-slate-50 text-slate-700 font-semibold text-[11px] border-b border-slate-200">
+                    <th class="py-1 px-2 border border-slate-200 text-center min-w-[95px]">Start Date</th>
+                    <th class="py-1 px-2 border border-slate-200 text-center min-w-[95px]">End Date</th>
                     <th class="py-1 px-2 border border-slate-200 text-center min-w-[95px]">Start Date</th>
                     <th class="py-1 px-2 border border-slate-200 text-center min-w-[95px]">End Date</th>
                     <th class="py-1 px-2 border border-slate-200 text-center min-w-[95px]">Start Date</th>
@@ -1334,11 +1354,15 @@
             knitStartDate: d['T&A Knitting Start'] || '',
             knitEndDate: d['T&A Knitting End'] || '',
             planType: d['Program type'] || 'Solid',
-            knittingLimitation: '',
-            remarks: '',
-            greyReq: d['RequiredQtyKgs'] || '',
-            knitProd: '',
-            knitBal: ''
+            knittingLimitation: d['Knitting Limitation'] || '',
+            remarks: d['Remarks'] || '',
+            greyReq: d['RequiredQtyKgs'] || d['Grey Req.'] || '',
+            knitProd: d['Knit Prod.'] || '',
+            knitBal: d['Knit. Bala.'] || d['Knit. Bal.'] || '',
+            yarnReq: d['Yarn req.'] || d['Yarn Req'] || d['YD REQ.'] || '',
+            allocatedQty: d['Allocated Qty'] || '',
+            yarnBal: d['Yarn bala.'] || '',
+            allowance: d['Allowance %'] || ''
           }];
 
       rows.forEach(r => addKnittingPlanRow(r));
@@ -1362,6 +1386,10 @@
         <td class="p-1 border border-slate-200"><input type="text" class="kp-greyreq w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.greyReq || ''}"></td>
         <td class="p-1 border border-slate-200"><input type="text" class="kp-prod w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.knitProd || ''}"></td>
         <td class="p-1 border border-slate-200"><input type="text" class="kp-bal w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.knitBal || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="kp-yarnreq w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.yarnReq || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="kp-allocqty w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.allocatedQty || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="kp-yarnbal w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.yarnBal || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="kp-allowance w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.allowance || ''}"></td>
         <td class="p-1 border border-slate-200 text-center"><button onclick="this.closest('tr').remove()" class="text-rose-500 hover:text-rose-700 font-bold px-1.5 py-0.5 rounded hover:bg-rose-50">✕</button></td>
       `;
       tbody.appendChild(tr);
@@ -1382,13 +1410,18 @@
             knitStartDate: d['T&A Knitting Start'] || '',
             knitEndDate: d['T&A Knitting End'] || '',
             knittingPlanType: d['Program type'] || 'Solid',
-            knittingLimitation: '',
-            remarksKnitting: '',
+            knittingLimitation: d['Knitting Limitation'] || '',
+            remarksKnitting: d['Remarks (Knitting)'] || '',
             dyeStartDate: d['T&A Dyeing Start'] || '',
             dyeEndDate: d['T&A Dyeing End'] || '',
             planType: d['Program type'] || 'Solid',
-            dyeingLimitation: '',
-            remarks: ''
+            dyeingLimitation: d['Dyeing Limitation'] || '',
+            remarks: d['Remarks'] || '',
+            bpQty: d['BP Qty'] || d['RequiredQtyKgs'] || '',
+            dyeingProd: d['DYED'] || d['Dyeing Prod.'] || '',
+            dyeingBal: d['Dyeing Bala.'] || '',
+            knitProd: d['Knit Prod.'] || '',
+            knitBal: d['Knit. Bala.'] || ''
           }];
 
       rows.forEach(r => addDyeingPlanRow(r));
@@ -1407,12 +1440,17 @@
         <td class="p-1 border border-slate-200"><input type="text" class="dp-knitend w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.knitEndDate || ''}"></td>
         <td class="p-1 border border-slate-200"><input type="text" class="dp-knitplantype w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.knittingPlanType || ''}"></td>
         <td class="p-1 border border-slate-200"><input type="text" class="dp-knitlimit w-full px-1.5 py-1 text-xs border border-slate-200 rounded" value="${data.knittingLimitation || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="dp-remarksকেnit w-full px-1.5 py-1 text-xs border border-slate-200 rounded" value="${data.remarksKnitting || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="dp-remarksKnitting w-full px-1.5 py-1 text-xs border border-slate-200 rounded" value="${data.remarksKnitting || ''}"></td>
         <td class="p-1 border border-slate-200"><input type="text" class="dp-dyestart w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.dyeStartDate || ''}"></td>
         <td class="p-1 border border-slate-200"><input type="text" class="dp-dyeend w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.dyeEndDate || ''}"></td>
         <td class="p-1 border border-slate-200"><input type="text" class="dp-plantype w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.planType || ''}"></td>
         <td class="p-1 border border-slate-200"><input type="text" class="dp-dyelimit w-full px-1.5 py-1 text-xs border border-slate-200 rounded" value="${data.dyeingLimitation || ''}"></td>
         <td class="p-1 border border-slate-200"><input type="text" class="dp-remarks w-full px-1.5 py-1 text-xs border border-slate-200 rounded" value="${data.remarks || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="dp-bpqty w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.bpQty || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="dp-dyeprod w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.dyeingProd || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="dp-dyebal w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.dyeingBal || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="dp-knitprod w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.knitProd || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="dp-knitbal w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.knitBal || ''}"></td>
         <td class="p-1 border border-slate-200 text-center"><button onclick="this.closest('tr').remove()" class="text-rose-500 hover:text-rose-700 font-bold px-1.5 py-0.5 rounded hover:bg-rose-50">✕</button></td>
       `;
       tbody.appendChild(tr);
@@ -1432,14 +1470,24 @@
             gsm: d['Body GSM'] || d['GSM'] || '',
             floorDeliStart: d['T&A Deli. Start'] || '',
             floorDeliEnd: d['T&A Deli. End'] || '',
-            floorPlanType: d['Unit'] || '',
+            floorPlanType: d['Unit'] || d['Booking Unit'] || '',
             deliStart: d['T&A Deli. Start'] || '',
             deliEnd: d['T&A Deli. End'] || '',
             planType: d['Program type'] || 'Solid',
-            deliveryLimitation: '',
-            remarks: '',
+            deliveryLimitation: d['Delivery Limitation'] || '',
+            remarks: d['Remarks'] || '',
             dyeStartDate: d['T&A Dyeing Start'] || '',
-            dyeEndDate: d['T&A Dyeing End'] || ''
+            dyeEndDate: d['T&A Dyeing End'] || '',
+            dyeingPlanType: d['Program type'] || 'Solid',
+            knitStartDate: d['T&A Knitting Start'] || '',
+            knitEndDate: d['T&A Knitting End'] || '',
+            requiredQtyKgs: d['RequiredQtyKgs'] || '',
+            netReceivedQtyKgs: d['NetReceivedQtyKgs'] || '',
+            netDeliveryQtyKgs: d['NetDeliveryQtyKgs'] || '',
+            deliBal: d['Deli. Bal.'] || '',
+            rfd: d['RFD'] || '',
+            slowmoving: d['Slowmoving'] || '',
+            ffStock: d['FF Stock'] || ''
           }];
 
       rows.forEach(r => addDeliveryPlanRow(r));
@@ -1464,6 +1512,16 @@
         <td class="p-1 border border-slate-200"><input type="text" class="del-remarks w-full px-1.5 py-1 text-xs border border-slate-200 rounded" value="${data.remarks || ''}"></td>
         <td class="p-1 border border-slate-200"><input type="text" class="del-dyestart w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.dyeStartDate || ''}"></td>
         <td class="p-1 border border-slate-200"><input type="text" class="del-dyeend w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.dyeEndDate || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="del-dyeplantype w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.dyeingPlanType || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="del-knitstart w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.knitStartDate || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="del-knitend w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.knitEndDate || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="del-reqqty w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.requiredQtyKgs || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="del-netrecqty w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.netReceivedQtyKgs || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="del-netdeliqty w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.netDeliveryQtyKgs || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="del-delibal w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.deliBal || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="del-rfd w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.rfd || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="del-slowmoving w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.slowmoving || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="del-ffstock w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.ffStock || ''}"></td>
         <td class="p-1 border border-slate-200 text-center"><button onclick="this.closest('tr').remove()" class="text-rose-500 hover:text-rose-700 font-bold px-1.5 py-0.5 rounded hover:bg-rose-50">✕</button></td>
       `;
       tbody.appendChild(tr);
@@ -1516,7 +1574,11 @@
           remarks: tr.querySelector('.kp-remarks')?.value || '',
           greyReq: tr.querySelector('.kp-greyreq')?.value || '',
           knitProd: tr.querySelector('.kp-prod')?.value || '',
-          knitBal: tr.querySelector('.kp-bal')?.value || ''
+          knitBal: tr.querySelector('.kp-bal')?.value || '',
+          yarnReq: tr.querySelector('.kp-yarnreq')?.value || '',
+          allocatedQty: tr.querySelector('.kp-allocqty')?.value || '',
+          yarnBal: tr.querySelector('.kp-yarnbal')?.value || '',
+          allowance: tr.querySelector('.kp-allowance')?.value || ''
         });
       });
 
@@ -1531,12 +1593,17 @@
           knitEndDate: tr.querySelector('.dp-knitend')?.value || '',
           knittingPlanType: tr.querySelector('.dp-knitplantype')?.value || '',
           knittingLimitation: tr.querySelector('.dp-knitlimit')?.value || '',
-          remarksKnitting: tr.querySelector('.dp-remarksকেnit')?.value || '',
+          remarksKnitting: tr.querySelector('.dp-remarksKnitting')?.value || '',
           dyeStartDate: tr.querySelector('.dp-dyestart')?.value || '',
           dyeEndDate: tr.querySelector('.dp-dyeend')?.value || '',
           planType: tr.querySelector('.dp-plantype')?.value || '',
           dyeingLimitation: tr.querySelector('.dp-dyelimit')?.value || '',
-          remarks: tr.querySelector('.dp-remarks')?.value || ''
+          remarks: tr.querySelector('.dp-remarks')?.value || '',
+          bpQty: tr.querySelector('.dp-bpqty')?.value || '',
+          dyeingProd: tr.querySelector('.dp-dyeprod')?.value || '',
+          dyeingBal: tr.querySelector('.dp-dyebal')?.value || '',
+          knitProd: tr.querySelector('.dp-knitprod')?.value || '',
+          knitBal: tr.querySelector('.dp-knitbal')?.value || ''
         });
       });
 
@@ -1556,7 +1623,17 @@
           deliveryLimitation: tr.querySelector('.del-limit')?.value || '',
           remarks: tr.querySelector('.del-remarks')?.value || '',
           dyeStartDate: tr.querySelector('.del-dyestart')?.value || '',
-          dyeEndDate: tr.querySelector('.del-dyeend')?.value || ''
+          dyeEndDate: tr.querySelector('.del-dyeend')?.value || '',
+          dyeingPlanType: tr.querySelector('.del-dyeplantype')?.value || '',
+          knitStartDate: tr.querySelector('.del-knitstart')?.value || '',
+          knitEndDate: tr.querySelector('.del-knitend')?.value || '',
+          requiredQtyKgs: tr.querySelector('.del-reqqty')?.value || '',
+          netReceivedQtyKgs: tr.querySelector('.del-netrecqty')?.value || '',
+          netDeliveryQtyKgs: tr.querySelector('.del-netdeliqty')?.value || '',
+          deliBal: tr.querySelector('.del-delibal')?.value || '',
+          rfd: tr.querySelector('.del-rfd')?.value || '',
+          slowmoving: tr.querySelector('.del-slowmoving')?.value || '',
+          ffStock: tr.querySelector('.del-ffstock')?.value || ''
         });
       });
 
