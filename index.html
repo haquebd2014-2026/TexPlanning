@@ -320,10 +320,36 @@
             </table>
           </div>
 
-          <!-- Bottom Summary Bar -->
-          <div class="flex items-center justify-between text-xs text-slate-500 pt-1">
-            <span id="orderPlanCountDisplay">Showing 0 order(s)</span>
-            <span class="text-[11px] text-slate-400">Data source: <b id="orderPlanSourceLabel" class="text-slate-600 font-semibold">General Data</b></span>
+          <!-- Bottom Summary Bar & Pagination Controls -->
+          <div class="flex flex-wrap items-center justify-between gap-3 text-xs text-slate-600 pt-3 border-t border-slate-200 mt-2">
+            <!-- Left: Record Count & Page Size Selector (10, 20, 50, 100) -->
+            <div class="flex flex-wrap items-center gap-3">
+              <span id="orderPlanCountDisplay" class="font-medium text-slate-500">Showing 0 order(s)</span>
+              <div class="flex items-center gap-1.5 text-xs text-slate-600">
+                <span>Show:</span>
+                <select id="pageSizeSelect" onchange="changePageSize(this.value)" class="px-2 py-1 border border-slate-300 rounded bg-white text-xs text-slate-700 font-semibold focus:outline-none focus:ring-1 focus:ring-blue-500">
+                  <option value="10" selected>10</option>
+                  <option value="20">20</option>
+                  <option value="50">50</option>
+                  <option value="100">100</option>
+                </select>
+                <span>orders</span>
+              </div>
+            </div>
+
+            <!-- Right: Next Page Option & Page Number (like "Page 01 of 20") -->
+            <div class="flex items-center gap-2">
+              <span class="text-[11px] text-slate-400 mr-2">Source: <b id="orderPlanSourceLabel" class="text-slate-600 font-semibold">General Data</b></span>
+              <button id="btnPrevPage" onclick="prevPage()" class="px-3 py-1 rounded border border-slate-300 bg-white hover:bg-slate-100 text-slate-700 font-semibold disabled:opacity-40 disabled:cursor-not-allowed text-xs transition">
+                Previous
+              </button>
+              <span id="pageNumberDisplay" class="px-2.5 py-1 font-bold text-slate-800 bg-slate-100 border border-slate-200 rounded text-xs min-w-[110px] text-center">
+                Page 01 of 01
+              </span>
+              <button id="btnNextPage" onclick="nextPage()" class="px-3 py-1 rounded border border-slate-300 bg-white hover:bg-slate-100 text-slate-700 font-semibold disabled:opacity-40 disabled:cursor-not-allowed text-xs transition">
+                Next
+              </button>
+            </div>
           </div>
 
         </div>
@@ -454,26 +480,7 @@
     </main>
   </div>
 
-  <!-- ========================================== -->
-  <!-- MODAL: ORDER DETAILS (Eye Icon Inspect)    -->
-  <!-- ========================================== -->
-  <div id="orderDetailModal" class="fixed inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
-    <div class="bg-white rounded-2xl w-full max-w-2xl max-h-[85vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden text-slate-800">
-      <div class="px-6 py-4 border-b border-slate-200 flex justify-between items-center bg-slate-50">
-        <div>
-          <h3 class="text-sm font-extrabold text-slate-900" id="modalOrderNoHeading">Order Details</h3>
-          <p class="text-[11px] text-slate-500" id="modalOrderBuyerSub">Preserved attributes from uploaded planning data</p>
-        </div>
-        <button onclick="closeOrderDetailModal()" class="text-slate-400 hover:text-slate-800 text-xl font-bold leading-none">&times;</button>
-      </div>
-      <div class="p-6 overflow-y-auto space-y-4 text-xs" id="orderDetailModalContent">
-        <!-- Populated dynamically -->
-      </div>
-      <div class="px-6 py-3 border-t border-slate-200 bg-slate-50 flex justify-end">
-        <button onclick="closeOrderDetailModal()" class="px-4 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-900 text-white font-bold">Close</button>
-      </div>
-    </div>
-  </div>
+
 
   <!-- ========================================== -->
   <!-- MODAL: PRESERVED DATA & COLUMNS EXPLORER   -->
@@ -581,6 +588,11 @@
     let currentStatusFilter = 'Pending'; // 'Pending', 'Confirm', 'Tentative'
     let selectedBuyer = null; // null for All Buyers
 
+    // Pagination State (Single page 10 order, option to show 20, 50, 100)
+    let currentPage = 1;
+    let pageSize = 10;
+    let currentFilteredTotal = 0;
+
     let currentCategory = {
       fullName: 'General Data',
       shortName: 'General'
@@ -634,8 +646,12 @@
         const res = await fetch(`/api/orders/plan-view?planType=${encodeURIComponent(currentPlanType)}`);
         if (res.ok) {
           const json = await res.json();
-          const liveOrders = (json.orders || []).map(o => ({ ...o, planType: currentPlanType }));
-          // Keep other plan cached orders, replace current plan orders
+          // Keep all orders in Pending list per requirement
+          const liveOrders = (json.orders || []).map(o => ({
+            ...o,
+            planType: currentPlanType,
+            status: 'Pending'
+          }));
           const otherPlans = allOrdersData.filter(o => o.planType !== currentPlanType);
           allOrdersData = [...otherPlans, ...liveOrders];
           renderPlanView();
@@ -649,6 +665,7 @@
     function switchOrderPlanView(planType) {
       currentPlanType = planType;
       selectedBuyer = null;
+      currentPage = 1;
       resetInlineColumnFilterInputs();
 
       hideAllMainViews();
@@ -678,6 +695,7 @@
     function selectStatusList(status) {
       currentStatusFilter = status;
       selectedBuyer = null; // Reset buyer filter when changing status
+      currentPage = 1;
 
       const btnPending = document.getElementById('btnStatus_pending');
       const btnConfirm = document.getElementById('btnStatus_confirm');
@@ -693,7 +711,7 @@
       renderPlanView();
     }
 
-    // Render Full Plan View strictly from uploaded file data
+    // Render Full Plan View strictly from uploaded file data with Pagination
     function renderPlanView() {
       // 1. Filter orders strictly by Plan Type and Status List
       const scopedOrders = allOrdersData.filter(o => 
@@ -720,7 +738,7 @@
 
       if (buyersList.length === 0) {
         const sourceName = currentPlanType === 'Solid Plan' ? 'General Data' : 'YD Plan Data';
-        buyerContainer.innerHTML = `<span class="text-slate-400 italic text-[11px] py-1">No buyers with ${currentStatusFilter} status. Upload or check ${sourceName} file in Data Management &gt; Source File Upload.</span>`;
+        buyerContainer.innerHTML = `<span class="text-slate-400 italic text-[11px] py-1">No orders in ${currentStatusFilter} list. (All orders are in Pending list).</span>`;
       } else {
         // "ALL BUYERS" Button
         const allBtn = document.createElement('button');
@@ -728,7 +746,7 @@
           ? 'px-3.5 py-1.5 rounded text-xs font-bold transition shadow-xs bg-slate-800 text-white border border-slate-800 whitespace-nowrap'
           : 'px-3.5 py-1.5 rounded text-xs font-bold transition bg-white text-slate-700 border border-slate-300 hover:bg-slate-100 whitespace-nowrap';
         allBtn.textContent = 'ALL BUYERS';
-        allBtn.onclick = () => { selectedBuyer = null; renderPlanView(); };
+        allBtn.onclick = () => { selectedBuyer = null; currentPage = 1; renderPlanView(); };
         buyerContainer.appendChild(allBtn);
 
         // Buyer buttons
@@ -741,6 +759,7 @@
           btn.textContent = buyerName;
           btn.onclick = () => {
             selectedBuyer = (selectedBuyer === buyerName) ? null : buyerName;
+            currentPage = 1;
             renderPlanView();
           };
           buyerContainer.appendChild(btn);
@@ -761,25 +780,42 @@
       if (fBuyer) displayOrders = displayOrders.filter(o => String(o.buyer || '').toLowerCase().includes(fBuyer));
       if (fTeam) displayOrders = displayOrders.filter(o => String(o.buyerTeam || '').toLowerCase().includes(fTeam));
 
-      // 6. Render Table Rows
+      // 6. Pagination Calculations (Single page 10 order, option for 20, 50, 100)
+      const totalCount = displayOrders.length;
+      currentFilteredTotal = totalCount;
+      const totalPages = Math.ceil(totalCount / pageSize) || 1;
+      if (currentPage > totalPages) currentPage = totalPages;
+      if (currentPage < 1) currentPage = 1;
+
+      const startIndex = totalCount === 0 ? 0 : (currentPage - 1) * pageSize;
+      const endIndex = Math.min(startIndex + pageSize, totalCount);
+      const pagedOrders = displayOrders.slice(startIndex, endIndex);
+
+      // 7. Update Summary Bar & "Page 01 of 20" Display
+      const countLabel = totalCount === 0 
+        ? `Showing 0 of 0 order(s)`
+        : `Showing ${startIndex + 1}-${endIndex} of ${totalCount} order(s) for ${currentPlanType} (${currentStatusFilter} List)`;
+      document.getElementById('orderPlanCountDisplay').textContent = countLabel;
+
+      const pad = (n) => String(n).padStart(2, '0');
+      document.getElementById('pageNumberDisplay').textContent = `Page ${pad(currentPage)} of ${pad(totalPages)}`;
+
+      const btnPrev = document.getElementById('btnPrevPage');
+      const btnNext = document.getElementById('btnNextPage');
+      if (btnPrev) btnPrev.disabled = (currentPage <= 1 || totalCount === 0);
+      if (btnNext) btnNext.disabled = (currentPage >= totalPages || totalCount === 0);
+
+      // 8. Render Table Rows (Non-clickable Manage and Order No)
       const tbody = document.getElementById('orderPlanTbody');
       tbody.innerHTML = '';
 
-      document.getElementById('orderPlanCountDisplay').textContent = `Showing ${displayOrders.length} order(s) for ${currentPlanType} (${currentStatusFilter} List)`;
-
-      if (displayOrders.length === 0) {
-        const sourceName = currentPlanType === 'Solid Plan' ? 'General Data' : 'YD Plan Data';
+      if (totalCount === 0) {
         tbody.innerHTML = `
           <tr>
             <td colspan="5" class="py-12 text-center text-slate-400">
               <div class="flex flex-col items-center justify-center gap-2">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-slate-300">
-                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                  <polyline points="14 2 14 8 20 8"></polyline>
-                  <line x1="9" y1="15" x2="15" y2="15"></line>
-                </svg>
-                <div class="text-sm font-semibold text-slate-600">No orders found for ${currentPlanType} (${currentStatusFilter} List)</div>
-                <div class="text-xs text-slate-400">Upload a ${sourceName} spreadsheet in Data Management &gt; Source File Upload to populate this list.</div>
+                <div class="text-sm font-semibold text-slate-600">No orders found in ${currentPlanType} (${currentStatusFilter} List)</div>
+                <div class="text-xs text-slate-400">All uploaded orders are kept in the Pending List.</div>
               </div>
             </td>
           </tr>
@@ -787,24 +823,16 @@
         return;
       }
 
-      displayOrders.forEach(item => {
+      pagedOrders.forEach(item => {
         const tr = document.createElement('tr');
         tr.className = 'hover:bg-slate-50/80 transition border-b border-slate-100';
 
         tr.innerHTML = `
-          <td class="py-3 px-3 text-center">
-            <!-- Manage Eye Icon Button -->
-            <button onclick="inspectOrder('${item.orderNo}')" title="Manage / View Order Details" class="p-1.5 rounded-lg text-blue-600 hover:text-blue-800 hover:bg-blue-50 transition">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                <circle cx="12" cy="12" r="3"></circle>
-              </svg>
-            </button>
+          <td class="py-3 px-3 text-center text-slate-400 font-medium">
+            -
           </td>
-          <td class="py-3 px-4">
-            <button onclick="inspectOrder('${item.orderNo}')" class="font-bold text-blue-600 hover:underline hover:text-blue-800 text-xs">
-              ${item.orderNo}
-            </button>
+          <td class="py-3 px-4 font-bold text-slate-800 text-xs">
+            ${item.orderNo}
           </td>
           <td class="py-3 px-4 text-slate-700 font-medium whitespace-nowrap">
             ${item.bookingDate || '-'}
@@ -820,8 +848,31 @@
       });
     }
 
+    // Pagination Actions
+    function prevPage() {
+      if (currentPage > 1) {
+        currentPage--;
+        renderPlanView();
+      }
+    }
+
+    function nextPage() {
+      const totalPages = Math.ceil(currentFilteredTotal / pageSize) || 1;
+      if (currentPage < totalPages) {
+        currentPage++;
+        renderPlanView();
+      }
+    }
+
+    function changePageSize(val) {
+      pageSize = parseInt(val, 10) || 10;
+      currentPage = 1;
+      renderPlanView();
+    }
+
     // Inline Column Filtering Real-Time
     function applyInlineColumnFilters() {
+      currentPage = 1;
       renderPlanView();
     }
 
@@ -834,45 +885,59 @@
 
     function resetInlineColumnFilters() {
       resetInlineColumnFilterInputs();
+      currentPage = 1;
       renderPlanView();
     }
 
-    // Global Search Order Number across Pending, Confirm, and Tentative lists
+    // Global Search Order Number across all lists
     function performGlobalBookingSearch() {
       const q = (document.getElementById('globalBookingSearchInput').value || '').trim().toLowerCase();
       if (!q) {
+        currentPage = 1;
         renderPlanView();
         return;
       }
 
-      // Search across all status lists for current plan type
       const matches = allOrdersData.filter(o => 
         (o.planType === currentPlanType) &&
         (String(o.orderNo || '').toLowerCase().includes(q))
       );
 
+      const totalCount = matches.length;
+      currentFilteredTotal = totalCount;
+      const totalPages = Math.ceil(totalCount / pageSize) || 1;
+      currentPage = 1;
+
+      const startIndex = totalCount === 0 ? 0 : (currentPage - 1) * pageSize;
+      const endIndex = Math.min(startIndex + pageSize, totalCount);
+      const pagedMatches = matches.slice(startIndex, endIndex);
+
+      const pad = (n) => String(n).padStart(2, '0');
+      document.getElementById('orderPlanCountDisplay').textContent = `Found ${totalCount} matching order(s) for "${q}"`;
+      document.getElementById('pageNumberDisplay').textContent = `Page ${pad(currentPage)} of ${pad(totalPages)}`;
+
+      const btnPrev = document.getElementById('btnPrevPage');
+      const btnNext = document.getElementById('btnNextPage');
+      if (btnPrev) btnPrev.disabled = (currentPage <= 1 || totalCount === 0);
+      if (btnNext) btnNext.disabled = (currentPage >= totalPages || totalCount === 0);
+
       const tbody = document.getElementById('orderPlanTbody');
       tbody.innerHTML = '';
-      document.getElementById('orderPlanCountDisplay').textContent = `Found ${matches.length} matching order(s) for "${q}" across all status lists`;
 
-      if (matches.length === 0) {
+      if (totalCount === 0) {
         tbody.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-rose-500 font-bold">No Order found with Order No "${q}".</td></tr>`;
         return;
       }
 
-      matches.forEach(item => {
+      pagedMatches.forEach(item => {
         const tr = document.createElement('tr');
         tr.className = 'hover:bg-slate-50 transition border-b border-slate-100';
         tr.innerHTML = `
-          <td class="py-3 px-3 text-center">
-            <button onclick="inspectOrder('${item.orderNo}')" class="p-1.5 rounded-lg text-blue-600 hover:text-blue-800 hover:bg-blue-50 transition">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-            </button>
-          </td>
-          <td class="py-3 px-4"><span class="font-bold text-blue-600">${item.orderNo}</span></td>
+          <td class="py-3 px-3 text-center text-slate-400 font-medium">-</td>
+          <td class="py-3 px-4 font-bold text-slate-800 text-xs">${item.orderNo}</td>
           <td class="py-3 px-4 text-slate-700 whitespace-nowrap">${item.bookingDate || '-'}</td>
           <td class="py-3 px-4 font-semibold text-slate-800 whitespace-nowrap">${item.buyer || '-'}</td>
-          <td class="py-3 px-4 text-slate-700 text-xs">${item.buyerTeam || '-'} <span class="ml-2 px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100">${item.status}</span></td>
+          <td class="py-3 px-4 text-slate-700 text-xs">${item.buyerTeam || '-'}</td>
         `;
         tbody.appendChild(tr);
       });
@@ -880,43 +945,8 @@
 
     function clearGlobalBookingSearch() {
       document.getElementById('globalBookingSearchInput').value = '';
+      currentPage = 1;
       renderPlanView();
-    }
-
-    // Inspect Order Modal
-    function inspectOrder(orderNo) {
-      const order = allOrdersData.find(o => String(o.orderNo) === String(orderNo));
-      if (!order) return;
-
-      document.getElementById('modalOrderNoHeading').textContent = `Order / Booking: ${order.orderNo}`;
-      document.getElementById('modalOrderBuyerSub').textContent = `Buyer: ${order.buyer} | Team: ${order.buyerTeam || 'N/A'} | Status: ${order.status}`;
-
-      const content = document.getElementById('orderDetailModalContent');
-      let extraHtml = '';
-      if (order.fullData && typeof order.fullData === 'object') {
-        const rows = Object.entries(order.fullData).map(([k, v]) => `
-          <div class="flex justify-between py-1 border-b border-slate-100"><span class="text-slate-500">${k}:</span> <span class="font-semibold text-slate-800 text-right">${v || '-'}</span></div>
-        `).join('');
-        extraHtml = `<div class="p-3 bg-white rounded-lg border border-slate-200 mt-2 max-h-48 overflow-y-auto"><div class="font-bold text-slate-700 mb-2">Original Spreadsheet Attributes:</div>${rows}</div>`;
-      }
-
-      content.innerHTML = `
-        <div class="grid grid-cols-2 gap-3 p-3 bg-slate-50 rounded-lg border border-slate-200">
-          <div><span class="text-slate-500">Order/Booking No:</span> <b class="text-blue-600">${order.orderNo}</b></div>
-          <div><span class="text-slate-500">Booking Date:</span> <b>${order.bookingDate || '-'}</b></div>
-          <div><span class="text-slate-500">Buyer Name:</span> <b>${order.buyer || '-'}</b></div>
-          <div><span class="text-slate-500">Buyer Team:</span> <b>${order.buyerTeam || '-'}</b></div>
-          <div><span class="text-slate-500">Current Status:</span> <b class="text-emerald-600">${order.status}</b></div>
-          <div><span class="text-slate-500">Details / Remarks:</span> <b>${order.statusDetail || 'Null'}</b></div>
-        </div>
-        ${extraHtml}
-      `;
-
-      document.getElementById('orderDetailModal').classList.remove('hidden');
-    }
-
-    function closeOrderDetailModal() {
-      document.getElementById('orderDetailModal').classList.add('hidden');
     }
 
     // ==========================================

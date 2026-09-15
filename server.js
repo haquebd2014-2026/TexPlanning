@@ -1386,33 +1386,8 @@ app.get('/api/orders/plan-view', async (req, res) => {
         ''
       ).trim();
 
-      let orderStatus = 'Pending';
-      if (rec.additionalData?.status) {
-        orderStatus = rec.additionalData.status;
-      } else if (isYD) {
-        const dyed = parseFloat(d['DYED'] || 0);
-        if (dyed > 0) {
-          orderStatus = 'Confirm';
-        } else {
-          orderStatus = 'Pending';
-        }
-      } else {
-        const bpStatus = String(d['BP Status'] || '').trim().toLowerCase();
-        const finalConf = String(d['Final Confirmation'] || '').trim().toLowerCase();
-        const statusCol = String(d['Status'] || '').trim().toLowerCase();
-
-        if (bpStatus === 'pending') {
-          orderStatus = 'Pending';
-        } else if (bpStatus && bpStatus !== '-' && bpStatus !== 'null' && bpStatus !== 'pending') {
-          orderStatus = 'Confirm';
-        } else if (finalConf === 'yes' && bpStatus !== 'pending') {
-          orderStatus = 'Confirm';
-        } else if (bpStatus.includes('tentative') || statusCol.includes('tentative')) {
-          orderStatus = 'Tentative';
-        } else {
-          orderStatus = 'Pending';
-        }
-      }
+      // All orders in Pending list; remove all from Confirm list per user requirement
+      const orderStatus = 'Pending';
 
       const statusDetail = d['Status'] ||
         d['Remarks'] ||
