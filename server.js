@@ -1395,6 +1395,69 @@ const handleSavePlanManage = async (req, res) => {
 app.put('/api/orders/plan-manage/:orderNoOrId', optionalAuth, handleSavePlanManage);
 app.post('/api/orders/plan-manage/:orderNoOrId', optionalAuth, handleSavePlanManage);
 
+// GET /api/orders/plan-manage/:orderNoOrId - Retrieve plan details and matching uploaded items from Knitting, Dyeing, Delivery Plan files
+app.get('/api/orders/plan-manage/:orderNoOrId', optionalAuth, async (req, res) => {
+  try {
+    const { orderNoOrId } = req.params;
+    const cleanId = String(orderNoOrId).trim();
+
+    let query = {};
+    if (mongoose.Types.ObjectId.isValid(cleanId)) {
+      query = { _id: cleanId };
+    } else {
+      query = {
+        $or: [
+          { recordId: cleanId },
+          { 'data.OrderNo': cleanId },
+          { 'data.Order No': cleanId },
+          { 'data.Booking No.': cleanId },
+          { 'data.Booking No': cleanId }
+        ]
+      };
+    }
+
+    const rec = await SourceDataRecord.findOne(query);
+    const orderNo = rec?.data?.OrderNo || rec?.data?.['Order No'] || rec?.data?.['Booking No.'] || rec?.data?.['Booking No'] || rec?.recordId || cleanId;
+
+    const orderFilter = {
+      $or: [
+        { recordId: String(orderNo).trim() },
+        { 'data.OrderNo': String(orderNo).trim() },
+        { 'data.Order No': String(orderNo).trim() },
+        { 'data.Booking No.': String(orderNo).trim() },
+        { 'data.Booking No': String(orderNo).trim() }
+      ]
+    };
+
+    const [knittingRecords, dyeingRecords, deliveryRecords] = await Promise.all([
+      SourceDataRecord.find({
+        category: /knitting\s*plan/i,
+        ...orderFilter
+      }).sort({ rowNumber: 1 }),
+      SourceDataRecord.find({
+        category: /dyeing\s*plan/i,
+        ...orderFilter
+      }).sort({ rowNumber: 1 }),
+      SourceDataRecord.find({
+        category: /delivery\s*plan/i,
+        ...orderFilter
+      }).sort({ rowNumber: 1 })
+    ]);
+
+    return res.status(200).json({
+      success: true,
+      orderNo,
+      additionalData: rec?.additionalData || {},
+      fullData: rec?.data || {},
+      knittingItems: knittingRecords.map(r => r.data || {}),
+      dyeingItems: dyeingRecords.map(r => r.data || {}),
+      deliveryItems: deliveryRecords.map(r => r.data || {})
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: 'Failed to retrieve order plan items.', error: error.message });
+  }
+});
+
 // GET /api/orders/plan-view - Dynamic Solid Plan & YD Plan order list strictly from uploaded files
 app.get('/api/orders/plan-view', async (req, res) => {
   try {

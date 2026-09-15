@@ -519,9 +519,6 @@
                 </svg>
                 <span class="px-3 py-1 bg-slate-200 text-slate-800 font-bold text-xs rounded shadow-2xs">(Knitting Plan)</span>
               </div>
-              <button onclick="addKnittingPlanRow()" class="px-2.5 py-1 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 border border-blue-200 font-bold rounded shadow-2xs transition">
-                + Add Row
-              </button>
             </div>
 
             <div class="overflow-x-auto border border-slate-200 rounded-lg">
@@ -533,7 +530,7 @@
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[60px]">GSM</th>
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[100px] bg-[#fef08a] text-slate-900 font-extrabold">Yarn Date</th>
                     <th colspan="2" class="py-1 px-2 border border-slate-200 text-center bg-slate-100 font-bold">Knitting Planning</th>
-                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">Plan Type</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[90px]">Plan Type</th>
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 min-w-[120px]">Knitting Limitation</th>
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 min-w-[100px]">Remarks</th>
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">Grey Req.</th>
@@ -543,7 +540,6 @@
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[90px]">Allocated Qty</th>
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">Yarn bala.</th>
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">Allowance %</th>
-                    <th rowspan="2" class="py-2 px-1 border border-slate-200 text-center w-10">✕</th>
                   </tr>
                   <tr class="bg-slate-50 text-slate-700 font-semibold text-[11px] border-b border-slate-200">
                     <th class="py-1 px-2 border border-slate-200 text-center min-w-[95px]">Start Date</th>
@@ -551,7 +547,7 @@
                   </tr>
                 </thead>
                 <tbody id="knittingPlanTableBody" class="divide-y divide-slate-100 bg-white">
-                  <!-- Dynamic rows -->
+                  <!-- Dynamic rows from uploaded Knitting Plan file -->
                 </tbody>
               </table>
             </div>
@@ -566,9 +562,6 @@
                 </svg>
                 <span class="px-3 py-1 bg-slate-200 text-slate-800 font-bold text-xs rounded shadow-2xs">Dyeing Plan)</span>
               </div>
-              <button onclick="addDyeingPlanRow()" class="px-2.5 py-1 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 border border-blue-200 font-bold rounded shadow-2xs transition">
-                + Add Row
-              </button>
             </div>
 
             <div class="overflow-x-auto border border-slate-200 rounded-lg">
@@ -576,14 +569,10 @@
                 <thead>
                   <tr class="bg-slate-100 text-slate-700 font-bold text-[11.5px] border-b border-slate-200">
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">Color</th>
-                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[70px]">Unit</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[90px]">Unit</th>
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 min-w-[110px]">Process Name</th>
-                    <th colspan="2" class="py-1 px-2 border border-slate-200 text-center bg-slate-100 font-bold">Knitting Planning</th>
-                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[110px]">Knitting Plan Type</th>
-                    <th rowspan="2" class="py-2 px-2 border border-slate-200 min-w-[120px]">Knitting Limitation</th>
-                    <th rowspan="2" class="py-2 px-2 border border-slate-200 min-w-[120px]">Remarks (Knitting)</th>
                     <th colspan="2" class="py-1 px-2 border border-slate-200 text-center bg-slate-100 font-bold">Dyeing Planning</th>
-                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">Plan Type</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[90px]">Plan Type</th>
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 min-w-[120px]">Dyeing Limitation</th>
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 min-w-[100px]">Remarks</th>
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">BP Qty</th>
@@ -591,17 +580,14 @@
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">Dyeing Bala.</th>
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">Knit Prod.</th>
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">Knit. Bala.</th>
-                    <th rowspan="2" class="py-2 px-1 border border-slate-200 text-center w-10">✕</th>
                   </tr>
                   <tr class="bg-slate-50 text-slate-700 font-semibold text-[11px] border-b border-slate-200">
-                    <th class="py-1 px-2 border border-slate-200 text-center min-w-[95px]">Start Date</th>
-                    <th class="py-1 px-2 border border-slate-200 text-center min-w-[95px]">End Date</th>
                     <th class="py-1 px-2 border border-slate-200 text-center min-w-[95px]">Start Date</th>
                     <th class="py-1 px-2 border border-slate-200 text-center min-w-[95px]">End Date</th>
                   </tr>
                 </thead>
                 <tbody id="dyeingPlanTableBody" class="divide-y divide-slate-100 bg-white">
-                  <!-- Dynamic rows -->
+                  <!-- Dynamic rows from uploaded Dyeing Plan file -->
                 </tbody>
               </table>
             </div>
@@ -616,9 +602,6 @@
                 </svg>
                 <span class="px-3 py-1 bg-slate-200 text-slate-800 font-bold text-xs rounded shadow-2xs">Delivery Plan)</span>
               </div>
-              <button onclick="addDeliveryPlanRow()" class="px-2.5 py-1 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 border border-blue-200 font-bold rounded shadow-2xs transition">
-                + Add Row
-              </button>
             </div>
 
             <div class="overflow-x-auto border border-slate-200 rounded-lg">
@@ -631,12 +614,9 @@
                     <th colspan="2" class="py-1 px-2 border border-slate-200 text-center bg-slate-100 font-bold">Delivery Planning (Floor)</th>
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[100px]">Plan Type (Floor)</th>
                     <th colspan="2" class="py-1 px-2 border border-slate-200 text-center bg-slate-100 font-bold">Delivery Planning</th>
-                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">Plan Type</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[90px]">Plan Type</th>
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 min-w-[120px]">Delivery Limitation</th>
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 min-w-[100px]">Remarks</th>
-                    <th colspan="2" class="py-1 px-2 border border-slate-200 text-center bg-slate-100 font-bold">Dyeing Planning</th>
-                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[100px]">Dyeing Plan Type</th>
-                    <th colspan="2" class="py-1 px-2 border border-slate-200 text-center bg-slate-100 font-bold">Knitting Planning</th>
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[90px]">RequiredQtyKgs</th>
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[105px]">NetReceivedQtyKgs</th>
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[105px]">NetDeliveryQtyKgs</th>
@@ -644,13 +624,8 @@
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[70px]">RFD</th>
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">Slowmoving</th>
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">FF Stock</th>
-                    <th rowspan="2" class="py-2 px-1 border border-slate-200 text-center w-10">✕</th>
                   </tr>
                   <tr class="bg-slate-50 text-slate-700 font-semibold text-[11px] border-b border-slate-200">
-                    <th class="py-1 px-2 border border-slate-200 text-center min-w-[95px]">Start Date</th>
-                    <th class="py-1 px-2 border border-slate-200 text-center min-w-[95px]">End Date</th>
-                    <th class="py-1 px-2 border border-slate-200 text-center min-w-[95px]">Start Date</th>
-                    <th class="py-1 px-2 border border-slate-200 text-center min-w-[95px]">End Date</th>
                     <th class="py-1 px-2 border border-slate-200 text-center min-w-[95px]">Start Date</th>
                     <th class="py-1 px-2 border border-slate-200 text-center min-w-[95px]">End Date</th>
                     <th class="py-1 px-2 border border-slate-200 text-center min-w-[95px]">Start Date</th>
@@ -658,7 +633,7 @@
                   </tr>
                 </thead>
                 <tbody id="deliveryPlanTableBody" class="divide-y divide-slate-100 bg-white">
-                  <!-- Dynamic rows -->
+                  <!-- Dynamic rows from uploaded Delivery Plan file -->
                 </tbody>
               </table>
             </div>
@@ -1275,17 +1250,7 @@
 
     let currentManagingOrder = null;
 
-    function openOrderManageView(orderNo) {
-      const order = allOrdersData.find(o => String(o.orderNo) === String(orderNo));
-      if (!order) {
-        alert(`Order ${orderNo} not found.`);
-        return;
-      }
-      currentManagingOrder = order;
-      const d = order.fullData || {};
-      const add = order.additionalData || {};
-      const gi = add.generalInfo || {};
-
+    function populateGeneralInfoFields(gi, d, order) {
       // Column 1
       document.getElementById('gm_ewoNo').value = gi.ewoNo !== undefined ? gi.ewoNo : (d['EWO No.'] || d['EWO No'] || d['OrderNo'] || order.orderNo || '');
       document.getElementById('gm_bookingNo').value = gi.bookingNo !== undefined ? gi.bookingNo : (d['Booking No.'] || d['Booking No'] || d['OrderNo'] || order.orderNo || '');
@@ -1295,7 +1260,7 @@
       document.getElementById('gm_finalConfirmation').value = gi.finalConfirmation !== undefined ? gi.finalConfirmation : (d['Final Confirmation'] || 'No');
       document.getElementById('gm_bpStatus').value = gi.bpStatus !== undefined ? gi.bpStatus : (d['BP Status'] || 'Pending');
       document.getElementById('gm_pmc').value = gi.pmc !== undefined ? gi.pmc : (d['PMC'] || '');
-      document.getElementById('gm_orderStatus').value = gi.orderStatus || add.orderStatus || d['Order Status'] || 'On Process';
+      document.getElementById('gm_orderStatus').value = gi.orderStatus || order.status || d['Order Status'] || 'On Process';
 
       // Column 2
       document.getElementById('gm_buyerName').value = gi.buyerName !== undefined ? gi.buyerName : (order.buyer || d['Buyer'] || '');
@@ -1316,19 +1281,61 @@
       document.getElementById('gm_taDyeingStart').value = gi.taDyeingStart !== undefined ? gi.taDyeingStart : (d['T&A Dyeing Start'] || '');
       document.getElementById('gm_taDyeingEnd').value = gi.taDyeingEnd !== undefined ? gi.taDyeingEnd : (d['T&A Dyeing End'] || '');
       document.getElementById('gm_fabricNotes').value = gi.fabricNotes !== undefined ? gi.fabricNotes : (d['Fabric Notes'] || d['PMC Notes'] || '');
+    }
 
-      // Render Plan Tables
-      renderKnittingPlanTable(add.knittingPlan, d);
-      renderDyeingPlanTable(add.dyeingPlan, d);
-      renderDeliveryPlanTable(add.deliveryPlan, d);
+    async function openOrderManageView(orderNo) {
+      const order = allOrdersData.find(o => String(o.orderNo) === String(orderNo));
+      if (!order) {
+        alert(`Order ${orderNo} not found.`);
+        return;
+      }
+      currentManagingOrder = order;
+      const d = order.fullData || {};
+      let add = order.additionalData || {};
+      let gi = add.generalInfo || {};
+
+      populateGeneralInfoFields(gi, d, order);
+
+      // Temporary loading indicator
+      const kBody = document.getElementById('knittingPlanTableBody');
+      const dyBody = document.getElementById('dyeingPlanTableBody');
+      const delBody = document.getElementById('deliveryPlanTableBody');
+      if (kBody) kBody.innerHTML = '<tr><td colspan="16" class="p-3 text-center text-slate-400 font-medium">Loading Knitting Plan items from uploaded file...</td></tr>';
+      if (dyBody) dyBody.innerHTML = '<tr><td colspan="12" class="p-3 text-center text-slate-400 font-medium">Loading Dyeing Plan items from uploaded file...</td></tr>';
+      if (delBody) delBody.innerHTML = '<tr><td colspan="16" class="p-3 text-center text-slate-400 font-medium">Loading Delivery Plan items from uploaded file...</td></tr>';
 
       // Switch View Containers
       const listContainer = document.getElementById('planOrdersListContainer');
       const manageInterface = document.getElementById('orderManageInterface');
       if (listContainer) listContainer.classList.add('hidden');
       if (manageInterface) manageInterface.classList.remove('hidden');
-
       window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      // Fetch dynamic plan items from uploaded Knitting, Dyeing, and Delivery files
+      try {
+        const res = await fetch(`/api/orders/plan-manage/${encodeURIComponent(orderNo)}`);
+        if (res.ok) {
+          const resJson = await res.json();
+          if (resJson.additionalData && Object.keys(resJson.additionalData).length > 0) {
+            add = resJson.additionalData;
+            order.additionalData = add;
+            if (add.generalInfo) {
+              populateGeneralInfoFields(add.generalInfo, d, order);
+            }
+          }
+          renderKnittingPlanTable(add.knittingPlan, resJson.knittingItems, d);
+          renderDyeingPlanTable(add.dyeingPlan, resJson.dyeingItems, d);
+          renderDeliveryPlanTable(add.deliveryPlan, resJson.deliveryItems, d);
+          return;
+        }
+      } catch (err) {
+        console.warn('Note: Could not fetch plan items from server, using local fallback:', err);
+      }
+
+      // Fallback if network or endpoint not ready
+      renderKnittingPlanTable(add.knittingPlan, [], d);
+      renderDyeingPlanTable(add.dyeingPlan, [], d);
+      renderDeliveryPlanTable(add.deliveryPlan, [], d);
     }
 
     function closeOrderManageView() {
@@ -1338,32 +1345,54 @@
       if (listContainer) listContainer.classList.remove('hidden');
     }
 
-    // Knitting Plan Table Operations
-    function renderKnittingPlanTable(savedRows, d) {
+    // Knitting Plan Table Operations (Data from uploaded Knitting Plan file)
+    function renderKnittingPlanTable(savedRows, uploadedItems, d) {
       const tbody = document.getElementById('knittingPlanTableBody');
       if (!tbody) return;
       tbody.innerHTML = '';
 
-      const rows = (Array.isArray(savedRows) && savedRows.length > 0)
-        ? savedRows
-        : [{
-            color: d['Color'] || '',
-            fabricConstruction: d['Body Fabric'] || d['Fabric'] || '',
-            gsm: d['Body GSM'] || d['GSM'] || '',
-            yarnDate: d['T&A Yarn date'] || d['T&A Yarn Date'] || '',
-            knitStartDate: d['T&A Knitting Start'] || '',
-            knitEndDate: d['T&A Knitting End'] || '',
-            planType: d['Program type'] || 'Solid',
-            knittingLimitation: d['Knitting Limitation'] || '',
-            remarks: d['Remarks'] || '',
-            greyReq: d['RequiredQtyKgs'] || d['Grey Req.'] || '',
-            knitProd: d['Knit Prod.'] || '',
-            knitBal: d['Knit. Bala.'] || d['Knit. Bal.'] || '',
-            yarnReq: d['Yarn req.'] || d['Yarn Req'] || d['YD REQ.'] || '',
-            allocatedQty: d['Allocated Qty'] || '',
-            yarnBal: d['Yarn bala.'] || '',
-            allowance: d['Allowance %'] || ''
-          }];
+      let rows = [];
+      if (Array.isArray(savedRows) && savedRows.length > 0) {
+        rows = savedRows;
+      } else if (Array.isArray(uploadedItems) && uploadedItems.length > 0) {
+        rows = uploadedItems.map(item => ({
+          color: item['Color'] || item['Fabric Color'] || '',
+          fabricConstruction: item['FabricConstruction'] || item['Fabric Construction'] || item['Body Fabric'] || item['Fabric'] || '',
+          gsm: item['GSM'] || item['Body GSM'] || '',
+          yarnDate: item['T&A Yarn date'] || item['T&A Yarn Date'] || d['T&A Yarn date'] || '',
+          knitStartDate: item['T&A Knitting Start'] || d['T&A Knitting Start'] || '',
+          knitEndDate: item['T&A Knitting End'] || d['T&A Knitting End'] || '',
+          planType: 'Tentative',
+          knittingLimitation: item['Knitting Limitation'] || '',
+          remarks: item['Remarks'] || '',
+          greyReq: item['Grey Req.'] || item['Grey Req'] || item['RequiredQtyKgs'] || '',
+          knitProd: item['Knit Prod.'] || item['Knit Prod'] || '0',
+          knitBal: item['Knit. Bala.'] || item['Knit Bala'] || item['Knit. Bal.'] || '',
+          yarnReq: item['Yarn req.'] || item['Yarn Req'] || item['YD REQ.'] || '',
+          allocatedQty: item['Allocated Qty '] || item['Allocated Qty'] || '0',
+          yarnBal: item['Yarn bala.'] || item['Yarn Bala'] || '',
+          allowance: item['Allowance %'] || item['Allowance'] || ''
+        }));
+      } else {
+        rows = [{
+          color: d['Color'] || '',
+          fabricConstruction: d['Body Fabric'] || d['Fabric'] || '',
+          gsm: d['Body GSM'] || d['GSM'] || '',
+          yarnDate: d['T&A Yarn date'] || d['T&A Yarn Date'] || '',
+          knitStartDate: d['T&A Knitting Start'] || '',
+          knitEndDate: d['T&A Knitting End'] || '',
+          planType: 'Tentative',
+          knittingLimitation: d['Knitting Limitation'] || '',
+          remarks: d['Remarks'] || '',
+          greyReq: d['RequiredQtyKgs'] || d['Grey Req.'] || '',
+          knitProd: d['Knit Prod.'] || '0',
+          knitBal: d['Knit. Bala.'] || d['Knit. Bal.'] || '',
+          yarnReq: d['Yarn req.'] || d['Yarn Req'] || d['YD REQ.'] || '',
+          allocatedQty: d['Allocated Qty '] || d['Allocated Qty'] || '0',
+          yarnBal: d['Yarn bala.'] || '',
+          allowance: d['Allowance %'] || ''
+        }];
+      }
 
       rows.forEach(r => addKnittingPlanRow(r));
     }
@@ -1373,56 +1402,75 @@
       if (!tbody) return;
       const tr = document.createElement('tr');
       tr.className = 'hover:bg-slate-50 text-slate-700';
+      const planTypeVal = data.planType || 'Tentative';
       tr.innerHTML = `
-        <td class="p-1 border border-slate-200"><input type="text" class="kp-color w-full px-1.5 py-1 text-xs border border-slate-200 rounded" value="${data.color || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="kp-fabric w-full px-1.5 py-1 text-xs border border-slate-200 rounded" value="${data.fabricConstruction || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="kp-gsm w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.gsm || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="kp-color w-full px-1.5 py-1 text-xs border border-slate-200 rounded bg-slate-50" value="${data.color || ''}" title="From uploaded file"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="kp-fabric w-full px-1.5 py-1 text-xs border border-slate-200 rounded bg-slate-50" value="${data.fabricConstruction || ''}" title="From uploaded file"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="kp-gsm w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.gsm || ''}" title="From uploaded file"></td>
         <td class="p-1 border border-slate-200 bg-[#fef08a]/40"><input type="text" class="kp-yarndate w-full px-1.5 py-1 text-xs border border-yellow-300 bg-yellow-50 rounded text-center font-bold" value="${data.yarnDate || ''}"></td>
         <td class="p-1 border border-slate-200"><input type="text" class="kp-knitstart w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.knitStartDate || ''}"></td>
         <td class="p-1 border border-slate-200"><input type="text" class="kp-knitend w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.knitEndDate || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="kp-plantype w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.planType || ''}"></td>
+        <td class="p-1 border border-slate-200">
+          <select class="kp-plantype w-full px-1 py-1 text-xs border border-slate-200 rounded text-center bg-white font-medium">
+            <option value="Tentative" ${planTypeVal.toLowerCase() === 'tentative' ? 'selected' : ''}>Tentative</option>
+            <option value="Confirm" ${planTypeVal.toLowerCase() === 'confirm' ? 'selected' : ''}>Confirm</option>
+          </select>
+        </td>
         <td class="p-1 border border-slate-200"><input type="text" class="kp-limit w-full px-1.5 py-1 text-xs border border-slate-200 rounded" value="${data.knittingLimitation || ''}"></td>
         <td class="p-1 border border-slate-200"><input type="text" class="kp-remarks w-full px-1.5 py-1 text-xs border border-slate-200 rounded" value="${data.remarks || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="kp-greyreq w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.greyReq || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="kp-prod w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.knitProd || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="kp-bal w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.knitBal || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="kp-yarnreq w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.yarnReq || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="kp-allocqty w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.allocatedQty || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="kp-yarnbal w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.yarnBal || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="kp-allowance w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.allowance || ''}"></td>
-        <td class="p-1 border border-slate-200 text-center"><button onclick="this.closest('tr').remove()" class="text-rose-500 hover:text-rose-700 font-bold px-1.5 py-0.5 rounded hover:bg-rose-50">✕</button></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="kp-greyreq w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.greyReq || ''}" title="From uploaded file"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="kp-prod w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.knitProd || ''}" title="From uploaded file"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="kp-bal w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.knitBal || ''}" title="From uploaded file"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="kp-yarnreq w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.yarnReq || ''}" title="From uploaded file"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="kp-allocqty w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.allocatedQty || ''}" title="From uploaded file"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="kp-yarnbal w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.yarnBal || ''}" title="From uploaded file"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="kp-allowance w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.allowance || ''}" title="From uploaded file"></td>
       `;
       tbody.appendChild(tr);
     }
 
-    // Dyeing Plan Table Operations
-    function renderDyeingPlanTable(savedRows, d) {
+    // Dyeing Plan Table Operations (Data from uploaded Dyeing Plan file)
+    function renderDyeingPlanTable(savedRows, uploadedItems, d) {
       const tbody = document.getElementById('dyeingPlanTableBody');
       if (!tbody) return;
       tbody.innerHTML = '';
 
-      const rows = (Array.isArray(savedRows) && savedRows.length > 0)
-        ? savedRows
-        : [{
-            color: d['Color'] || '',
-            unit: d['Unit'] || '',
-            processName: d['Program type'] || 'Solid Dyeing',
-            knitStartDate: d['T&A Knitting Start'] || '',
-            knitEndDate: d['T&A Knitting End'] || '',
-            knittingPlanType: d['Program type'] || 'Solid',
-            knittingLimitation: d['Knitting Limitation'] || '',
-            remarksKnitting: d['Remarks (Knitting)'] || '',
-            dyeStartDate: d['T&A Dyeing Start'] || '',
-            dyeEndDate: d['T&A Dyeing End'] || '',
-            planType: d['Program type'] || 'Solid',
-            dyeingLimitation: d['Dyeing Limitation'] || '',
-            remarks: d['Remarks'] || '',
-            bpQty: d['BP Qty'] || d['RequiredQtyKgs'] || '',
-            dyeingProd: d['DYED'] || d['Dyeing Prod.'] || '',
-            dyeingBal: d['Dyeing Bala.'] || '',
-            knitProd: d['Knit Prod.'] || '',
-            knitBal: d['Knit. Bala.'] || ''
-          }];
+      let rows = [];
+      if (Array.isArray(savedRows) && savedRows.length > 0) {
+        rows = savedRows;
+      } else if (Array.isArray(uploadedItems) && uploadedItems.length > 0) {
+        rows = uploadedItems.map(item => ({
+          color: item['Color'] || '',
+          unit: item['Unit'] || 'EKL',
+          processName: item['Process Name'] || 'Colour',
+          dyeStartDate: item['T&A Dyeing Start'] || d['T&A Dyeing Start'] || '',
+          dyeEndDate: item['T&A Dyeing End'] || d['T&A Dyeing End'] || '',
+          planType: 'Tentative',
+          dyeingLimitation: item['Dyeing Limitation'] || '',
+          remarks: item['Remarks'] || '',
+          bpQty: item['BP Qty'] || item['BPQty'] || item['RequiredQtyKgs'] || '',
+          dyeingProd: item['Dyeing Prod.'] || item['Dyeing Prod'] || item['DYED'] || '0',
+          dyeingBal: item['Dyeing Bala.'] || item['Dyeing Bala'] || '',
+          knitProd: item['Knit Prod.'] || item['Knit Prod'] || '0',
+          knitBal: item['Knit. Bala.'] || item['Knit Bala'] || ''
+        }));
+      } else {
+        rows = [{
+          color: d['Color'] || '',
+          unit: d['Unit'] || 'EKL',
+          processName: 'Colour',
+          dyeStartDate: d['T&A Dyeing Start'] || '',
+          dyeEndDate: d['T&A Dyeing End'] || '',
+          planType: 'Tentative',
+          dyeingLimitation: d['Dyeing Limitation'] || '',
+          remarks: d['Remarks'] || '',
+          bpQty: d['BP Qty'] || d['RequiredQtyKgs'] || '',
+          dyeingProd: d['DYED'] || d['Dyeing Prod.'] || '0',
+          dyeingBal: d['Dyeing Bala.'] || '',
+          knitProd: d['Knit Prod.'] || '0',
+          knitBal: d['Knit. Bala.'] || ''
+        }];
+      }
 
       rows.forEach(r => addDyeingPlanRow(r));
     }
@@ -1432,63 +1480,97 @@
       if (!tbody) return;
       const tr = document.createElement('tr');
       tr.className = 'hover:bg-slate-50 text-slate-700';
+      const unitVal = data.unit || 'EKL';
+      const processVal = data.processName || 'Colour';
+      const planTypeVal = data.planType || 'Tentative';
       tr.innerHTML = `
-        <td class="p-1 border border-slate-200"><input type="text" class="dp-color w-full px-1.5 py-1 text-xs border border-slate-200 rounded" value="${data.color || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="dp-unit w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.unit || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="dp-process w-full px-1.5 py-1 text-xs border border-slate-200 rounded" value="${data.processName || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="dp-knitstart w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.knitStartDate || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="dp-knitend w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.knitEndDate || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="dp-knitplantype w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.knittingPlanType || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="dp-knitlimit w-full px-1.5 py-1 text-xs border border-slate-200 rounded" value="${data.knittingLimitation || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="dp-remarksKnitting w-full px-1.5 py-1 text-xs border border-slate-200 rounded" value="${data.remarksKnitting || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="dp-color w-full px-1.5 py-1 text-xs border border-slate-200 rounded bg-slate-50" value="${data.color || ''}" title="From uploaded file"></td>
+        <td class="p-1 border border-slate-200">
+          <select class="dp-unit w-full px-1 py-1 text-xs border border-slate-200 rounded text-center bg-white font-medium">
+            <option value="EKL" ${unitVal === 'EKL' ? 'selected' : ''}>EKL</option>
+            <option value="EFL" ${unitVal === 'EFL' ? 'selected' : ''}>EFL</option>
+            <option value="Outside" ${unitVal === 'Outside' ? 'selected' : ''}>Outside</option>
+          </select>
+        </td>
+        <td class="p-1 border border-slate-200">
+          <select class="dp-process w-full px-1 py-1 text-xs border border-slate-200 rounded text-center bg-white font-medium">
+            <option value="Colour" ${processVal.toLowerCase() === 'colour' || processVal.toLowerCase() === 'color' ? 'selected' : ''}>Colour</option>
+            <option value="WH" ${processVal.toUpperCase() === 'WH' ? 'selected' : ''}>WH</option>
+            <option value="SB" ${processVal.toUpperCase() === 'SB' ? 'selected' : ''}>SB</option>
+            <option value="Pluvia" ${processVal.toLowerCase() === 'pluvia' ? 'selected' : ''}>Pluvia</option>
+          </select>
+        </td>
         <td class="p-1 border border-slate-200"><input type="text" class="dp-dyestart w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.dyeStartDate || ''}"></td>
         <td class="p-1 border border-slate-200"><input type="text" class="dp-dyeend w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.dyeEndDate || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="dp-plantype w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.planType || ''}"></td>
+        <td class="p-1 border border-slate-200">
+          <select class="dp-plantype w-full px-1 py-1 text-xs border border-slate-200 rounded text-center bg-white font-medium">
+            <option value="Tentative" ${planTypeVal.toLowerCase() === 'tentative' ? 'selected' : ''}>Tentative</option>
+            <option value="Confirm" ${planTypeVal.toLowerCase() === 'confirm' ? 'selected' : ''}>Confirm</option>
+          </select>
+        </td>
         <td class="p-1 border border-slate-200"><input type="text" class="dp-dyelimit w-full px-1.5 py-1 text-xs border border-slate-200 rounded" value="${data.dyeingLimitation || ''}"></td>
         <td class="p-1 border border-slate-200"><input type="text" class="dp-remarks w-full px-1.5 py-1 text-xs border border-slate-200 rounded" value="${data.remarks || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="dp-bpqty w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.bpQty || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="dp-dyeprod w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.dyeingProd || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="dp-dyebal w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.dyeingBal || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="dp-knitprod w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.knitProd || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="dp-knitbal w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.knitBal || ''}"></td>
-        <td class="p-1 border border-slate-200 text-center"><button onclick="this.closest('tr').remove()" class="text-rose-500 hover:text-rose-700 font-bold px-1.5 py-0.5 rounded hover:bg-rose-50">✕</button></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="dp-bpqty w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.bpQty || ''}" title="From uploaded file"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="dp-dyeprod w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.dyeingProd || ''}" title="From uploaded file"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="dp-dyebal w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.dyeingBal || ''}" title="From uploaded file"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="dp-knitprod w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.knitProd || ''}" title="From uploaded file"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="dp-knitbal w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.knitBal || ''}" title="From uploaded file"></td>
       `;
       tbody.appendChild(tr);
     }
 
-    // Delivery Plan Table Operations
-    function renderDeliveryPlanTable(savedRows, d) {
+    // Delivery Plan Table Operations (Data from uploaded Delivery Plan file)
+    function renderDeliveryPlanTable(savedRows, uploadedItems, d) {
       const tbody = document.getElementById('deliveryPlanTableBody');
       if (!tbody) return;
       tbody.innerHTML = '';
 
-      const rows = (Array.isArray(savedRows) && savedRows.length > 0)
-        ? savedRows
-        : [{
-            color: d['Color'] || '',
-            fabricConstruction: d['Body Fabric'] || d['Fabric'] || '',
-            gsm: d['Body GSM'] || d['GSM'] || '',
-            floorDeliStart: d['T&A Deli. Start'] || '',
-            floorDeliEnd: d['T&A Deli. End'] || '',
-            floorPlanType: d['Unit'] || d['Booking Unit'] || '',
-            deliStart: d['T&A Deli. Start'] || '',
-            deliEnd: d['T&A Deli. End'] || '',
-            planType: d['Program type'] || 'Solid',
-            deliveryLimitation: d['Delivery Limitation'] || '',
-            remarks: d['Remarks'] || '',
-            dyeStartDate: d['T&A Dyeing Start'] || '',
-            dyeEndDate: d['T&A Dyeing End'] || '',
-            dyeingPlanType: d['Program type'] || 'Solid',
-            knitStartDate: d['T&A Knitting Start'] || '',
-            knitEndDate: d['T&A Knitting End'] || '',
-            requiredQtyKgs: d['RequiredQtyKgs'] || '',
-            netReceivedQtyKgs: d['NetReceivedQtyKgs'] || '',
-            netDeliveryQtyKgs: d['NetDeliveryQtyKgs'] || '',
-            deliBal: d['Deli. Bal.'] || '',
-            rfd: d['RFD'] || '',
-            slowmoving: d['Slowmoving'] || '',
-            ffStock: d['FF Stock'] || ''
-          }];
+      let rows = [];
+      if (Array.isArray(savedRows) && savedRows.length > 0) {
+        rows = savedRows;
+      } else if (Array.isArray(uploadedItems) && uploadedItems.length > 0) {
+        rows = uploadedItems.map(item => ({
+          color: item['Color'] || '',
+          fabricConstruction: item['FabricConstruction'] || item['Body Fabric'] || item['Fabric'] || '',
+          gsm: item['GSM'] || item['Body GSM'] || '',
+          floorDeliStart: item['T&A Deli. Start'] || d['T&A Deli. Start'] || '',
+          floorDeliEnd: item['T&A Deli. End'] || d['T&A Deli. End'] || '',
+          floorPlanType: 'Tentative',
+          deliStart: item['T&A Deli. Start'] || d['T&A Deli. Start'] || '',
+          deliEnd: item['T&A Deli. End'] || d['T&A Deli. End'] || '',
+          planType: 'Tentative',
+          deliveryLimitation: item['Delivery Limitation'] || '',
+          remarks: item['Remarks'] || '',
+          requiredQtyKgs: item['RequiredQtyKgs'] || item['Order Qty. (Kg)'] || '',
+          netReceivedQtyKgs: item['NetReceivedQtyKgs'] || '0',
+          netDeliveryQtyKgs: item['NetDeliveryQtyKgs'] || '0',
+          deliBal: item['Deli. Bala.'] || item['Deli. Bal.'] || '',
+          rfd: item['RFD'] || '0',
+          slowmoving: item['Slowmoving'] || '0',
+          ffStock: item['FF Stock'] || '0'
+        }));
+      } else {
+        rows = [{
+          color: d['Color'] || '',
+          fabricConstruction: d['Body Fabric'] || d['Fabric'] || '',
+          gsm: d['Body GSM'] || d['GSM'] || '',
+          floorDeliStart: d['T&A Deli. Start'] || '',
+          floorDeliEnd: d['T&A Deli. End'] || '',
+          floorPlanType: 'Tentative',
+          deliStart: d['T&A Deli. Start'] || '',
+          deliEnd: d['T&A Deli. End'] || '',
+          planType: 'Tentative',
+          deliveryLimitation: d['Delivery Limitation'] || '',
+          remarks: d['Remarks'] || '',
+          requiredQtyKgs: d['RequiredQtyKgs'] || '',
+          netReceivedQtyKgs: d['NetReceivedQtyKgs'] || '0',
+          netDeliveryQtyKgs: d['NetDeliveryQtyKgs'] || '0',
+          deliBal: d['Deli. Bal.'] || '',
+          rfd: d['RFD'] || '0',
+          slowmoving: d['Slowmoving'] || '0',
+          ffStock: d['FF Stock'] || '0'
+        }];
+      }
 
       rows.forEach(r => addDeliveryPlanRow(r));
     }
@@ -1498,31 +1580,37 @@
       if (!tbody) return;
       const tr = document.createElement('tr');
       tr.className = 'hover:bg-slate-50 text-slate-700';
+      const floorPlanTypeVal = data.floorPlanType || 'Tentative';
+      const planTypeVal = data.planType || 'Tentative';
       tr.innerHTML = `
-        <td class="p-1 border border-slate-200"><input type="text" class="del-color w-full px-1.5 py-1 text-xs border border-slate-200 rounded" value="${data.color || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="del-fabric w-full px-1.5 py-1 text-xs border border-slate-200 rounded" value="${data.fabricConstruction || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="del-gsm w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.gsm || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="del-floorstart w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.floorDeliStart || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="del-floorend w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.floorDeliEnd || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="del-floorplantype w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.floorPlanType || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="del-color w-full px-1.5 py-1 text-xs border border-slate-200 rounded bg-slate-50" value="${data.color || ''}" title="From uploaded file"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="del-fabric w-full px-1.5 py-1 text-xs border border-slate-200 rounded bg-slate-50" value="${data.fabricConstruction || ''}" title="From uploaded file"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="del-gsm w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.gsm || ''}" title="From uploaded file"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="del-floordelistart w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.floorDeliStart || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="del-floordeliend w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.floorDeliEnd || ''}"></td>
+        <td class="p-1 border border-slate-200">
+          <select class="del-floorplantype w-full px-1 py-1 text-xs border border-slate-200 rounded text-center bg-white font-medium">
+            <option value="Tentative" ${floorPlanTypeVal.toLowerCase() === 'tentative' ? 'selected' : ''}>Tentative</option>
+            <option value="Confirm" ${floorPlanTypeVal.toLowerCase() === 'confirm' ? 'selected' : ''}>Confirm</option>
+          </select>
+        </td>
         <td class="p-1 border border-slate-200"><input type="text" class="del-delistart w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.deliStart || ''}"></td>
         <td class="p-1 border border-slate-200"><input type="text" class="del-deliend w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.deliEnd || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="del-plantype w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.planType || ''}"></td>
+        <td class="p-1 border border-slate-200">
+          <select class="del-plantype w-full px-1 py-1 text-xs border border-slate-200 rounded text-center bg-white font-medium">
+            <option value="Tentative" ${planTypeVal.toLowerCase() === 'tentative' ? 'selected' : ''}>Tentative</option>
+            <option value="Confirm" ${planTypeVal.toLowerCase() === 'confirm' ? 'selected' : ''}>Confirm</option>
+          </select>
+        </td>
         <td class="p-1 border border-slate-200"><input type="text" class="del-limit w-full px-1.5 py-1 text-xs border border-slate-200 rounded" value="${data.deliveryLimitation || ''}"></td>
         <td class="p-1 border border-slate-200"><input type="text" class="del-remarks w-full px-1.5 py-1 text-xs border border-slate-200 rounded" value="${data.remarks || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="del-dyestart w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.dyeStartDate || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="del-dyeend w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.dyeEndDate || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="del-dyeplantype w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.dyeingPlanType || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="del-knitstart w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.knitStartDate || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="del-knitend w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.knitEndDate || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="del-reqqty w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.requiredQtyKgs || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="del-netrecqty w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.netReceivedQtyKgs || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="del-netdeliqty w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.netDeliveryQtyKgs || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="del-delibal w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.deliBal || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="del-rfd w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.rfd || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="del-slowmoving w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.slowmoving || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="del-ffstock w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center" value="${data.ffStock || ''}"></td>
-        <td class="p-1 border border-slate-200 text-center"><button onclick="this.closest('tr').remove()" class="text-rose-500 hover:text-rose-700 font-bold px-1.5 py-0.5 rounded hover:bg-rose-50">✕</button></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="del-reqqty w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.requiredQtyKgs || ''}" title="From uploaded file"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="del-netrecqty w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.netReceivedQtyKgs || ''}" title="From uploaded file"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="del-netdeliqty w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.netDeliveryQtyKgs || ''}" title="From uploaded file"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="del-delibal w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.deliBal || ''}" title="From uploaded file"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="del-rfd w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.rfd || ''}" title="From uploaded file"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="del-slowmoving w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.slowmoving || ''}" title="From uploaded file"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="del-ffstock w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.ffStock || ''}" title="From uploaded file"></td>
       `;
       tbody.appendChild(tr);
     }
@@ -1562,6 +1650,7 @@
       // Extract Knitting Plan Rows
       const knittingPlan = [];
       document.querySelectorAll('#knittingPlanTableBody tr').forEach(tr => {
+        if (!tr.querySelector('.kp-color')) return;
         knittingPlan.push({
           color: tr.querySelector('.kp-color')?.value || '',
           fabricConstruction: tr.querySelector('.kp-fabric')?.value || '',
@@ -1569,7 +1658,7 @@
           yarnDate: tr.querySelector('.kp-yarndate')?.value || '',
           knitStartDate: tr.querySelector('.kp-knitstart')?.value || '',
           knitEndDate: tr.querySelector('.kp-knitend')?.value || '',
-          planType: tr.querySelector('.kp-plantype')?.value || '',
+          planType: tr.querySelector('.kp-plantype')?.value || 'Tentative',
           knittingLimitation: tr.querySelector('.kp-limit')?.value || '',
           remarks: tr.querySelector('.kp-remarks')?.value || '',
           greyReq: tr.querySelector('.kp-greyreq')?.value || '',
@@ -1585,18 +1674,14 @@
       // Extract Dyeing Plan Rows
       const dyeingPlan = [];
       document.querySelectorAll('#dyeingPlanTableBody tr').forEach(tr => {
+        if (!tr.querySelector('.dp-color')) return;
         dyeingPlan.push({
           color: tr.querySelector('.dp-color')?.value || '',
-          unit: tr.querySelector('.dp-unit')?.value || '',
-          processName: tr.querySelector('.dp-process')?.value || '',
-          knitStartDate: tr.querySelector('.dp-knitstart')?.value || '',
-          knitEndDate: tr.querySelector('.dp-knitend')?.value || '',
-          knittingPlanType: tr.querySelector('.dp-knitplantype')?.value || '',
-          knittingLimitation: tr.querySelector('.dp-knitlimit')?.value || '',
-          remarksKnitting: tr.querySelector('.dp-remarksKnitting')?.value || '',
+          unit: tr.querySelector('.dp-unit')?.value || 'EKL',
+          processName: tr.querySelector('.dp-process')?.value || 'Colour',
           dyeStartDate: tr.querySelector('.dp-dyestart')?.value || '',
           dyeEndDate: tr.querySelector('.dp-dyeend')?.value || '',
-          planType: tr.querySelector('.dp-plantype')?.value || '',
+          planType: tr.querySelector('.dp-plantype')?.value || 'Tentative',
           dyeingLimitation: tr.querySelector('.dp-dyelimit')?.value || '',
           remarks: tr.querySelector('.dp-remarks')?.value || '',
           bpQty: tr.querySelector('.dp-bpqty')?.value || '',
@@ -1610,23 +1695,19 @@
       // Extract Delivery Plan Rows
       const deliveryPlan = [];
       document.querySelectorAll('#deliveryPlanTableBody tr').forEach(tr => {
+        if (!tr.querySelector('.del-color')) return;
         deliveryPlan.push({
           color: tr.querySelector('.del-color')?.value || '',
           fabricConstruction: tr.querySelector('.del-fabric')?.value || '',
           gsm: tr.querySelector('.del-gsm')?.value || '',
-          floorDeliStart: tr.querySelector('.del-floorstart')?.value || '',
-          floorDeliEnd: tr.querySelector('.del-floorend')?.value || '',
-          floorPlanType: tr.querySelector('.del-floorplantype')?.value || '',
+          floorDeliStart: tr.querySelector('.del-floordelistart')?.value || '',
+          floorDeliEnd: tr.querySelector('.del-floordeliend')?.value || '',
+          floorPlanType: tr.querySelector('.del-floorplantype')?.value || 'Tentative',
           deliStart: tr.querySelector('.del-delistart')?.value || '',
           deliEnd: tr.querySelector('.del-deliend')?.value || '',
-          planType: tr.querySelector('.del-plantype')?.value || '',
+          planType: tr.querySelector('.del-plantype')?.value || 'Tentative',
           deliveryLimitation: tr.querySelector('.del-limit')?.value || '',
           remarks: tr.querySelector('.del-remarks')?.value || '',
-          dyeStartDate: tr.querySelector('.del-dyestart')?.value || '',
-          dyeEndDate: tr.querySelector('.del-dyeend')?.value || '',
-          dyeingPlanType: tr.querySelector('.del-dyeplantype')?.value || '',
-          knitStartDate: tr.querySelector('.del-knitstart')?.value || '',
-          knitEndDate: tr.querySelector('.del-knitend')?.value || '',
           requiredQtyKgs: tr.querySelector('.del-reqqty')?.value || '',
           netReceivedQtyKgs: tr.querySelector('.del-netrecqty')?.value || '',
           netDeliveryQtyKgs: tr.querySelector('.del-netdeliqty')?.value || '',
