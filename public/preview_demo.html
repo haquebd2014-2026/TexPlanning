@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Textile Planning Solution - Solid Plan & YD Plan</title>
+  <title>Textile Planning Solution - Production Plans</title>
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
   <style>
     @keyframes pulse-ring {
@@ -115,7 +115,7 @@
         </div>
       </div>
 
-      <!-- 2. ORDER MANAGEMENT (Accordion with YD Plan & Solid Plan - Matches Screenshot) -->
+      <!-- 2. ORDER MANAGEMENT (Accordion with YD Plan, Knitting Plan, Dyeing Plan, Delivery Plan, Delivery Plan Floor) -->
       <div class="space-y-0.5">
         <button onclick="toggleSubmenu('orderMgmtSubmenu', 'orderMgmtChevron')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
           <div class="flex items-center gap-3">
@@ -133,9 +133,21 @@
           <button id="subBtn_yd_plan" onclick="switchOrderPlanView('YD Plan')" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-700 hover:text-slate-950 hover:bg-slate-300/50 transition text-left">
             <span>YD Plan</span>
           </button>
-          <!-- Submenu 2: Solid Plan (Active / Highlighted) -->
-          <button id="subBtn_solid_plan" onclick="switchOrderPlanView('Solid Plan')" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-bold transition text-slate-900 bg-slate-300/90 border border-slate-400/60 shadow-xs text-left">
-            <span>Solid Plan</span>
+          <!-- Submenu 2: Knitting Plan (renamed from Solid Plan - Active / Highlighted) -->
+          <button id="subBtn_knitting_plan" onclick="switchOrderPlanView('Knitting Plan')" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-bold transition text-slate-900 bg-slate-300/90 border border-slate-400/60 shadow-xs text-left">
+            <span>Knitting Plan</span>
+          </button>
+          <!-- Submenu 3: Dyeing Plan -->
+          <button id="subBtn_dyeing_plan" onclick="switchOrderPlanView('Dyeing Plan')" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-700 hover:text-slate-950 hover:bg-slate-300/50 transition text-left">
+            <span>Dyeing Plan</span>
+          </button>
+          <!-- Submenu 4: Delivery Plan -->
+          <button id="subBtn_delivery_plan" onclick="switchOrderPlanView('Delivery Plan')" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-700 hover:text-slate-950 hover:bg-slate-300/50 transition text-left">
+            <span>Delivery Plan</span>
+          </button>
+          <!-- Submenu 5: Delivery Plan Floor -->
+          <button id="subBtn_delivery_plan_floor" onclick="switchOrderPlanView('Delivery Plan Floor')" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-700 hover:text-slate-950 hover:bg-slate-300/50 transition text-left">
+            <span>Delivery Plan Floor</span>
           </button>
         </div>
       </div>
@@ -237,15 +249,15 @@
     <main class="flex-1 overflow-y-auto p-5 space-y-4">
 
       <!-- ========================================== -->
-      <!-- VIEW: SOLID PLAN & YD PLAN INTERFACE       -->
-      <!-- (Matches media_1789431710198.png Exactly)   -->
+      <!-- VIEW: ORDER PLAN INTERFACE                 -->
+      <!-- (Knitting, Dyeing, Delivery, Floor, YD)    -->
       <!-- ========================================== -->
       <div id="viewOrderPlan" class="space-y-3">
 
         <!-- Top Closable Tab Tag -->
         <div class="flex items-center">
           <div class="inline-flex items-center gap-2 px-3 py-1 bg-slate-200/90 text-slate-800 text-xs font-bold rounded-t-md border-t border-x border-slate-300 shadow-2xs">
-            <span id="activePlanTabLabel">Solid Plan</span>
+            <span id="activePlanTabLabel">Knitting Plan</span>
             <button onclick="switchView('welcome')" title="Close tab" class="text-slate-500 hover:text-rose-600 font-bold ml-1 text-xs leading-none">&times;</button>
           </div>
         </div>
@@ -679,6 +691,7 @@
             <button onclick="selectUploadCategory('Dyeing Plan Data', 'Dyeing Plan')" id="tab_dyeing" class="pb-2 text-slate-500 border-b-2 border-transparent hover:text-slate-800 whitespace-nowrap">Dyeing Plan Data</button>
             <button onclick="selectUploadCategory('Finishing Plan Data', 'Finishing Plan')" id="tab_finishing" class="pb-2 text-slate-500 border-b-2 border-transparent hover:text-slate-800 whitespace-nowrap">Finishing Plan Data</button>
             <button onclick="selectUploadCategory('Delivery Plan Data', 'Delivery Plan')" id="tab_delivery" class="pb-2 text-slate-500 border-b-2 border-transparent hover:text-slate-800 whitespace-nowrap">Delivery Plan Data</button>
+            <button onclick="selectUploadCategory('Delivery Plan Floor Data', 'Delivery Plan Floor')" id="tab_delivery_floor" class="pb-2 text-slate-500 border-b-2 border-transparent hover:text-slate-800 whitespace-nowrap">Delivery Plan Floor Data</button>
           </div>
           <!-- File Chooser -->
           <div class="flex flex-wrap items-center justify-between gap-4 pt-5">
@@ -741,7 +754,7 @@
 
           <div class="relative z-10">
             <h3 class="text-lg font-bold text-slate-800 tracking-tight">Your Planning Dashboard Is Ready!</h3>
-            <p class="text-xs text-slate-500 mt-1 font-medium">Navigate Order Management to open Solid Plan or YD Plan.</p>
+            <p class="text-xs text-slate-500 mt-1 font-medium">Navigate Order Management to open Knitting Plan, Dyeing Plan, Delivery Plan, or YD Plan.</p>
           </div>
         </div>
       </div>
@@ -883,7 +896,7 @@
   <!-- ========================================== -->
   <script>
     // State
-    let currentPlanType = 'Solid Plan'; // 'Solid Plan' or 'YD Plan'
+    let currentPlanType = 'Knitting Plan'; // 'Knitting Plan', 'Dyeing Plan', 'Delivery Plan', 'Delivery Plan Floor', 'YD Plan'
     let currentStatusFilter = 'Pending'; // 'Pending', 'Confirm', 'Tentative'
     let selectedBuyer = null; // null for All Buyers
 
@@ -909,8 +922,11 @@
       { id: 'menu:source_upload', name: 'Source File Upload (Submenu)', category: 'Navigation Menus' },
       { id: 'menu:setup_dropdowns', name: 'Setup (Dropdowns) (Submenu)', category: 'Navigation Menus' },
       { id: 'menu:order_management', name: 'Order Management', category: 'Navigation Menus' },
-      { id: 'menu:solid_plan', name: 'Solid Plan (Submenu)', category: 'Navigation Menus' },
       { id: 'menu:yd_plan', name: 'YD Plan (Submenu)', category: 'Navigation Menus' },
+      { id: 'menu:knitting_plan', name: 'Knitting Plan (Submenu)', category: 'Navigation Menus' },
+      { id: 'menu:dyeing_plan', name: 'Dyeing Plan (Submenu)', category: 'Navigation Menus' },
+      { id: 'menu:delivery_plan', name: 'Delivery Plan (Submenu)', category: 'Navigation Menus' },
+      { id: 'menu:delivery_plan_floor', name: 'Delivery Plan Floor (Submenu)', category: 'Navigation Menus' },
       { id: 'menu:report', name: 'Report', category: 'Navigation Menus' },
       { id: 'menu:plan_filter', name: 'Plan Filter', category: 'Navigation Menus' },
       { id: 'menu:plan_vs_actual', name: 'Plan Vs Actual Tracking', category: 'Navigation Menus' },
@@ -930,13 +946,13 @@
 
     // Page initialization
     document.addEventListener('DOMContentLoaded', () => {
-      switchOrderPlanView('Solid Plan');
+      switchOrderPlanView('Knitting Plan');
       loadUploadedFiles();
       renderUsers();
     });
 
     // ==========================================
-    // ORDER PLAN VIEW (Solid Plan & YD Plan)
+    // ORDER PLAN VIEW (Knitting, Dyeing, Delivery, Floor, YD)
     // ==========================================
 
     // Fetch Live Data strictly from backend MongoDB Atlas
@@ -960,8 +976,18 @@
       }
     }
 
-    // Switch between Solid Plan and YD Plan
+    function getSourceLabelForPlan(planType) {
+      if (planType === 'YD Plan') return 'YD Plan Data';
+      if (planType === 'Knitting Plan' || planType === 'Solid Plan') return 'Knitting / General Data';
+      if (planType === 'Dyeing Plan') return 'Dyeing Plan Data';
+      if (planType === 'Delivery Plan') return 'Delivery Plan Data';
+      if (planType === 'Delivery Plan Floor') return 'Delivery Plan Floor Data';
+      return 'General Data';
+    }
+
+    // Switch between order plan views (Knitting Plan, Dyeing Plan, Delivery Plan, Delivery Plan Floor, YD Plan)
     function switchOrderPlanView(planType) {
+      if (planType === 'Solid Plan') planType = 'Knitting Plan';
       currentPlanType = planType;
       selectedBuyer = null;
       currentPage = 1;
@@ -972,20 +998,27 @@
       document.getElementById('viewOrderPlan').classList.remove('hidden');
 
       // Sidebar submenu highlight
-      const subSolid = document.getElementById('subBtn_solid_plan');
-      const subYD = document.getElementById('subBtn_yd_plan');
+      const subMap = [
+        { id: 'subBtn_yd_plan', type: 'YD Plan' },
+        { id: 'subBtn_knitting_plan', type: 'Knitting Plan' },
+        { id: 'subBtn_dyeing_plan', type: 'Dyeing Plan' },
+        { id: 'subBtn_delivery_plan', type: 'Delivery Plan' },
+        { id: 'subBtn_delivery_plan_floor', type: 'Delivery Plan Floor' }
+      ];
 
-      if (planType === 'Solid Plan') {
-        if (subSolid) subSolid.className = 'w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-bold transition text-slate-900 bg-slate-300/90 border border-slate-400/60 shadow-xs text-left';
-        if (subYD) subYD.className = 'w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-700 hover:text-slate-950 hover:bg-slate-300/50 transition text-left';
-      } else {
-        if (subYD) subYD.className = 'w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-bold transition text-slate-900 bg-slate-300/90 border border-slate-400/60 shadow-xs text-left';
-        if (subSolid) subSolid.className = 'w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-700 hover:text-slate-950 hover:bg-slate-300/50 transition text-left';
-      }
+      subMap.forEach(item => {
+        const el = document.getElementById(item.id);
+        if (!el) return;
+        if (item.type === planType) {
+          el.className = 'w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-bold transition text-slate-900 bg-slate-300/90 border border-slate-400/60 shadow-xs text-left';
+        } else {
+          el.className = 'w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-700 hover:text-slate-950 hover:bg-slate-300/50 transition text-left';
+        }
+      });
 
       // Update Top Tab Badge & Source label
       document.getElementById('activePlanTabLabel').textContent = planType;
-      document.getElementById('orderPlanSourceLabel').textContent = planType === 'Solid Plan' ? 'General Data' : 'YD Plan Data';
+      document.getElementById('orderPlanSourceLabel').textContent = getSourceLabelForPlan(planType);
 
       renderPlanView();
       fetchLivePlanViewData();
@@ -1015,7 +1048,7 @@
     function renderPlanView() {
       // 1. Filter orders strictly by Plan Type and Status List
       const scopedOrders = allOrdersData.filter(o => 
-        (o.planType === currentPlanType) &&
+        (o.planType === currentPlanType || (currentPlanType === 'Knitting Plan' && o.planType === 'Solid Plan')) &&
         (String(o.status || '').toLowerCase() === currentStatusFilter.toLowerCase())
       );
 
@@ -1037,7 +1070,6 @@
       buyerContainer.innerHTML = '';
 
       if (buyersList.length === 0) {
-        const sourceName = currentPlanType === 'Solid Plan' ? 'General Data' : 'YD Plan Data';
         buyerContainer.innerHTML = `<span class="text-slate-400 italic text-[11px] py-1">No orders in ${currentStatusFilter} list. (All orders are in Pending list).</span>`;
       } else {
         // "ALL BUYERS" Button
@@ -1838,7 +1870,8 @@
         'Knitting Plan Data': 'tab_knitting',
         'Dyeing Plan Data': 'tab_dyeing',
         'Finishing Plan Data': 'tab_finishing',
-        'Delivery Plan Data': 'tab_delivery'
+        'Delivery Plan Data': 'tab_delivery',
+        'Delivery Plan Floor Data': 'tab_delivery_floor'
       };
 
       Object.entries(tabIds).forEach(([name, id]) => {

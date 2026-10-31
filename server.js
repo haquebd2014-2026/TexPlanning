@@ -1458,22 +1458,52 @@ app.get('/api/orders/plan-manage/:orderNoOrId', optionalAuth, async (req, res) =
   }
 });
 
-// GET /api/orders/plan-view - Dynamic Solid Plan & YD Plan order list strictly from uploaded files
+// GET /api/orders/plan-view - Dynamic order list strictly from uploaded files for Knitting, Dyeing, Delivery, Delivery Plan Floor, YD Plan
 app.get('/api/orders/plan-view', async (req, res) => {
   try {
-    const { planType } = req.query;
-    const isYD = planType && planType.toLowerCase().includes('yd');
-    const categoryPattern = isYD ? /yd\s*plan/i : /general/i;
+    let { planType } = req.query;
+    if (!planType || planType === 'Solid Plan') planType = 'Knitting Plan';
+    const pLower = planType.toLowerCase();
+
+    let categoryPattern;
+    let fallbackToGeneral = false;
+
+    if (pLower.includes('yd')) {
+      categoryPattern = /yd\s*plan/i;
+    } else if (pLower.includes('knit')) {
+      categoryPattern = /knitting\s*plan/i;
+      fallbackToGeneral = true;
+    } else if (pLower.includes('dye')) {
+      categoryPattern = /dyeing\s*plan/i;
+      fallbackToGeneral = true;
+    } else if (pLower.includes('floor')) {
+      categoryPattern = /delivery.*floor|floor.*delivery/i;
+      fallbackToGeneral = true;
+    } else if (pLower.includes('deliv')) {
+      categoryPattern = /delivery\s*plan/i;
+      fallbackToGeneral = true;
+    } else {
+      categoryPattern = /general/i;
+    }
 
     // 1. Fetch only real records from SourceDataRecord that belong to an uploaded file
-    const records = await SourceDataRecord.find({
+    let records = await SourceDataRecord.find({
       category: categoryPattern,
       fileId: { $exists: true, $ne: null }
     }).sort({ createdAt: -1 });
 
+    // Fallback to General Data if specific plan files have not been uploaded yet
+    if (records.length === 0 && fallbackToGeneral) {
+      records = await SourceDataRecord.find({
+        category: /general/i,
+        fileId: { $exists: true, $ne: null }
+      }).sort({ createdAt: -1 });
+    }
+
     // 2. Extract distinct buyers and format orders strictly from uploaded data
     const buyerSet = new Set();
     const ordersList = [];
+    const seenOrderNos = new Set();
 
     records.forEach((rec) => {
       const d = rec.data || {};
@@ -1525,7 +1555,8 @@ app.get('/api/orders/plan-view', async (req, res) => {
         (d['YD REQ.'] ? `YD Req: ${d['YD REQ.']}, Dyed: ${d['DYED'] || 0}` : '') ||
         'Null';
 
-      if (orderNo) {
+      if (orderNo && !seenOrderNos.has(orderNo)) {
+        seenOrderNos.add(orderNo);
         ordersList.push({
           id: rec._id,
           orderNo,
@@ -1542,7 +1573,7 @@ app.get('/api/orders/plan-view', async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      planType: isYD ? 'YD Plan' : 'Solid Plan',
+      planType,
       totalOrders: ordersList.length,
       buyers: Array.from(buyerSet).sort(),
       orders: ordersList
