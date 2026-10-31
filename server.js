@@ -1641,6 +1641,7 @@ app.use(express.static(__dirname));
 app.get('/api/health', (req, res) => {
   res.status(200).json({
     status: 'online',
+    version: '1.0.1',
     system: 'Unified Textile ERP',
     mode: 'Consolidated Single-File Backend Architecture',
     timestamp: new Date()

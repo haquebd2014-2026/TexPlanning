@@ -1,6 +1,6 @@
 {
   "name": "texplanning",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Unified Textile ERP - Planning, Tracking, and Delivery Management System",
   "main": "server.js",
   "scripts": {
