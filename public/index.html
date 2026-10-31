@@ -386,18 +386,28 @@
 
           <!-- Top Navigation Header -->
           <div class="flex items-center justify-between border-b border-slate-200 pb-3">
-            <!-- Left: Back Arrow + General Info Pill Tag -->
-            <button onclick="closeOrderManageView()" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold text-xs transition">
-              <span class="text-sm font-black">&larr;</span>
-              <span>General Info</span>
-            </button>
+            <!-- Left: Back Arrow + General Info Pill Tag & Hide/Unhide Button -->
+            <div class="flex items-center gap-2">
+              <button onclick="closeOrderManageView()" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-md bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold text-xs transition">
+                <span class="text-sm font-black">&larr;</span>
+                <span>General Info</span>
+              </button>
+              <!-- Hide/Unhide Button (matches user annotation) -->
+              <button onclick="toggleGeneralInfoSection()" title="Hide / Unhide General Info" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-md border border-slate-300 bg-white hover:bg-slate-100 text-slate-700 font-bold text-xs shadow-2xs transition">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <span>Hide/Unhide</span>
+              </button>
+            </div>
 
-            <!-- Right: Back Button & Save Data Button -->
+            <!-- Right: Back Button & Save Data Button (Overall Save) -->
             <div class="flex items-center gap-2">
               <button onclick="closeOrderManageView()" class="px-4 py-1.5 rounded border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 font-semibold text-xs shadow-xs transition">
                 Back
               </button>
-              <button onclick="saveOrderPlanData()" class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-sm transition">
+              <button onclick="saveOrderPlanData('all')" title="Overall Save: saves all sections" class="inline-flex items-center gap-1.5 px-4 py-1.5 rounded bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-sm transition">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
                 <span>Save Data</span>
               </button>
@@ -405,7 +415,7 @@
           </div>
 
           <!-- SECTION 1: GENERAL INFO (3-Column Layout Matching Screenshot) -->
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-2 text-xs">
+          <div id="generalInfoSection" class="grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-2 text-xs transition-all duration-200">
             
             <!-- Column 1 -->
             <div class="space-y-2">
@@ -542,6 +552,11 @@
                   <path d="M12 2L1 7l11 5 11-5-11-5zM1 12l11 5 11-5M1 17l11 5 11-5"/>
                 </svg>
                 <span class="px-3 py-1 bg-slate-200 text-slate-800 font-bold text-xs rounded shadow-2xs">(Knitting Plan)</span>
+                <!-- Section Save Data Button -->
+                <button onclick="saveOrderPlanData('knitting')" title="Save Knitting Plan Section Data" class="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-2xs transition">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                  <span>Save Data</span>
+                </button>
               </div>
             </div>
 
@@ -585,6 +600,11 @@
                   <path d="M12 2L1 7l11 5 11-5-11-5zM1 12l11 5 11-5M1 17l11 5 11-5"/>
                 </svg>
                 <span class="px-3 py-1 bg-slate-200 text-slate-800 font-bold text-xs rounded shadow-2xs">Dyeing Plan)</span>
+                <!-- Section Save Data Button -->
+                <button onclick="saveOrderPlanData('dyeing')" title="Save Dyeing Plan Section Data" class="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-2xs transition">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                  <span>Save Data</span>
+                </button>
               </div>
             </div>
 
@@ -625,6 +645,11 @@
                   <path d="M12 2L1 7l11 5 11-5-11-5zM1 12l11 5 11-5M1 17l11 5 11-5"/>
                 </svg>
                 <span class="px-3 py-1 bg-slate-200 text-slate-800 font-bold text-xs rounded shadow-2xs">Delivery Plan)</span>
+                <!-- Section Save Data Button -->
+                <button onclick="saveOrderPlanData('delivery')" title="Save Delivery Plan Section Data" class="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-2xs transition">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                  <span>Save Data</span>
+                </button>
               </div>
             </div>
 
@@ -1389,6 +1414,12 @@
       if (listContainer) listContainer.classList.remove('hidden');
     }
 
+    function toggleGeneralInfoSection() {
+      const sec = document.getElementById('generalInfoSection');
+      if (!sec) return;
+      sec.classList.toggle('hidden');
+    }
+
     // Helper to format any date string / serial number into ISO YYYY-MM-DD for HTML5 date inputs
     function toISODate(val) {
       if (!val) return '';
@@ -1704,39 +1735,7 @@
       tbody.appendChild(tr);
     }
 
-    // Save All Plan Data (General Info, Knitting Plan, Dyeing Plan, Delivery Plan)
-    async function saveOrderPlanData() {
-      if (!currentManagingOrder) return;
-
-      const generalInfo = {
-        ewoNo: document.getElementById('gm_ewoNo').value,
-        bookingNo: document.getElementById('gm_bookingNo').value,
-        bookingDate: document.getElementById('gm_bookingDate').value,
-        gmtUnit: document.getElementById('gm_gmtUnit').value,
-        floor: document.getElementById('gm_floor').value,
-        finalConfirmation: document.getElementById('gm_finalConfirmation').value,
-        bpStatus: document.getElementById('gm_bpStatus').value,
-        pmc: document.getElementById('gm_pmc').value,
-        orderStatus: document.getElementById('gm_orderStatus').value,
-        buyerName: document.getElementById('gm_buyerName').value,
-        buyerTeam: document.getElementById('gm_buyerTeam').value,
-        bookedBy: document.getElementById('gm_bookedBy').value,
-        style: document.getElementById('gm_style').value,
-        orderQty: document.getElementById('gm_orderQty').value,
-        eventDay: document.getElementById('gm_eventDay').value,
-        firstShipmentDate: document.getElementById('gm_firstShipmentDate').value,
-        lastShipmentDate: document.getElementById('gm_lastShipmentDate').value,
-        taYarnDate: document.getElementById('gm_taYarnDate').value,
-        taDeliStart: document.getElementById('gm_taDeliStart').value,
-        taDeliEnd: document.getElementById('gm_taDeliEnd').value,
-        taKnittingStart: document.getElementById('gm_taKnittingStart').value,
-        taKnittingEnd: document.getElementById('gm_taKnittingEnd').value,
-        taDyeingStart: document.getElementById('gm_taDyeingStart').value,
-        taDyeingEnd: document.getElementById('gm_taDyeingEnd').value,
-        fabricNotes: document.getElementById('gm_fabricNotes').value
-      };
-
-      // Extract Knitting Plan Rows
+    function extractKnittingPlanRows() {
       const knittingPlan = [];
       document.querySelectorAll('#knittingPlanTableBody tr').forEach(tr => {
         if (!tr.querySelector('.kp-color')) return;
@@ -1759,8 +1758,10 @@
           allowance: tr.querySelector('.kp-allowance')?.value || ''
         });
       });
+      return knittingPlan;
+    }
 
-      // Extract Dyeing Plan Rows
+    function extractDyeingPlanRows() {
       const dyeingPlan = [];
       document.querySelectorAll('#dyeingPlanTableBody tr').forEach(tr => {
         if (!tr.querySelector('.dp-color')) return;
@@ -1780,8 +1781,10 @@
           knitBal: tr.querySelector('.dp-knitbal')?.value || ''
         });
       });
+      return dyeingPlan;
+    }
 
-      // Extract Delivery Plan Rows
+    function extractDeliveryPlanRows() {
       const deliveryPlan = [];
       document.querySelectorAll('#deliveryPlanTableBody tr').forEach(tr => {
         if (!tr.querySelector('.del-color')) return;
@@ -1806,14 +1809,66 @@
           ffStock: tr.querySelector('.del-ffstock')?.value || ''
         });
       });
+      return deliveryPlan;
+    }
 
-      const payload = {
-        generalInfo,
-        knittingPlan,
-        dyeingPlan,
-        deliveryPlan,
-        orderStatus: generalInfo.orderStatus
-      };
+    // Save Plan Data (section can be 'all', 'knitting', 'dyeing', or 'delivery')
+    async function saveOrderPlanData(section = 'all') {
+      if (!currentManagingOrder) return;
+
+      const payload = {};
+      let successMsg = 'Plan data saved successfully!';
+
+      if (section === 'all' || section === 'general') {
+        const generalInfo = {
+          ewoNo: document.getElementById('gm_ewoNo').value,
+          bookingNo: document.getElementById('gm_bookingNo').value,
+          bookingDate: document.getElementById('gm_bookingDate').value,
+          gmtUnit: document.getElementById('gm_gmtUnit').value,
+          floor: document.getElementById('gm_floor').value,
+          finalConfirmation: document.getElementById('gm_finalConfirmation').value,
+          bpStatus: document.getElementById('gm_bpStatus').value,
+          pmc: document.getElementById('gm_pmc').value,
+          orderStatus: document.getElementById('gm_orderStatus').value,
+          buyerName: document.getElementById('gm_buyerName').value,
+          buyerTeam: document.getElementById('gm_buyerTeam').value,
+          bookedBy: document.getElementById('gm_bookedBy').value,
+          style: document.getElementById('gm_style').value,
+          orderQty: document.getElementById('gm_orderQty').value,
+          eventDay: document.getElementById('gm_eventDay').value,
+          firstShipmentDate: document.getElementById('gm_firstShipmentDate').value,
+          lastShipmentDate: document.getElementById('gm_lastShipmentDate').value,
+          taYarnDate: document.getElementById('gm_taYarnDate').value,
+          taDeliStart: document.getElementById('gm_taDeliStart').value,
+          taDeliEnd: document.getElementById('gm_taDeliEnd').value,
+          taKnittingStart: document.getElementById('gm_taKnittingStart').value,
+          taKnittingEnd: document.getElementById('gm_taKnittingEnd').value,
+          taDyeingStart: document.getElementById('gm_taDyeingStart').value,
+          taDyeingEnd: document.getElementById('gm_taDyeingEnd').value,
+          fabricNotes: document.getElementById('gm_fabricNotes').value
+        };
+        payload.generalInfo = generalInfo;
+        payload.orderStatus = generalInfo.orderStatus;
+      }
+
+      if (section === 'all' || section === 'knitting') {
+        payload.knittingPlan = extractKnittingPlanRows();
+        if (section === 'knitting') successMsg = 'Knitting Plan saved successfully!';
+      }
+
+      if (section === 'all' || section === 'dyeing') {
+        payload.dyeingPlan = extractDyeingPlanRows();
+        if (section === 'dyeing') successMsg = 'Dyeing Plan saved successfully!';
+      }
+
+      if (section === 'all' || section === 'delivery') {
+        payload.deliveryPlan = extractDeliveryPlanRows();
+        if (section === 'delivery') successMsg = 'Delivery Plan saved successfully!';
+      }
+
+      if (section === 'all') {
+        successMsg = 'All plan data saved successfully!';
+      }
 
       try {
         const targetId = currentManagingOrder.id || currentManagingOrder.orderNo;
@@ -1826,14 +1881,22 @@
         const data = await res.json();
         if (res.ok && data.success) {
           if (!currentManagingOrder.additionalData) currentManagingOrder.additionalData = {};
-          currentManagingOrder.additionalData.generalInfo = generalInfo;
-          currentManagingOrder.additionalData.knittingPlan = knittingPlan;
-          currentManagingOrder.additionalData.dyeingPlan = dyeingPlan;
-          currentManagingOrder.additionalData.deliveryPlan = deliveryPlan;
-          currentManagingOrder.additionalData.orderStatus = generalInfo.orderStatus;
-          currentManagingOrder.status = generalInfo.orderStatus;
+          if (payload.generalInfo) {
+            currentManagingOrder.additionalData.generalInfo = payload.generalInfo;
+            currentManagingOrder.additionalData.orderStatus = payload.generalInfo.orderStatus;
+            currentManagingOrder.status = payload.generalInfo.orderStatus;
+          }
+          if (payload.knittingPlan) {
+            currentManagingOrder.additionalData.knittingPlan = payload.knittingPlan;
+          }
+          if (payload.dyeingPlan) {
+            currentManagingOrder.additionalData.dyeingPlan = payload.dyeingPlan;
+          }
+          if (payload.deliveryPlan) {
+            currentManagingOrder.additionalData.deliveryPlan = payload.deliveryPlan;
+          }
 
-          alert('Plan data saved successfully!');
+          alert(successMsg);
         } else {
           alert(`Save failed: ${data.message || 'Unknown error'}`);
         }
