@@ -1333,7 +1333,7 @@ app.put('/api/data/records/:recordId/additional', optionalAuth, async (req, res)
 const handleSavePlanManage = async (req, res) => {
   try {
     const { orderNoOrId } = req.params;
-    const { generalInfo, knittingPlan, dyeingPlan, deliveryPlan, orderStatus } = req.body;
+    const { generalInfo, checkpointGuide, knittingPlan, dyeingPlan, deliveryFloorPlan, deliveryLockPlan, deliveryPlan, orderStatus } = req.body;
 
     let query = {};
     if (mongoose.Types.ObjectId.isValid(orderNoOrId)) {
@@ -1357,8 +1357,11 @@ const handleSavePlanManage = async (req, res) => {
 
     if (!rec.additionalData) rec.additionalData = {};
     if (generalInfo !== undefined) rec.additionalData.generalInfo = generalInfo;
+    if (checkpointGuide !== undefined) rec.additionalData.checkpointGuide = checkpointGuide;
     if (knittingPlan !== undefined) rec.additionalData.knittingPlan = Array.isArray(knittingPlan) ? knittingPlan : [];
     if (dyeingPlan !== undefined) rec.additionalData.dyeingPlan = Array.isArray(dyeingPlan) ? dyeingPlan : [];
+    if (deliveryFloorPlan !== undefined) rec.additionalData.deliveryFloorPlan = Array.isArray(deliveryFloorPlan) ? deliveryFloorPlan : [];
+    if (deliveryLockPlan !== undefined) rec.additionalData.deliveryLockPlan = Array.isArray(deliveryLockPlan) ? deliveryLockPlan : [];
     if (deliveryPlan !== undefined) rec.additionalData.deliveryPlan = Array.isArray(deliveryPlan) ? deliveryPlan : [];
     if (orderStatus !== undefined) rec.additionalData.orderStatus = orderStatus;
     if (generalInfo && generalInfo.orderStatus) rec.additionalData.orderStatus = generalInfo.orderStatus;
@@ -1641,7 +1644,7 @@ app.use(express.static(__dirname));
 app.get('/api/health', (req, res) => {
   res.status(200).json({
     status: 'online',
-    version: '1.0.1',
+    version: '1.0.2',
     system: 'Unified Textile ERP',
     mode: 'Consolidated Single-File Backend Architecture',
     timestamp: new Date()

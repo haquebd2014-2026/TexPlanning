@@ -544,7 +544,181 @@
 
           </div>
 
-          <!-- SECTION 2: (KNITTING PLAN) -->
+          <!-- SECTION 2: CHECKPOINT & PLANNING GUIDE -->
+          <div class="space-y-2 pt-3 border-t border-slate-200">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <svg class="text-blue-600" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 11l3 3L22 4"></path>
+                  <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                </svg>
+                <span class="px-3 py-1 bg-slate-200 text-slate-800 font-bold text-xs rounded shadow-2xs">(Checkpoint & Planning Guide)</span>
+                <!-- Section Hide/Unhide Button -->
+                <button onclick="toggleSection('checkpointGuideSection')" title="Hide / Unhide Checkpoint & Planning Guide" class="inline-flex items-center gap-1.5 px-3 py-1 rounded border border-slate-300 bg-white hover:bg-slate-100 text-slate-700 font-bold text-xs shadow-2xs transition">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                  <span>Hide/Unhide</span>
+                </button>
+                <!-- Section Save Data Button -->
+                <button onclick="saveOrderPlanData('checkpointGuide')" title="Save Checkpoint & Planning Guide Section Data" class="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-2xs transition">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                  <span>Save Data</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Checkpoint & Planning Guide Tables Container -->
+            <div id="checkpointGuideSection" class="space-y-2.5 transition-all duration-200">
+              <!-- Part A: Checkpoint Flags (CPB, Heat Set, Singeing, Mercerize, etc.) -->
+              <div class="overflow-x-auto border border-sky-300/80 rounded-lg shadow-2xs">
+                <table class="w-full text-left text-xs border-collapse">
+                  <thead>
+                    <tr class="bg-gradient-to-r from-sky-200 via-sky-100 to-blue-200 text-sky-950 font-extrabold text-[12px] border-b border-sky-300">
+                      <th class="py-2 px-2 border border-sky-300 text-center min-w-[75px]">CPB</th>
+                      <th class="py-2 px-2 border border-sky-300 text-center min-w-[85px]">Heat Set</th>
+                      <th class="py-2 px-2 border border-sky-300 text-center min-w-[80px]">Singeing</th>
+                      <th class="py-2 px-2 border border-sky-300 text-center min-w-[85px]">Mercerize</th>
+                      <th class="py-2 px-2 border border-sky-300 text-center min-w-[95px]">Peach/Brush</th>
+                      <th class="py-2 px-2 border border-sky-300 text-center min-w-[95px]">Subcontract</th>
+                      <th class="py-2 px-2 border border-sky-300 text-center min-w-[80px]">YD Pre</th>
+                      <th class="py-2 px-2 border border-sky-300 text-center min-w-[80px]">YD Post</th>
+                      <th class="py-2 px-2 border border-sky-300 text-center min-w-[75px]">TBC1</th>
+                      <th class="py-2 px-2 border border-sky-300 text-center min-w-[75px]">TBC2</th>
+                    </tr>
+                  </thead>
+                  <tbody class="bg-white">
+                    <tr class="divide-x divide-slate-200">
+                      <td class="p-1 border border-slate-200 text-center">
+                        <select id="cp_cpb" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-white font-semibold text-slate-800 focus:ring-1 focus:ring-blue-500">
+                          <option value="No">No</option>
+                          <option value="Yes">Yes</option>
+                        </select>
+                      </td>
+                      <td class="p-1 border border-slate-200 text-center">
+                        <select id="cp_heatSet" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-white font-semibold text-slate-800 focus:ring-1 focus:ring-blue-500">
+                          <option value="No">No</option>
+                          <option value="Yes">Yes</option>
+                        </select>
+                      </td>
+                      <td class="p-1 border border-slate-200 text-center">
+                        <select id="cp_singeing" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-white font-semibold text-slate-800 focus:ring-1 focus:ring-blue-500">
+                          <option value="No">No</option>
+                          <option value="Yes">Yes</option>
+                        </select>
+                      </td>
+                      <td class="p-1 border border-slate-200 text-center">
+                        <select id="cp_mercerize" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-white font-semibold text-slate-800 focus:ring-1 focus:ring-blue-500">
+                          <option value="No">No</option>
+                          <option value="Yes">Yes</option>
+                        </select>
+                      </td>
+                      <td class="p-1 border border-slate-200 text-center">
+                        <select id="cp_peachBrush" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-white font-semibold text-slate-800 focus:ring-1 focus:ring-blue-500">
+                          <option value="No">No</option>
+                          <option value="Yes">Yes</option>
+                        </select>
+                      </td>
+                      <td class="p-1 border border-slate-200 text-center">
+                        <select id="cp_subcontract" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-white font-semibold text-slate-800 focus:ring-1 focus:ring-blue-500">
+                          <option value="No">No</option>
+                          <option value="Yes">Yes</option>
+                        </select>
+                      </td>
+                      <td class="p-1 border border-slate-200 text-center">
+                        <select id="cp_ydPre" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-white font-semibold text-slate-800 focus:ring-1 focus:ring-blue-500">
+                          <option value="No">No</option>
+                          <option value="Yes">Yes</option>
+                        </select>
+                      </td>
+                      <td class="p-1 border border-slate-200 text-center">
+                        <select id="cp_ydPost" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-white font-semibold text-slate-800 focus:ring-1 focus:ring-blue-500">
+                          <option value="No">No</option>
+                          <option value="Yes">Yes</option>
+                        </select>
+                      </td>
+                      <td class="p-1 border border-slate-200 text-center">
+                        <select id="cp_tbc1" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-white font-semibold text-slate-800 focus:ring-1 focus:ring-blue-500">
+                          <option value="No">No</option>
+                          <option value="Yes">Yes</option>
+                        </select>
+                      </td>
+                      <td class="p-1 border border-slate-200 text-center">
+                        <select id="cp_tbc2" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-white font-semibold text-slate-800 focus:ring-1 focus:ring-blue-500">
+                          <option value="No">No</option>
+                          <option value="Yes">Yes</option>
+                        </select>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Part B: Planning Guide Timeline (YD, Knit, Dye, Floor, Lock) -->
+              <div class="overflow-x-auto border border-sky-300/80 rounded-lg shadow-2xs">
+                <table class="w-full text-left text-xs border-collapse">
+                  <thead>
+                    <tr class="bg-gradient-to-r from-sky-200 via-sky-100 to-blue-200 text-sky-950 font-extrabold text-[12px] border-b border-sky-300">
+                      <th colspan="2" class="py-1.5 px-2 border border-sky-300 text-center tracking-wide">YD</th>
+                      <th colspan="2" class="py-1.5 px-2 border border-sky-300 text-center tracking-wide">Knit</th>
+                      <th colspan="2" class="py-1.5 px-2 border border-sky-300 text-center tracking-wide">Dye</th>
+                      <th colspan="2" class="py-1.5 px-2 border border-sky-300 text-center tracking-wide">Floor</th>
+                      <th colspan="2" class="py-1.5 px-2 border border-sky-300 text-center tracking-wide">Lock</th>
+                    </tr>
+                    <tr class="bg-slate-50 text-slate-700 font-semibold text-[11px] border-b border-slate-200">
+                      <th class="py-1 px-1.5 border border-slate-200 text-center min-w-[125px]">Start</th>
+                      <th class="py-1 px-1.5 border border-slate-200 text-center min-w-[125px]">End</th>
+                      <th class="py-1 px-1.5 border border-slate-200 text-center min-w-[125px]">Start</th>
+                      <th class="py-1 px-1.5 border border-slate-200 text-center min-w-[125px]">End</th>
+                      <th class="py-1 px-1.5 border border-slate-200 text-center min-w-[125px]">Start</th>
+                      <th class="py-1 px-1.5 border border-slate-200 text-center min-w-[125px]">End</th>
+                      <th class="py-1 px-1.5 border border-slate-200 text-center min-w-[125px]">Start</th>
+                      <th class="py-1 px-1.5 border border-slate-200 text-center min-w-[125px]">End</th>
+                      <th class="py-1 px-1.5 border border-slate-200 text-center min-w-[125px]">Start</th>
+                      <th class="py-1 px-1.5 border border-slate-200 text-center min-w-[125px]">End</th>
+                    </tr>
+                  </thead>
+                  <tbody class="bg-white">
+                    <tr class="divide-x divide-slate-200">
+                      <td class="p-1 border border-slate-200">
+                        <input type="date" id="guide_yd_start" onclick="this.showPicker && this.showPicker()" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center cursor-pointer bg-white font-medium focus:ring-1 focus:ring-blue-500">
+                      </td>
+                      <td class="p-1 border border-slate-200">
+                        <input type="date" id="guide_yd_end" onclick="this.showPicker && this.showPicker()" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center cursor-pointer bg-white font-medium focus:ring-1 focus:ring-blue-500">
+                      </td>
+                      <td class="p-1 border border-slate-200">
+                        <input type="date" id="guide_knit_start" onclick="this.showPicker && this.showPicker()" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center cursor-pointer bg-white font-medium focus:ring-1 focus:ring-blue-500">
+                      </td>
+                      <td class="p-1 border border-slate-200">
+                        <input type="date" id="guide_knit_end" onclick="this.showPicker && this.showPicker()" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center cursor-pointer bg-white font-medium focus:ring-1 focus:ring-blue-500">
+                      </td>
+                      <td class="p-1 border border-slate-200">
+                        <input type="date" id="guide_dye_start" onclick="this.showPicker && this.showPicker()" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center cursor-pointer bg-white font-medium focus:ring-1 focus:ring-blue-500">
+                      </td>
+                      <td class="p-1 border border-slate-200">
+                        <input type="date" id="guide_dye_end" onclick="this.showPicker && this.showPicker()" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center cursor-pointer bg-white font-medium focus:ring-1 focus:ring-blue-500">
+                      </td>
+                      <td class="p-1 border border-slate-200">
+                        <input type="date" id="guide_floor_start" onclick="this.showPicker && this.showPicker()" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center cursor-pointer bg-white font-medium focus:ring-1 focus:ring-blue-500">
+                      </td>
+                      <td class="p-1 border border-slate-200">
+                        <input type="date" id="guide_floor_end" onclick="this.showPicker && this.showPicker()" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center cursor-pointer bg-white font-medium focus:ring-1 focus:ring-blue-500">
+                      </td>
+                      <td class="p-1 border border-slate-200">
+                        <input type="date" id="guide_lock_start" onclick="this.showPicker && this.showPicker()" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center cursor-pointer bg-white font-medium focus:ring-1 focus:ring-blue-500">
+                      </td>
+                      <td class="p-1 border border-slate-200">
+                        <input type="date" id="guide_lock_end" onclick="this.showPicker && this.showPicker()" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center cursor-pointer bg-white font-medium focus:ring-1 focus:ring-blue-500">
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- SECTION 3: (KNITTING PLAN) -->
           <div class="space-y-2 pt-3 border-t border-slate-200">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
@@ -552,6 +726,14 @@
                   <path d="M12 2L1 7l11 5 11-5-11-5zM1 12l11 5 11-5M1 17l11 5 11-5"/>
                 </svg>
                 <span class="px-3 py-1 bg-slate-200 text-slate-800 font-bold text-xs rounded shadow-2xs">(Knitting Plan)</span>
+                <!-- Section Hide/Unhide Button -->
+                <button onclick="toggleSection('knittingPlanSection')" title="Hide / Unhide Knitting Plan" class="inline-flex items-center gap-1.5 px-3 py-1 rounded border border-slate-300 bg-white hover:bg-slate-100 text-slate-700 font-bold text-xs shadow-2xs transition">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                  <span>Hide/Unhide</span>
+                </button>
                 <!-- Section Save Data Button -->
                 <button onclick="saveOrderPlanData('knitting')" title="Save Knitting Plan Section Data" class="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-2xs transition">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
@@ -560,7 +742,7 @@
               </div>
             </div>
 
-            <div class="overflow-x-auto border border-slate-200 rounded-lg">
+            <div id="knittingPlanSection" class="overflow-x-auto border border-slate-200 rounded-lg">
               <table class="w-full text-left text-xs border-collapse">
                 <thead>
                   <tr class="bg-slate-100 text-slate-700 font-bold text-[11.5px] border-b border-slate-200">
@@ -592,7 +774,7 @@
             </div>
           </div>
 
-          <!-- SECTION 3: DYEING PLAN) -->
+          <!-- SECTION 4: DYEING PLAN) -->
           <div class="space-y-2 pt-3 border-t border-slate-200">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
@@ -600,6 +782,14 @@
                   <path d="M12 2L1 7l11 5 11-5-11-5zM1 12l11 5 11-5M1 17l11 5 11-5"/>
                 </svg>
                 <span class="px-3 py-1 bg-slate-200 text-slate-800 font-bold text-xs rounded shadow-2xs">Dyeing Plan)</span>
+                <!-- Section Hide/Unhide Button -->
+                <button onclick="toggleSection('dyeingPlanSection')" title="Hide / Unhide Dyeing Plan" class="inline-flex items-center gap-1.5 px-3 py-1 rounded border border-slate-300 bg-white hover:bg-slate-100 text-slate-700 font-bold text-xs shadow-2xs transition">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                  <span>Hide/Unhide</span>
+                </button>
                 <!-- Section Save Data Button -->
                 <button onclick="saveOrderPlanData('dyeing')" title="Save Dyeing Plan Section Data" class="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-2xs transition">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
@@ -608,7 +798,7 @@
               </div>
             </div>
 
-            <div class="overflow-x-auto border border-slate-200 rounded-lg">
+            <div id="dyeingPlanSection" class="overflow-x-auto border border-slate-200 rounded-lg">
               <table class="w-full text-left text-xs border-collapse">
                 <thead>
                   <tr class="bg-slate-100 text-slate-700 font-bold text-[11.5px] border-b border-slate-200">
@@ -637,23 +827,31 @@
             </div>
           </div>
 
-          <!-- SECTION 4: DELIVERY PLAN) -->
+          <!-- SECTION 5: DELIVERY PLAN (FLOOR) -->
           <div class="space-y-2 pt-3 border-t border-slate-200">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
                 <svg class="text-blue-600" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M12 2L1 7l11 5 11-5-11-5zM1 12l11 5 11-5M1 17l11 5 11-5"/>
                 </svg>
-                <span class="px-3 py-1 bg-slate-200 text-slate-800 font-bold text-xs rounded shadow-2xs">Delivery Plan)</span>
+                <span class="px-3 py-1 bg-slate-200 text-slate-800 font-bold text-xs rounded shadow-2xs">Delivery Plan (Floor))</span>
+                <!-- Section Hide/Unhide Button -->
+                <button onclick="toggleSection('deliveryFloorPlanSection')" title="Hide / Unhide Delivery Plan (Floor)" class="inline-flex items-center gap-1.5 px-3 py-1 rounded border border-slate-300 bg-white hover:bg-slate-100 text-slate-700 font-bold text-xs shadow-2xs transition">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                  <span>Hide/Unhide</span>
+                </button>
                 <!-- Section Save Data Button -->
-                <button onclick="saveOrderPlanData('delivery')" title="Save Delivery Plan Section Data" class="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-2xs transition">
+                <button onclick="saveOrderPlanData('deliveryFloor')" title="Save Delivery Plan (Floor) Section Data" class="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-2xs transition">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
                   <span>Save Data</span>
                 </button>
               </div>
             </div>
 
-            <div class="overflow-x-auto border border-slate-200 rounded-lg">
+            <div id="deliveryFloorPlanSection" class="overflow-x-auto border border-slate-200 rounded-lg">
               <table class="w-full text-left text-xs border-collapse">
                 <thead>
                   <tr class="bg-slate-100 text-slate-700 font-bold text-[11.5px] border-b border-slate-200">
@@ -662,8 +860,6 @@
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[60px]">GSM</th>
                     <th colspan="2" class="py-1 px-2 border border-slate-200 text-center bg-slate-100 font-bold">Delivery Planning (Floor)</th>
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[100px]">Plan Type (Floor)</th>
-                    <th colspan="2" class="py-1 px-2 border border-slate-200 text-center bg-slate-100 font-bold">Delivery Planning</th>
-                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[90px]">Plan Type</th>
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 min-w-[120px]">Delivery Limitation</th>
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 min-w-[100px]">Remarks</th>
                     <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[90px]">RequiredQtyKgs</th>
@@ -677,12 +873,65 @@
                   <tr class="bg-slate-50 text-slate-700 font-semibold text-[11px] border-b border-slate-200">
                     <th class="py-1 px-2 border border-slate-200 text-center min-w-[125px]">Start Date</th>
                     <th class="py-1 px-2 border border-slate-200 text-center min-w-[125px]">End Date</th>
+                  </tr>
+                </thead>
+                <tbody id="deliveryFloorPlanTableBody" class="divide-y divide-slate-100 bg-white">
+                  <!-- Dynamic rows from uploaded Delivery Plan file (Floor) -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- SECTION 6: DELIVERY PLAN (LOCK) -->
+          <div class="space-y-2 pt-3 border-t border-slate-200">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <svg class="text-blue-600" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2L1 7l11 5 11-5-11-5zM1 12l11 5 11-5M1 17l11 5 11-5"/>
+                </svg>
+                <span class="px-3 py-1 bg-slate-200 text-slate-800 font-bold text-xs rounded shadow-2xs">Delivery Plan (Lock))</span>
+                <!-- Section Hide/Unhide Button -->
+                <button onclick="toggleSection('deliveryLockPlanSection')" title="Hide / Unhide Delivery Plan (Lock)" class="inline-flex items-center gap-1.5 px-3 py-1 rounded border border-slate-300 bg-white hover:bg-slate-100 text-slate-700 font-bold text-xs shadow-2xs transition">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                  <span>Hide/Unhide</span>
+                </button>
+                <!-- Section Save Data Button -->
+                <button onclick="saveOrderPlanData('deliveryLock')" title="Save Delivery Plan (Lock) Section Data" class="inline-flex items-center gap-1.5 px-3 py-1 rounded bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-2xs transition">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                  <span>Save Data</span>
+                </button>
+              </div>
+            </div>
+
+            <div id="deliveryLockPlanSection" class="overflow-x-auto border border-slate-200 rounded-lg">
+              <table class="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr class="bg-slate-100 text-slate-700 font-bold text-[11.5px] border-b border-slate-200">
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">Color</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 min-w-[130px]">FabricConstruction</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[60px]">GSM</th>
+                    <th colspan="2" class="py-1 px-2 border border-slate-200 text-center bg-slate-100 font-bold">Delivery Planning (Lock)</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[100px]">Plan Type (Lock)</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 min-w-[120px]">Delivery Limitation</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 min-w-[100px]">Remarks</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[90px]">RequiredQtyKgs</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[105px]">NetReceivedQtyKgs</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[105px]">NetDeliveryQtyKgs</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">Deli. Bal.</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[70px]">RFD</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">Slowmoving</th>
+                    <th rowspan="2" class="py-2 px-2 border border-slate-200 text-center min-w-[80px]">FF Stock</th>
+                  </tr>
+                  <tr class="bg-slate-50 text-slate-700 font-semibold text-[11px] border-b border-slate-200">
                     <th class="py-1 px-2 border border-slate-200 text-center min-w-[125px]">Start Date</th>
                     <th class="py-1 px-2 border border-slate-200 text-center min-w-[125px]">End Date</th>
                   </tr>
                 </thead>
-                <tbody id="deliveryPlanTableBody" class="divide-y divide-slate-100 bg-white">
-                  <!-- Dynamic rows from uploaded Delivery Plan file -->
+                <tbody id="deliveryLockPlanTableBody" class="divide-y divide-slate-100 bg-white">
+                  <!-- Dynamic rows from uploaded Delivery Plan file (Lock) -->
                 </tbody>
               </table>
             </div>
@@ -1364,14 +1613,17 @@
       let gi = add.generalInfo || {};
 
       populateGeneralInfoFields(gi, d, order);
+      populateCheckpointGuideFields(add.checkpointGuide, d, gi);
 
       // Temporary loading indicator
       const kBody = document.getElementById('knittingPlanTableBody');
       const dyBody = document.getElementById('dyeingPlanTableBody');
-      const delBody = document.getElementById('deliveryPlanTableBody');
+      const delFloorBody = document.getElementById('deliveryFloorPlanTableBody');
+      const delLockBody = document.getElementById('deliveryLockPlanTableBody');
       if (kBody) kBody.innerHTML = '<tr><td colspan="16" class="p-3 text-center text-slate-400 font-medium">Loading Knitting Plan items from uploaded file...</td></tr>';
       if (dyBody) dyBody.innerHTML = '<tr><td colspan="12" class="p-3 text-center text-slate-400 font-medium">Loading Dyeing Plan items from uploaded file...</td></tr>';
-      if (delBody) delBody.innerHTML = '<tr><td colspan="16" class="p-3 text-center text-slate-400 font-medium">Loading Delivery Plan items from uploaded file...</td></tr>';
+      if (delFloorBody) delFloorBody.innerHTML = '<tr><td colspan="15" class="p-3 text-center text-slate-400 font-medium">Loading Delivery Plan (Floor) items from uploaded file...</td></tr>';
+      if (delLockBody) delLockBody.innerHTML = '<tr><td colspan="15" class="p-3 text-center text-slate-400 font-medium">Loading Delivery Plan (Lock) items from uploaded file...</td></tr>';
 
       // Switch View Containers
       const listContainer = document.getElementById('planOrdersListContainer');
@@ -1392,9 +1644,11 @@
               populateGeneralInfoFields(add.generalInfo, d, order);
             }
           }
+          populateCheckpointGuideFields(add.checkpointGuide, d, add.generalInfo || gi);
           renderKnittingPlanTable(add.knittingPlan, resJson.knittingItems, d);
           renderDyeingPlanTable(add.dyeingPlan, resJson.dyeingItems, d);
-          renderDeliveryPlanTable(add.deliveryPlan, resJson.deliveryItems, d);
+          renderDeliveryFloorPlanTable(add.deliveryFloorPlan || add.deliveryPlan, resJson.deliveryItems, d);
+          renderDeliveryLockPlanTable(add.deliveryLockPlan || add.deliveryPlan, resJson.deliveryItems, d);
           return;
         }
       } catch (err) {
@@ -1402,9 +1656,11 @@
       }
 
       // Fallback if network or endpoint not ready
+      populateCheckpointGuideFields(add.checkpointGuide, d, gi);
       renderKnittingPlanTable(add.knittingPlan, [], d);
       renderDyeingPlanTable(add.dyeingPlan, [], d);
-      renderDeliveryPlanTable(add.deliveryPlan, [], d);
+      renderDeliveryFloorPlanTable(add.deliveryFloorPlan || add.deliveryPlan, [], d);
+      renderDeliveryLockPlanTable(add.deliveryLockPlan || add.deliveryPlan, [], d);
     }
 
     function closeOrderManageView() {
@@ -1414,10 +1670,83 @@
       if (listContainer) listContainer.classList.remove('hidden');
     }
 
+    function toggleSection(containerId) {
+      const el = document.getElementById(containerId);
+      if (!el) return;
+      el.classList.toggle('hidden');
+    }
+
     function toggleGeneralInfoSection() {
-      const sec = document.getElementById('generalInfoSection');
-      if (!sec) return;
-      sec.classList.toggle('hidden');
+      toggleSection('generalInfoSection');
+    }
+
+    function populateCheckpointGuideFields(cg = {}, d = {}, gi = {}) {
+      const cp = cg.checkpoints || {};
+      const pg = cg.planningGuide || {};
+
+      const setVal = (id, val, def = 'No') => {
+        const el = document.getElementById(id);
+        if (el) el.value = val !== undefined ? val : def;
+      };
+
+      setVal('cp_cpb', cp.cpb);
+      setVal('cp_heatSet', cp.heatSet);
+      setVal('cp_singeing', cp.singeing);
+      setVal('cp_mercerize', cp.mercerize);
+      setVal('cp_peachBrush', cp.peachBrush);
+      setVal('cp_subcontract', cp.subcontract);
+      setVal('cp_ydPre', cp.ydPre);
+      setVal('cp_ydPost', cp.ydPost);
+      setVal('cp_tbc1', cp.tbc1);
+      setVal('cp_tbc2', cp.tbc2);
+
+      const setDate = (id, val) => {
+        const el = document.getElementById(id);
+        if (el) el.value = toISODate(val);
+      };
+
+      setDate('guide_yd_start', pg.ydStart || gi.taYarnDate || d['T&A Yarn date'] || d['T&A Yarn Date']);
+      setDate('guide_yd_end', pg.ydEnd);
+      setDate('guide_knit_start', pg.knitStart || gi.taKnittingStart || d['T&A Knitting Start']);
+      setDate('guide_knit_end', pg.knitEnd || gi.taKnittingEnd || d['T&A Knitting End']);
+      setDate('guide_dye_start', pg.dyeStart || gi.taDyeingStart || d['T&A Dyeing Start']);
+      setDate('guide_dye_end', pg.dyeEnd || gi.taDyeingEnd || d['T&A Dyeing End']);
+      setDate('guide_floor_start', pg.floorStart || gi.taDeliStart || d['T&A Deli. Start']);
+      setDate('guide_floor_end', pg.floorEnd || gi.taDeliEnd || d['T&A Deli. End']);
+      setDate('guide_lock_start', pg.lockStart || gi.lastShipmentDate || d['Last Shipment Date']);
+      setDate('guide_lock_end', pg.lockEnd);
+    }
+
+    function extractCheckpointGuide() {
+      const getVal = (id, def = 'No') => document.getElementById(id)?.value || def;
+      const getDate = (id) => document.getElementById(id)?.value || '';
+
+      return {
+        checkpoints: {
+          cpb: getVal('cp_cpb'),
+          heatSet: getVal('cp_heatSet'),
+          singeing: getVal('cp_singeing'),
+          mercerize: getVal('cp_mercerize'),
+          peachBrush: getVal('cp_peachBrush'),
+          subcontract: getVal('cp_subcontract'),
+          ydPre: getVal('cp_ydPre'),
+          ydPost: getVal('cp_ydPost'),
+          tbc1: getVal('cp_tbc1'),
+          tbc2: getVal('cp_tbc2')
+        },
+        planningGuide: {
+          ydStart: getDate('guide_yd_start'),
+          ydEnd: getDate('guide_yd_end'),
+          knitStart: getDate('guide_knit_start'),
+          knitEnd: getDate('guide_knit_end'),
+          dyeStart: getDate('guide_dye_start'),
+          dyeEnd: getDate('guide_dye_end'),
+          floorStart: getDate('guide_floor_start'),
+          floorEnd: getDate('guide_floor_end'),
+          lockStart: getDate('guide_lock_start'),
+          lockEnd: getDate('guide_lock_end')
+        }
+      };
     }
 
     // Helper to format any date string / serial number into ISO YYYY-MM-DD for HTML5 date inputs
@@ -1639,9 +1968,9 @@
       tbody.appendChild(tr);
     }
 
-    // Delivery Plan Table Operations (Data from uploaded Delivery Plan file)
-    function renderDeliveryPlanTable(savedRows, uploadedItems, d) {
-      const tbody = document.getElementById('deliveryPlanTableBody');
+    // Delivery Plan (Floor) Table Operations
+    function renderDeliveryFloorPlanTable(savedRows, uploadedItems, d) {
+      const tbody = document.getElementById('deliveryFloorPlanTableBody');
       if (!tbody) return;
       tbody.innerHTML = '';
 
@@ -1656,9 +1985,6 @@
           floorDeliStart: item['T&A Deli. Start'] || d['T&A Deli. Start'] || '',
           floorDeliEnd: item['T&A Deli. End'] || d['T&A Deli. End'] || '',
           floorPlanType: 'Tentative',
-          deliStart: item['T&A Deli. Start'] || d['T&A Deli. Start'] || '',
-          deliEnd: item['T&A Deli. End'] || d['T&A Deli. End'] || '',
-          planType: 'Tentative',
           deliveryLimitation: item['Delivery Limitation'] || '',
           remarks: item['Remarks'] || '',
           requiredQtyKgs: item['RequiredQtyKgs'] || item['Order Qty. (Kg)'] || '',
@@ -1677,9 +2003,6 @@
           floorDeliStart: d['T&A Deli. Start'] || '',
           floorDeliEnd: d['T&A Deli. End'] || '',
           floorPlanType: 'Tentative',
-          deliStart: d['T&A Deli. Start'] || '',
-          deliEnd: d['T&A Deli. End'] || '',
-          planType: 'Tentative',
           deliveryLimitation: d['Delivery Limitation'] || '',
           remarks: d['Remarks'] || '',
           requiredQtyKgs: d['RequiredQtyKgs'] || '',
@@ -1692,45 +2015,117 @@
         }];
       }
 
-      rows.forEach(r => addDeliveryPlanRow(r));
+      rows.forEach(r => addDeliveryFloorPlanRow(r));
     }
 
-    function addDeliveryPlanRow(data = {}) {
-      const tbody = document.getElementById('deliveryPlanTableBody');
+    function addDeliveryFloorPlanRow(data = {}) {
+      const tbody = document.getElementById('deliveryFloorPlanTableBody');
       if (!tbody) return;
       const tr = document.createElement('tr');
       tr.className = 'hover:bg-slate-50 text-slate-700';
-      const floorPlanTypeVal = data.floorPlanType || 'Tentative';
-      const planTypeVal = data.planType || 'Tentative';
+      const floorPlanTypeVal = data.floorPlanType || data.planType || 'Tentative';
       tr.innerHTML = `
-        <td class="p-1 border border-slate-200"><input type="text" class="del-color w-full px-1.5 py-1 text-xs border border-slate-200 rounded bg-slate-50" value="${data.color || ''}" title="From uploaded file"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="del-fabric w-full px-1.5 py-1 text-xs border border-slate-200 rounded bg-slate-50" value="${data.fabricConstruction || ''}" title="From uploaded file"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="del-gsm w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.gsm || ''}" title="From uploaded file"></td>
-        <td class="p-1 border border-slate-200"><input type="date" onclick="this.showPicker && this.showPicker()" class="del-floordelistart w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center cursor-pointer bg-white" value="${toISODate(data.floorDeliStart)}"></td>
-        <td class="p-1 border border-slate-200"><input type="date" onclick="this.showPicker && this.showPicker()" class="del-floordeliend w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center cursor-pointer bg-white" value="${toISODate(data.floorDeliEnd)}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="delfloor-color w-full px-1.5 py-1 text-xs border border-slate-200 rounded bg-slate-50" value="${data.color || ''}" title="From uploaded file"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="delfloor-fabric w-full px-1.5 py-1 text-xs border border-slate-200 rounded bg-slate-50" value="${data.fabricConstruction || ''}" title="From uploaded file"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="delfloor-gsm w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.gsm || ''}" title="From uploaded file"></td>
+        <td class="p-1 border border-slate-200"><input type="date" onclick="this.showPicker && this.showPicker()" class="delfloor-start w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center cursor-pointer bg-white" value="${toISODate(data.floorDeliStart || data.deliStart)}"></td>
+        <td class="p-1 border border-slate-200"><input type="date" onclick="this.showPicker && this.showPicker()" class="delfloor-end w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center cursor-pointer bg-white" value="${toISODate(data.floorDeliEnd || data.deliEnd)}"></td>
         <td class="p-1 border border-slate-200">
-          <select class="del-floorplantype w-full px-1 py-1 text-xs border border-slate-200 rounded text-center bg-white font-medium">
+          <select class="delfloor-plantype w-full px-1 py-1 text-xs border border-slate-200 rounded text-center bg-white font-medium">
             <option value="Tentative" ${floorPlanTypeVal.toLowerCase() === 'tentative' ? 'selected' : ''}>Tentative</option>
             <option value="Confirm" ${floorPlanTypeVal.toLowerCase() === 'confirm' ? 'selected' : ''}>Confirm</option>
           </select>
         </td>
-        <td class="p-1 border border-slate-200"><input type="date" onclick="this.showPicker && this.showPicker()" class="del-delistart w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center cursor-pointer bg-white" value="${toISODate(data.deliStart)}"></td>
-        <td class="p-1 border border-slate-200"><input type="date" onclick="this.showPicker && this.showPicker()" class="del-deliend w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center cursor-pointer bg-white" value="${toISODate(data.deliEnd)}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="delfloor-limit w-full px-1.5 py-1 text-xs border border-slate-200 rounded" value="${data.deliveryLimitation || data.floorLimitation || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="delfloor-remarks w-full px-1.5 py-1 text-xs border border-slate-200 rounded" value="${data.remarks || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="delfloor-reqqty w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.requiredQtyKgs || ''}" title="From uploaded file"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="delfloor-netrecqty w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.netReceivedQtyKgs || ''}" title="From uploaded file"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="delfloor-netdeliqty w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.netDeliveryQtyKgs || ''}" title="From uploaded file"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="delfloor-delibal w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.deliBal || ''}" title="From uploaded file"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="delfloor-rfd w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.rfd || ''}" title="From uploaded file"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="delfloor-slowmoving w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.slowmoving || ''}" title="From uploaded file"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="delfloor-ffstock w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.ffStock || ''}" title="From uploaded file"></td>
+      `;
+      tbody.appendChild(tr);
+    }
+
+    // Delivery Plan (Lock) Table Operations
+    function renderDeliveryLockPlanTable(savedRows, uploadedItems, d) {
+      const tbody = document.getElementById('deliveryLockPlanTableBody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      let rows = [];
+      if (Array.isArray(savedRows) && savedRows.length > 0) {
+        rows = savedRows;
+      } else if (Array.isArray(uploadedItems) && uploadedItems.length > 0) {
+        rows = uploadedItems.map(item => ({
+          color: item['Color'] || '',
+          fabricConstruction: item['FabricConstruction'] || item['Body Fabric'] || item['Fabric'] || '',
+          gsm: item['GSM'] || item['Body GSM'] || '',
+          lockDeliStart: item['T&A Deli. Start'] || d['T&A Deli. Start'] || '',
+          lockDeliEnd: item['T&A Deli. End'] || d['T&A Deli. End'] || '',
+          lockPlanType: 'Tentative',
+          deliveryLimitation: item['Delivery Limitation'] || '',
+          remarks: item['Remarks'] || '',
+          requiredQtyKgs: item['RequiredQtyKgs'] || item['Order Qty. (Kg)'] || '',
+          netReceivedQtyKgs: item['NetReceivedQtyKgs'] || '0',
+          netDeliveryQtyKgs: item['NetDeliveryQtyKgs'] || '0',
+          deliBal: item['Deli. Bala.'] || item['Deli. Bal.'] || '',
+          rfd: item['RFD'] || '0',
+          slowmoving: item['Slowmoving'] || '0',
+          ffStock: item['FF Stock'] || '0'
+        }));
+      } else {
+        rows = [{
+          color: d['Color'] || '',
+          fabricConstruction: d['Body Fabric'] || d['Fabric'] || '',
+          gsm: d['Body GSM'] || d['GSM'] || '',
+          lockDeliStart: d['T&A Deli. Start'] || '',
+          lockDeliEnd: d['T&A Deli. End'] || '',
+          lockPlanType: 'Tentative',
+          deliveryLimitation: d['Delivery Limitation'] || '',
+          remarks: d['Remarks'] || '',
+          requiredQtyKgs: d['RequiredQtyKgs'] || '',
+          netReceivedQtyKgs: d['NetReceivedQtyKgs'] || '0',
+          netDeliveryQtyKgs: d['NetDeliveryQtyKgs'] || '0',
+          deliBal: d['Deli. Bal.'] || '',
+          rfd: d['RFD'] || '0',
+          slowmoving: d['Slowmoving'] || '0',
+          ffStock: d['FF Stock'] || '0'
+        }];
+      }
+
+      rows.forEach(r => addDeliveryLockPlanRow(r));
+    }
+
+    function addDeliveryLockPlanRow(data = {}) {
+      const tbody = document.getElementById('deliveryLockPlanTableBody');
+      if (!tbody) return;
+      const tr = document.createElement('tr');
+      tr.className = 'hover:bg-slate-50 text-slate-700';
+      const lockPlanTypeVal = data.lockPlanType || data.planType || 'Tentative';
+      tr.innerHTML = `
+        <td class="p-1 border border-slate-200"><input type="text" class="dellock-color w-full px-1.5 py-1 text-xs border border-slate-200 rounded bg-slate-50" value="${data.color || ''}" title="From uploaded file"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="dellock-fabric w-full px-1.5 py-1 text-xs border border-slate-200 rounded bg-slate-50" value="${data.fabricConstruction || ''}" title="From uploaded file"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="dellock-gsm w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.gsm || ''}" title="From uploaded file"></td>
+        <td class="p-1 border border-slate-200"><input type="date" onclick="this.showPicker && this.showPicker()" class="dellock-start w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center cursor-pointer bg-white" value="${toISODate(data.lockDeliStart || data.deliStart)}"></td>
+        <td class="p-1 border border-slate-200"><input type="date" onclick="this.showPicker && this.showPicker()" class="dellock-end w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center cursor-pointer bg-white" value="${toISODate(data.lockDeliEnd || data.deliEnd)}"></td>
         <td class="p-1 border border-slate-200">
-          <select class="del-plantype w-full px-1 py-1 text-xs border border-slate-200 rounded text-center bg-white font-medium">
-            <option value="Tentative" ${planTypeVal.toLowerCase() === 'tentative' ? 'selected' : ''}>Tentative</option>
-            <option value="Confirm" ${planTypeVal.toLowerCase() === 'confirm' ? 'selected' : ''}>Confirm</option>
+          <select class="dellock-plantype w-full px-1 py-1 text-xs border border-slate-200 rounded text-center bg-white font-medium">
+            <option value="Tentative" ${lockPlanTypeVal.toLowerCase() === 'tentative' ? 'selected' : ''}>Tentative</option>
+            <option value="Confirm" ${lockPlanTypeVal.toLowerCase() === 'confirm' ? 'selected' : ''}>Confirm</option>
           </select>
         </td>
-        <td class="p-1 border border-slate-200"><input type="text" class="del-limit w-full px-1.5 py-1 text-xs border border-slate-200 rounded" value="${data.deliveryLimitation || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="del-remarks w-full px-1.5 py-1 text-xs border border-slate-200 rounded" value="${data.remarks || ''}"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="del-reqqty w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.requiredQtyKgs || ''}" title="From uploaded file"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="del-netrecqty w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.netReceivedQtyKgs || ''}" title="From uploaded file"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="del-netdeliqty w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.netDeliveryQtyKgs || ''}" title="From uploaded file"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="del-delibal w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.deliBal || ''}" title="From uploaded file"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="del-rfd w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.rfd || ''}" title="From uploaded file"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="del-slowmoving w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.slowmoving || ''}" title="From uploaded file"></td>
-        <td class="p-1 border border-slate-200"><input type="text" class="del-ffstock w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.ffStock || ''}" title="From uploaded file"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="dellock-limit w-full px-1.5 py-1 text-xs border border-slate-200 rounded" value="${data.deliveryLimitation || data.lockLimitation || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="dellock-remarks w-full px-1.5 py-1 text-xs border border-slate-200 rounded" value="${data.remarks || ''}"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="dellock-reqqty w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.requiredQtyKgs || ''}" title="From uploaded file"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="dellock-netrecqty w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.netReceivedQtyKgs || ''}" title="From uploaded file"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="dellock-netdeliqty w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.netDeliveryQtyKgs || ''}" title="From uploaded file"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="dellock-delibal w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.deliBal || ''}" title="From uploaded file"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="dellock-rfd w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.rfd || ''}" title="From uploaded file"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="dellock-slowmoving w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.slowmoving || ''}" title="From uploaded file"></td>
+        <td class="p-1 border border-slate-200"><input type="text" class="dellock-ffstock w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-slate-50" value="${data.ffStock || ''}" title="From uploaded file"></td>
       `;
       tbody.appendChild(tr);
     }
@@ -1784,35 +2179,57 @@
       return dyeingPlan;
     }
 
-    function extractDeliveryPlanRows() {
-      const deliveryPlan = [];
-      document.querySelectorAll('#deliveryPlanTableBody tr').forEach(tr => {
-        if (!tr.querySelector('.del-color')) return;
-        deliveryPlan.push({
-          color: tr.querySelector('.del-color')?.value || '',
-          fabricConstruction: tr.querySelector('.del-fabric')?.value || '',
-          gsm: tr.querySelector('.del-gsm')?.value || '',
-          floorDeliStart: tr.querySelector('.del-floordelistart')?.value || '',
-          floorDeliEnd: tr.querySelector('.del-floordeliend')?.value || '',
-          floorPlanType: tr.querySelector('.del-floorplantype')?.value || 'Tentative',
-          deliStart: tr.querySelector('.del-delistart')?.value || '',
-          deliEnd: tr.querySelector('.del-deliend')?.value || '',
-          planType: tr.querySelector('.del-plantype')?.value || 'Tentative',
-          deliveryLimitation: tr.querySelector('.del-limit')?.value || '',
-          remarks: tr.querySelector('.del-remarks')?.value || '',
-          requiredQtyKgs: tr.querySelector('.del-reqqty')?.value || '',
-          netReceivedQtyKgs: tr.querySelector('.del-netrecqty')?.value || '',
-          netDeliveryQtyKgs: tr.querySelector('.del-netdeliqty')?.value || '',
-          deliBal: tr.querySelector('.del-delibal')?.value || '',
-          rfd: tr.querySelector('.del-rfd')?.value || '',
-          slowmoving: tr.querySelector('.del-slowmoving')?.value || '',
-          ffStock: tr.querySelector('.del-ffstock')?.value || ''
+    function extractDeliveryFloorPlanRows() {
+      const rows = [];
+      document.querySelectorAll('#deliveryFloorPlanTableBody tr').forEach(tr => {
+        if (!tr.querySelector('.delfloor-color')) return;
+        rows.push({
+          color: tr.querySelector('.delfloor-color')?.value || '',
+          fabricConstruction: tr.querySelector('.delfloor-fabric')?.value || '',
+          gsm: tr.querySelector('.delfloor-gsm')?.value || '',
+          floorDeliStart: tr.querySelector('.delfloor-start')?.value || '',
+          floorDeliEnd: tr.querySelector('.delfloor-end')?.value || '',
+          floorPlanType: tr.querySelector('.delfloor-plantype')?.value || 'Tentative',
+          deliveryLimitation: tr.querySelector('.delfloor-limit')?.value || '',
+          remarks: tr.querySelector('.delfloor-remarks')?.value || '',
+          requiredQtyKgs: tr.querySelector('.delfloor-reqqty')?.value || '',
+          netReceivedQtyKgs: tr.querySelector('.delfloor-netrecqty')?.value || '',
+          netDeliveryQtyKgs: tr.querySelector('.delfloor-netdeliqty')?.value || '',
+          deliBal: tr.querySelector('.delfloor-delibal')?.value || '',
+          rfd: tr.querySelector('.delfloor-rfd')?.value || '',
+          slowmoving: tr.querySelector('.delfloor-slowmoving')?.value || '',
+          ffStock: tr.querySelector('.delfloor-ffstock')?.value || ''
         });
       });
-      return deliveryPlan;
+      return rows;
     }
 
-    // Save Plan Data (section can be 'all', 'knitting', 'dyeing', or 'delivery')
+    function extractDeliveryLockPlanRows() {
+      const rows = [];
+      document.querySelectorAll('#deliveryLockPlanTableBody tr').forEach(tr => {
+        if (!tr.querySelector('.dellock-color')) return;
+        rows.push({
+          color: tr.querySelector('.dellock-color')?.value || '',
+          fabricConstruction: tr.querySelector('.dellock-fabric')?.value || '',
+          gsm: tr.querySelector('.dellock-gsm')?.value || '',
+          lockDeliStart: tr.querySelector('.dellock-start')?.value || '',
+          lockDeliEnd: tr.querySelector('.dellock-end')?.value || '',
+          lockPlanType: tr.querySelector('.dellock-plantype')?.value || 'Tentative',
+          deliveryLimitation: tr.querySelector('.dellock-limit')?.value || '',
+          remarks: tr.querySelector('.dellock-remarks')?.value || '',
+          requiredQtyKgs: tr.querySelector('.dellock-reqqty')?.value || '',
+          netReceivedQtyKgs: tr.querySelector('.dellock-netrecqty')?.value || '',
+          netDeliveryQtyKgs: tr.querySelector('.dellock-netdeliqty')?.value || '',
+          deliBal: tr.querySelector('.dellock-delibal')?.value || '',
+          rfd: tr.querySelector('.dellock-rfd')?.value || '',
+          slowmoving: tr.querySelector('.dellock-slowmoving')?.value || '',
+          ffStock: tr.querySelector('.dellock-ffstock')?.value || ''
+        });
+      });
+      return rows;
+    }
+
+    // Save Plan Data (section can be 'all', 'checkpointGuide', 'knitting', 'dyeing', 'deliveryFloor', or 'deliveryLock')
     async function saveOrderPlanData(section = 'all') {
       if (!currentManagingOrder) return;
 
@@ -1851,6 +2268,11 @@
         payload.orderStatus = generalInfo.orderStatus;
       }
 
+      if (section === 'all' || section === 'checkpointGuide') {
+        payload.checkpointGuide = extractCheckpointGuide();
+        if (section === 'checkpointGuide') successMsg = 'Checkpoint & Planning Guide saved successfully!';
+      }
+
       if (section === 'all' || section === 'knitting') {
         payload.knittingPlan = extractKnittingPlanRows();
         if (section === 'knitting') successMsg = 'Knitting Plan saved successfully!';
@@ -1861,9 +2283,19 @@
         if (section === 'dyeing') successMsg = 'Dyeing Plan saved successfully!';
       }
 
-      if (section === 'all' || section === 'delivery') {
-        payload.deliveryPlan = extractDeliveryPlanRows();
-        if (section === 'delivery') successMsg = 'Delivery Plan saved successfully!';
+      if (section === 'all' || section === 'deliveryFloor') {
+        payload.deliveryFloorPlan = extractDeliveryFloorPlanRows();
+        if (section === 'deliveryFloor') successMsg = 'Delivery Plan (Floor) saved successfully!';
+      }
+
+      if (section === 'all' || section === 'deliveryLock') {
+        payload.deliveryLockPlan = extractDeliveryLockPlanRows();
+        if (section === 'deliveryLock') successMsg = 'Delivery Plan (Lock) saved successfully!';
+      }
+
+      // Backwards compatibility for deliveryPlan
+      if (payload.deliveryFloorPlan || payload.deliveryLockPlan) {
+        payload.deliveryPlan = payload.deliveryFloorPlan || payload.deliveryLockPlan;
       }
 
       if (section === 'all') {
@@ -1886,11 +2318,20 @@
             currentManagingOrder.additionalData.orderStatus = payload.generalInfo.orderStatus;
             currentManagingOrder.status = payload.generalInfo.orderStatus;
           }
+          if (payload.checkpointGuide) {
+            currentManagingOrder.additionalData.checkpointGuide = payload.checkpointGuide;
+          }
           if (payload.knittingPlan) {
             currentManagingOrder.additionalData.knittingPlan = payload.knittingPlan;
           }
           if (payload.dyeingPlan) {
             currentManagingOrder.additionalData.dyeingPlan = payload.dyeingPlan;
+          }
+          if (payload.deliveryFloorPlan) {
+            currentManagingOrder.additionalData.deliveryFloorPlan = payload.deliveryFloorPlan;
+          }
+          if (payload.deliveryLockPlan) {
+            currentManagingOrder.additionalData.deliveryLockPlan = payload.deliveryLockPlan;
           }
           if (payload.deliveryPlan) {
             currentManagingOrder.additionalData.deliveryPlan = payload.deliveryPlan;
