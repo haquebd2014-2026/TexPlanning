@@ -65,25 +65,24 @@
       </h1>
     </div>
 
-    <!-- User Profile Card (Matches Screenshot) -->
+    <!-- User Profile Card -->
     <div class="p-3 border-b border-slate-300/70 bg-[#e4ebf0]">
       <div class="flex items-center justify-between p-2 rounded-lg bg-slate-200/70 border border-slate-300/60 shadow-xs">
-        <div class="flex items-center gap-2.5 overflow-hidden">
-          <div class="w-8 h-8 rounded-full bg-slate-800 text-white flex items-center justify-center flex-shrink-0">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-            </svg>
+        <div class="flex items-center gap-2.5 overflow-hidden cursor-pointer hover:opacity-85 transition" onclick="openSwitchUserModal()" title="Click to view profile or switch active account">
+          <div class="w-8 h-8 rounded-full bg-slate-800 text-white flex items-center justify-center flex-shrink-0 font-bold text-xs shadow-xs" id="currentUserAvatar">
+            A
           </div>
           <div class="truncate">
-            <div class="font-bold text-xs text-slate-800 truncate" id="currentUserDisplay">Shimul (Admin)</div>
+            <div class="font-bold text-xs text-slate-800 truncate" id="currentUserDisplay">admin (Admin)</div>
+            <div class="text-[10px] text-slate-500 font-medium truncate" id="currentUserScopeDisplay">All Buyers • Full Scope</div>
           </div>
         </div>
-        <!-- Red Logout Action Icon -->
-        <button onclick="handleLogout()" title="Logout" class="text-rose-500 hover:text-rose-700 p-1.5 rounded hover:bg-rose-50 transition flex-shrink-0">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-            <polyline points="16 17 21 12 16 7"></polyline>
-            <line x1="21" y1="12" x2="9" y2="12"></line>
+        <!-- Switch / Logout Action Icon -->
+        <button onclick="openSwitchUserModal()" title="Switch User / Account" class="text-slate-600 hover:text-slate-900 p-1.5 rounded hover:bg-slate-300/70 transition flex-shrink-0">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <polyline points="16 11 18 13 22 9"></polyline>
           </svg>
         </button>
       </div>
@@ -93,7 +92,7 @@
     <nav class="flex-1 overflow-y-auto py-3 px-2 space-y-1 text-xs font-medium text-slate-700">
 
       <!-- 1. DATA MANAGEMENT (Accordion) -->
-      <div class="space-y-0.5">
+      <div class="space-y-0.5" data-perm="menu:data_management">
         <button onclick="toggleSubmenu('dataMgmtSubmenu', 'dataMgmtChevron')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
           <div class="flex items-center gap-3">
             <span class="text-slate-800 text-sm">🗄️</span>
@@ -106,17 +105,17 @@
         
         <!-- Submenus (Collapsed by default in this view) -->
         <div id="dataMgmtSubmenu" class="hidden pl-7 pr-2 space-y-1 py-1">
-          <button id="subBtn_source_upload" onclick="switchView('source_file_upload')" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-300/60 transition text-left">
+          <button id="subBtn_source_upload" data-perm="menu:source_upload" onclick="switchView('source_file_upload')" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-300/60 transition text-left">
             <span>Source File Upload</span>
           </button>
-          <button id="subBtn_setup_dropdowns" onclick="switchView('setup_dropdowns')" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-300/60 transition text-left">
+          <button id="subBtn_setup_dropdowns" data-perm="menu:setup_dropdowns" onclick="switchView('setup_dropdowns')" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-300/60 transition text-left">
             <span>Setup (Dropdowns)</span>
           </button>
         </div>
       </div>
 
       <!-- 2. ORDER MANAGEMENT (Accordion with YD Plan, Knitting Plan, Dyeing Plan, Delivery Plan, Delivery Plan Floor) -->
-      <div class="space-y-0.5">
+      <div class="space-y-0.5" data-perm="menu:order_management">
         <button onclick="toggleSubmenu('orderMgmtSubmenu', 'orderMgmtChevron')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
           <div class="flex items-center gap-3">
             <span class="text-slate-800 text-sm">📋</span>
@@ -130,30 +129,30 @@
         <!-- Order Management Submenus (Expanded) -->
         <div id="orderMgmtSubmenu" class="pl-7 pr-2 space-y-1 py-1">
           <!-- Submenu 1: YD Plan -->
-          <button id="subBtn_yd_plan" onclick="switchOrderPlanView('YD Plan')" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-700 hover:text-slate-950 hover:bg-slate-300/50 transition text-left">
+          <button id="subBtn_yd_plan" data-perm="menu:yd_plan" onclick="switchOrderPlanView('YD Plan')" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-700 hover:text-slate-950 hover:bg-slate-300/50 transition text-left">
             <span>YD Plan</span>
           </button>
           <!-- Submenu 2: Knitting Plan (renamed from Solid Plan - Active / Highlighted) -->
-          <button id="subBtn_knitting_plan" onclick="switchOrderPlanView('Knitting Plan')" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-bold transition text-slate-900 bg-slate-300/90 border border-slate-400/60 shadow-xs text-left">
+          <button id="subBtn_knitting_plan" data-perm="menu:knitting_plan" onclick="switchOrderPlanView('Knitting Plan')" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-bold transition text-slate-900 bg-slate-300/90 border border-slate-400/60 shadow-xs text-left">
             <span>Knitting Plan</span>
           </button>
           <!-- Submenu 3: Dyeing Plan -->
-          <button id="subBtn_dyeing_plan" onclick="switchOrderPlanView('Dyeing Plan')" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-700 hover:text-slate-950 hover:bg-slate-300/50 transition text-left">
+          <button id="subBtn_dyeing_plan" data-perm="menu:dyeing_plan" onclick="switchOrderPlanView('Dyeing Plan')" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-700 hover:text-slate-950 hover:bg-slate-300/50 transition text-left">
             <span>Dyeing Plan</span>
           </button>
           <!-- Submenu 4: Delivery Plan -->
-          <button id="subBtn_delivery_plan" onclick="switchOrderPlanView('Delivery Plan')" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-700 hover:text-slate-950 hover:bg-slate-300/50 transition text-left">
+          <button id="subBtn_delivery_plan" data-perm="menu:delivery_plan" onclick="switchOrderPlanView('Delivery Plan')" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-700 hover:text-slate-950 hover:bg-slate-300/50 transition text-left">
             <span>Delivery Plan</span>
           </button>
           <!-- Submenu 5: Delivery Plan Floor -->
-          <button id="subBtn_delivery_plan_floor" onclick="switchOrderPlanView('Delivery Plan Floor')" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-700 hover:text-slate-950 hover:bg-slate-300/50 transition text-left">
+          <button id="subBtn_delivery_plan_floor" data-perm="menu:delivery_plan_floor" onclick="switchOrderPlanView('Delivery Plan Floor')" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-700 hover:text-slate-950 hover:bg-slate-300/50 transition text-left">
             <span>Delivery Plan Floor</span>
           </button>
         </div>
       </div>
 
       <!-- 3. Report -->
-      <button onclick="switchView('report')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
+      <button data-perm="menu:report" onclick="switchView('report')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
         <div class="flex items-center gap-3">
           <span class="text-slate-800 text-sm">📑</span>
           <span class="group-hover:text-slate-950">Report</span>
@@ -162,7 +161,7 @@
       </button>
 
       <!-- 4. Plan Filter -->
-      <button onclick="switchView('plan_filter')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
+      <button data-perm="menu:plan_filter" onclick="switchView('plan_filter')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
         <div class="flex items-center gap-3">
           <span class="text-slate-800 text-sm">🌪️</span>
           <span class="group-hover:text-slate-950">Plan Filter</span>
@@ -171,7 +170,7 @@
       </button>
 
       <!-- 5. Plan Vs Actual Tracking -->
-      <button onclick="switchView('plan_vs_actual')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
+      <button data-perm="menu:plan_vs_actual" onclick="switchView('plan_vs_actual')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
         <div class="flex items-center gap-3">
           <span class="text-slate-800 text-sm">⚖️</span>
           <span class="group-hover:text-slate-950">Plan Vs Actual Tracking</span>
@@ -180,7 +179,7 @@
       </button>
 
       <!-- 6. Tracking Report -->
-      <button onclick="switchView('tracking_report')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
+      <button data-perm="menu:tracking_report" onclick="switchView('tracking_report')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
         <div class="flex items-center gap-3">
           <span class="text-slate-800 text-sm">📑</span>
           <span class="group-hover:text-slate-950">Tracking Report</span>
@@ -189,7 +188,7 @@
       </button>
 
       <!-- 7. Plan Vs Actual Tracking Filter -->
-      <button onclick="switchView('tracking_filter')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
+      <button data-perm="menu:tracking_filter" onclick="switchView('tracking_filter')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
         <div class="flex items-center gap-3">
           <span class="text-slate-800 text-sm">🌪️</span>
           <span class="group-hover:text-slate-950">Plan Vs Actual Tracking Filter</span>
@@ -198,7 +197,7 @@
       </button>
 
       <!-- 8. Load Calculation -->
-      <button onclick="switchView('load_calculation')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
+      <button data-perm="menu:load_calculation" onclick="switchView('load_calculation')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
         <div class="flex items-center gap-3">
           <span class="text-slate-800 text-sm">🧮</span>
           <span class="group-hover:text-slate-950">Load Calculation</span>
@@ -207,7 +206,7 @@
       </button>
 
       <!-- 9. Manage Users -->
-      <button onclick="switchView('manage_users')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
+      <button data-perm="menu:manage_users" onclick="switchView('manage_users')" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-slate-300/60 transition group text-left">
         <div class="flex items-center gap-3">
           <span class="text-slate-800 text-sm">👥</span>
           <span class="group-hover:text-slate-950">Manage Users</span>
@@ -1036,24 +1035,55 @@
       <!-- ========================================== -->
       <!-- VIEW: MANAGE USERS                         -->
       <!-- ========================================== -->
-      <div id="viewManageUsers" class="hidden space-y-6">
+      <div id="viewManageUsers" class="hidden space-y-5">
         <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
-          <div class="flex items-center justify-between pb-4 border-b border-slate-200">
-            <h2 class="text-base font-extrabold text-slate-800">Manage Users</h2>
-            <button onclick="openUserModal()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded-lg">➕ Create New User</button>
+          
+          <!-- Header and Action Bar -->
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-4 border-b border-slate-200 gap-3">
+            <div>
+              <h2 class="text-base font-extrabold text-slate-900 flex items-center gap-2">
+                <span>👥</span> Manage Users &amp; Access System
+              </h2>
+              <p class="text-xs text-slate-500 mt-0.5">Control system accounts, user roles, restricted buyer scopes, and menu/button access permissions.</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="fetchUsers()" title="Refresh Users from Database" class="px-3 py-2 border border-slate-300 rounded-lg hover:bg-slate-100 text-slate-700 text-xs font-bold transition flex items-center gap-1.5">
+                <span>🔄</span> Refresh
+              </button>
+              <button onclick="openUserModal()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold px-4 py-2 rounded-lg flex items-center gap-1.5 shadow-sm transition">
+                <span>➕</span> Create New User
+              </button>
+            </div>
           </div>
-          <table class="w-full text-left text-xs border-collapse mt-4">
-            <thead>
-              <tr class="bg-slate-50 text-slate-600 border-b border-slate-200 font-bold">
-                <th class="py-3 px-3.5">Username</th>
-                <th class="py-3 px-3.5">Role</th>
-                <th class="py-3 px-3.5">Allowed Buyers</th>
-                <th class="py-3 px-3.5">Status</th>
-                <th class="py-3 px-3.5 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody id="userListTbody" class="divide-y divide-slate-100 font-medium"></tbody>
-          </table>
+
+          <!-- Quick Stats & Filter Bar -->
+          <div class="py-3 flex flex-wrap items-center justify-between gap-3 text-xs border-b border-slate-100">
+            <div class="flex items-center gap-2">
+              <span id="userCountTotalBadge" class="bg-slate-100 text-slate-800 font-bold px-2.5 py-1 rounded-full border border-slate-200">0 Accounts</span>
+              <span id="userCountActiveBadge" class="bg-emerald-50 text-emerald-700 font-bold px-2.5 py-1 rounded-full border border-emerald-200">0 Active</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <input type="text" id="userSearchInput" oninput="filterUserList()" placeholder="Filter by username, role, buyer..." class="bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-500 w-64 shadow-2xs">
+            </div>
+          </div>
+
+          <!-- Table -->
+          <div class="overflow-x-auto mt-2">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr class="bg-slate-50 text-slate-700 border-b border-slate-200 font-bold">
+                  <th class="py-3 px-3.5">Username</th>
+                  <th class="py-3 px-3.5">Role</th>
+                  <th class="py-3 px-3.5">Allowed Buyers Scope</th>
+                  <th class="py-3 px-3.5">Menu &amp; Action Permissions</th>
+                  <th class="py-3 px-3.5">Account Status</th>
+                  <th class="py-3 px-3.5 text-right">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="userListTbody" class="divide-y divide-slate-100 font-medium"></tbody>
+            </table>
+          </div>
+
         </div>
       </div>
 
@@ -1157,6 +1187,182 @@
         <button onclick="saveAdditionalData()" class="px-4 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-bold">Save Data</button>
       </div>
 
+  <!-- ========================================== -->
+  <!-- MODAL: CREATE / EDIT USER ACCESS CONTROL   -->
+  <!-- ========================================== -->
+  <div id="userModal" class="fixed inset-0 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
+    <div class="bg-white rounded-2xl w-full max-w-2xl max-h-[92vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden text-slate-800">
+      
+      <!-- Modal Header -->
+      <div class="px-6 py-4 border-b border-slate-200 flex justify-between items-center bg-gradient-to-r from-slate-50 to-slate-100">
+        <div>
+          <h3 class="text-sm font-extrabold text-slate-900 flex items-center gap-2">
+            <span class="text-base">👤</span> <span id="userModalTitle">Create New User</span>
+          </h3>
+          <p class="text-[11px] text-slate-500 mt-0.5">Configure system credentials, role, allowed buyers scope, and granular menu permissions.</p>
+        </div>
+        <button onclick="closeUserModal()" class="text-slate-400 hover:text-slate-800 text-xl font-bold leading-none">&times;</button>
+      </div>
+
+      <!-- Modal Body (Scrollable) -->
+      <div class="p-6 overflow-y-auto space-y-4 text-xs flex-1">
+        
+        <!-- Section 1: Account Credentials & Role -->
+        <div class="bg-slate-50/70 p-4 rounded-xl border border-slate-200/80 space-y-3">
+          <div class="flex items-center gap-2 font-bold text-slate-800 text-xs border-b border-slate-200 pb-2">
+            <span>🔑</span> <span>Account Credentials &amp; Role</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-slate-700 font-bold mb-1">Username *</label>
+              <input type="text" id="userModalUsername" placeholder="e.g. planner.ahmed" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-slate-800 font-medium focus:outline-none focus:ring-1 focus:ring-blue-500">
+            </div>
+            <div>
+              <label class="block text-slate-700 font-bold mb-1">
+                Password <span id="userModalPasswordRequired">*</span>
+                <span id="userModalPasswordHint" class="text-[10px] text-slate-400 font-normal hidden">(Leave blank to keep existing)</span>
+              </label>
+              <div class="relative">
+                <input type="password" id="userModalPassword" placeholder="Enter password (e.g. Plan2026!)" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 pr-9 text-slate-800 font-medium focus:outline-none focus:ring-1 focus:ring-blue-500">
+                <button type="button" onclick="togglePasswordVisibility('userModalPassword')" class="absolute right-2.5 top-2.5 text-slate-400 hover:text-slate-600">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+            </div>
+            <div>
+              <label class="block text-slate-700 font-bold mb-1">Role *</label>
+              <select id="userModalRole" onchange="onRoleChanged()" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-slate-800 font-medium focus:outline-none focus:ring-1 focus:ring-blue-500">
+                <option value="Admin">Admin (Full System Access)</option>
+                <option value="Planner" selected>Planner (Planning &amp; Tracking)</option>
+                <option value="Merchandiser">Merchandiser (Order Tracking &amp; Delivery)</option>
+                <option value="Production">Production (Knitting / Dyeing Floor)</option>
+                <option value="Viewer">Viewer (Read-only View)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-slate-700 font-bold mb-1">Account Status *</label>
+              <select id="userModalStatus" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-slate-800 font-medium focus:outline-none focus:ring-1 focus:ring-blue-500">
+                <option value="Active" selected>Active</option>
+                <option value="Inactive">Inactive</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 2: Allowed Buyers Scope -->
+        <div class="bg-slate-50/70 p-4 rounded-xl border border-slate-200/80 space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+            <div class="flex items-center gap-2 font-bold text-slate-800 text-xs">
+              <span>🏷️</span> <span>Allowed Buyers Scope (Data Restriction)</span>
+            </div>
+            <label class="inline-flex items-center gap-1.5 cursor-pointer text-[11px] font-bold text-blue-700">
+              <input type="checkbox" id="userModalAllBuyers" onchange="toggleAllBuyersCheckbox()" class="rounded border-slate-300 text-blue-600 focus:ring-blue-500">
+              <span>All Buyers (Unrestricted)</span>
+            </label>
+          </div>
+          <p class="text-[11px] text-slate-500">Orders in Order Management and Tracking will be filtered exclusively to these buyers for this user account.</p>
+          
+          <div id="userModalBuyersContainer" class="space-y-2">
+            <div id="userModalBuyerCheckboxes" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+              <!-- Dynamically populated buyer checkboxes -->
+            </div>
+            <div class="flex items-center gap-2 pt-2 border-t border-slate-200/60">
+              <input type="text" id="userModalCustomBuyerInput" placeholder="Add custom buyer (e.g. Tommy Hilfiger)..." class="flex-1 bg-white border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-500">
+              <button type="button" onclick="addCustomBuyerToModal()" class="px-3 py-1.5 rounded-lg bg-slate-200 hover:bg-slate-300 font-bold text-slate-700 transition">Add Buyer</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section 3: Feature & Menu Permissions (Access System) -->
+        <div class="bg-slate-50/70 p-4 rounded-xl border border-slate-200/80 space-y-3">
+          <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+            <div class="flex items-center gap-2 font-bold text-slate-800 text-xs">
+              <span>🛡️</span> <span>Menu &amp; Action Permissions (Access System)</span>
+            </div>
+            <div class="flex items-center gap-2 text-[11px]">
+              <button type="button" onclick="selectAllPermissions(true)" class="text-blue-600 hover:underline font-bold">Select All</button>
+              <span class="text-slate-300">|</span>
+              <button type="button" onclick="selectAllPermissions(false)" class="text-slate-500 hover:underline font-medium">Clear All</button>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <div>
+              <div class="text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-2">Navigation Menus</div>
+              <div id="userModalNavPermissions" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                <!-- Dynamically populated from systemPermissions -->
+              </div>
+            </div>
+
+            <div class="pt-2 border-t border-slate-200/60">
+              <div class="text-[11px] font-bold text-slate-600 uppercase tracking-wider mb-2">Action &amp; Edit Permissions</div>
+              <div id="userModalActionPermissions" class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <!-- Dynamically populated from systemPermissions -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="px-6 py-3.5 border-t border-slate-200 bg-slate-50 flex justify-between items-center text-xs">
+        <div id="userModalFeedback" class="text-rose-600 font-semibold text-[11px] truncate mr-2"></div>
+        <div class="flex items-center gap-2">
+          <button type="button" onclick="closeUserModal()" class="px-4 py-2 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-100 font-bold transition">Cancel</button>
+          <button type="button" id="userModalSubmitBtn" onclick="saveUserModal()" class="px-5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold shadow-sm transition flex items-center gap-1.5">
+            <span id="userModalSubmitText">Create User</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL: SWITCH ACTIVE USER / LOGIN          -->
+  <!-- ========================================== -->
+  <div id="switchUserModal" class="fixed inset-0 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 z-50 hidden">
+    <div class="bg-white rounded-2xl w-full max-w-lg shadow-2xl border border-slate-200 overflow-hidden text-slate-800">
+      
+      <!-- Modal Header -->
+      <div class="px-6 py-4 border-b border-slate-200 flex justify-between items-center bg-slate-50">
+        <div>
+          <h3 class="text-sm font-extrabold text-slate-900 flex items-center gap-2">
+            <span>👥</span> Switch Active User Session
+          </h3>
+          <p class="text-[11px] text-slate-500">Select an account below to test its role, allowed buyers scope, and permissions.</p>
+        </div>
+        <button onclick="closeSwitchUserModal()" class="text-slate-400 hover:text-slate-800 text-xl font-bold leading-none">&times;</button>
+      </div>
+
+      <!-- User List -->
+      <div class="p-6 max-h-[55vh] overflow-y-auto space-y-2.5 text-xs" id="switchUserListContainer">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Quick Login With Credentials Option -->
+      <div class="px-6 py-3 bg-slate-50 border-t border-slate-200">
+        <details class="text-xs group">
+          <summary class="font-bold text-slate-700 cursor-pointer hover:text-slate-900 flex items-center justify-between">
+            <span>🔐 Log In With Password</span>
+            <span class="text-slate-400 text-[10px] group-open:rotate-180 transition">▼</span>
+          </summary>
+          <div class="mt-3 space-y-2.5 pt-2 border-t border-slate-200">
+            <input type="text" id="quickLoginUsername" placeholder="Username" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-500">
+            <input type="password" id="quickLoginPassword" placeholder="Password" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-xs text-slate-800 focus:outline-none focus:ring-1 focus:ring-blue-500">
+            <div class="flex justify-end">
+              <button onclick="handleQuickLogin()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-1.5 rounded-lg text-xs transition">Log In</button>
+            </div>
+          </div>
+        </details>
+      </div>
+
+      <!-- Footer -->
+      <div class="px-6 py-3 border-t border-slate-200 bg-slate-100 flex justify-end">
+        <button onclick="closeSwitchUserModal()" class="px-4 py-1.5 rounded-lg border border-slate-300 text-slate-700 hover:bg-white font-bold text-xs">Close</button>
+      </div>
+
     </div>
   </div>
 
@@ -1210,19 +1416,39 @@
       { id: 'menu:manage_users', name: 'Manage Users', category: 'Navigation Menus' },
       { id: 'btn:upload_source_data', name: 'Upload Data Button', category: 'Action Buttons' },
       { id: 'btn:delete_source_file', name: 'Delete Uploaded File Button', category: 'Action Buttons' },
+      { id: 'btn:save_order_plan', name: 'Save Order Plan Data', category: 'Action Buttons' },
       { id: 'btn:add_additional_data', name: 'Add Additional Data Button', category: 'Action Buttons' }
     ];
 
+    let activeToken = localStorage.getItem('erp_jwt_token') || '';
+    let activeUser = null;
+    try {
+      activeUser = JSON.parse(localStorage.getItem('erp_active_user'));
+    } catch (e) {}
+    if (!activeUser || !activeUser.username) {
+      activeUser = {
+        id: 'admin',
+        username: 'admin',
+        role: 'Admin',
+        allowedBuyers: [],
+        permissions: ['*'],
+        status: 'Active'
+      };
+    }
+
     let users = [
       { id: '1', username: 'admin', role: 'Admin', allowedBuyers: [], permissions: ['*'], status: 'Active' },
-      { id: '2', username: 'planner', role: 'Planner', allowedBuyers: ['H&M', 'Zara', 'Next'], permissions: ['menu:data_management', 'menu:source_upload', 'menu:order_management', 'btn:upload_source_data'], status: 'Active' }
+      { id: '2', username: 'planner', role: 'Planner', allowedBuyers: ['H&M', 'Zara', 'Next'], permissions: ['menu:data_management', 'menu:source_upload', 'menu:order_management', 'menu:knitting_plan', 'menu:dyeing_plan', 'menu:delivery_plan', 'menu:delivery_plan_floor', 'btn:upload_source_data', 'btn:save_order_plan'], status: 'Active' }
     ];
+
+    let editingUserId = null;
 
     // Page initialization
     document.addEventListener('DOMContentLoaded', () => {
       switchOrderPlanView('Knitting Plan');
       loadUploadedFiles();
-      renderUsers();
+      applyUserAccessControl();
+      fetchUsers();
     });
 
     // ==========================================
@@ -1321,10 +1547,18 @@
     // Render Full Plan View strictly from uploaded file data with Pagination
     function renderPlanView() {
       // 1. Filter orders strictly by Plan Type and Status List
-      const scopedOrders = allOrdersData.filter(o => 
+      let scopedOrders = allOrdersData.filter(o => 
         (o.planType === currentPlanType || (currentPlanType === 'Knitting Plan' && o.planType === 'Solid Plan')) &&
         (String(o.status || '').toLowerCase() === currentStatusFilter.toLowerCase())
       );
+
+      // Access Control: Filter by allowed buyers if user is not Admin and has restricted buyers
+      if (activeUser && activeUser.role !== 'Admin' && Array.isArray(activeUser.allowedBuyers) && activeUser.allowedBuyers.length > 0) {
+        scopedOrders = scopedOrders.filter(o => {
+          const ob = String(o.buyer || '').trim().toLowerCase();
+          return activeUser.allowedBuyers.some(b => String(b).trim().toLowerCase() === ob);
+        });
+      }
 
       // 2. Extract distinct buyers strictly from scoped orders
       const buyerSet = new Set();
@@ -2713,35 +2947,607 @@
     }
 
     function handleLogout() {
-      alert('Logging out...');
-      switchView('welcome');
+      if (confirm('Switch user session or log out?')) {
+        openSwitchUserModal();
+      }
     }
 
-    // Users Management
-    function renderUsers() {
+    function togglePasswordVisibility(inputId) {
+      const el = document.getElementById(inputId);
+      if (el) el.type = el.type === 'password' ? 'text' : 'password';
+    }
+
+    // ==========================================
+    // USERS MANAGEMENT & ACCESS SYSTEM
+    // ==========================================
+
+    async function fetchUsers() {
+      try {
+        const headers = {};
+        if (activeToken) headers['Authorization'] = `Bearer ${activeToken}`;
+        const res = await fetch('/api/auth/users', { headers });
+        if (res.ok) {
+          const json = await res.json();
+          if (json.success && Array.isArray(json.users)) {
+            users = json.users;
+            renderUsers();
+            updateUserCountBadges();
+          }
+        }
+      } catch (err) {
+        console.warn('Could not fetch users from backend:', err);
+      }
+    }
+
+    function updateUserCountBadges() {
+      const totalBadge = document.getElementById('userCountTotalBadge');
+      const activeBadge = document.getElementById('userCountActiveBadge');
+      if (totalBadge) totalBadge.textContent = `${users.length} Account${users.length === 1 ? '' : 's'}`;
+      if (activeBadge) {
+        const activeCount = users.filter(u => u.status === 'Active').length;
+        activeBadge.textContent = `${activeCount} Active`;
+      }
+    }
+
+    function filterUserList() {
+      const q = (document.getElementById('userSearchInput')?.value || '').toLowerCase().trim();
+      if (!q) {
+        renderUsers(users);
+        return;
+      }
+      const filtered = users.filter(u => {
+        const username = (u.username || '').toLowerCase();
+        const role = (u.role || '').toLowerCase();
+        const buyers = (u.allowedBuyers || []).join(' ').toLowerCase();
+        const status = (u.status || '').toLowerCase();
+        return username.includes(q) || role.includes(q) || buyers.includes(q) || status.includes(q);
+      });
+      renderUsers(filtered);
+    }
+
+    function renderUsers(list = users) {
       const tbody = document.getElementById('userListTbody');
       if (!tbody) return;
       tbody.innerHTML = '';
-      users.forEach(u => {
+
+      if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-slate-400 italic">No users found matching your search.</td></tr>`;
+        return;
+      }
+
+      const roleColors = {
+        'Admin': 'bg-purple-100 text-purple-700 border-purple-200',
+        'Planner': 'bg-blue-100 text-blue-700 border-blue-200',
+        'Merchandiser': 'bg-emerald-100 text-emerald-700 border-emerald-200',
+        'Production': 'bg-amber-100 text-amber-800 border-amber-200',
+        'Viewer': 'bg-slate-100 text-slate-700 border-slate-200'
+      };
+
+      list.forEach(u => {
         const tr = document.createElement('tr');
         tr.className = 'hover:bg-slate-50 transition border-b border-slate-100';
-        const buyerText = u.allowedBuyers.length ? u.allowedBuyers.join(', ') : '<span class="text-slate-400 font-normal">All Buyers</span>';
-        const permCount = u.permissions.includes('*') ? '<span class="bg-purple-100 text-purple-700 border border-purple-200 font-bold px-2 py-0.5 rounded text-[10px]">All (Admin)</span>' : `<span class="bg-slate-100 text-slate-700 px-2 py-0.5 rounded text-[10px] font-semibold">${u.permissions.length} items</span>`;
+
+        const uId = u._id || u.id;
+        const buyerText = (u.allowedBuyers && u.allowedBuyers.length > 0)
+          ? u.allowedBuyers.map(b => `<span class="inline-block bg-slate-100 text-slate-700 px-1.5 py-0.5 rounded text-[10px] font-semibold border border-slate-200 mr-1 mb-0.5">${b}</span>`).join('')
+          : '<span class="inline-flex items-center gap-1 text-slate-500 font-medium text-[11px]"><span class="text-blue-500">🌟</span> All Buyers (Unrestricted)</span>';
+
+        const isFullAdmin = u.role === 'Admin' || (u.permissions && u.permissions.includes('*'));
+        const permBadge = isFullAdmin
+          ? '<span class="bg-purple-100 text-purple-700 border border-purple-200 font-bold px-2 py-0.5 rounded text-[10px]">All Permissions (Admin)</span>'
+          : `<span class="bg-slate-100 text-slate-700 px-2 py-0.5 rounded text-[10px] font-semibold" title="${(u.permissions || []).join(', ')}">${(u.permissions || []).length} permissions</span>`;
+
+        const statusBadge = u.status === 'Active'
+          ? `<span class="text-emerald-700 font-bold flex items-center gap-1.5 text-[11px]"><span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Active</span>`
+          : `<span class="text-slate-400 font-bold flex items-center gap-1.5 text-[11px]"><span class="w-2 h-2 rounded-full bg-slate-300"></span> Inactive</span>`;
+
+        const badgeClass = roleColors[u.role] || 'bg-slate-100 text-slate-700 border-slate-200';
+        const isCurrentActive = activeUser && activeUser.username === u.username;
 
         tr.innerHTML = `
-          <td class="py-3 px-3.5 font-bold text-slate-800">${u.username}</td>
-          <td class="py-3 px-3.5"><span class="px-2.5 py-0.5 rounded-full text-[10.5px] font-bold ${u.role === 'Admin' ? 'bg-purple-100 text-purple-700 border border-purple-200' : 'bg-blue-100 text-blue-700 border border-blue-200'}">${u.role}</span></td>
-          <td class="py-3 px-3.5 text-slate-600">${buyerText}</td>
-          <td class="py-3 px-3.5">${permCount}</td>
-          <td class="py-3 px-3.5"><span class="text-emerald-600 font-bold flex items-center gap-1 text-[11px]"><span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> ${u.status}</span></td>
-          <td class="py-3 px-3.5 text-right"><span class="text-slate-400 text-xs">Active</span></td>
+          <td class="py-3 px-3.5">
+            <div class="flex items-center gap-2">
+              <div class="w-7 h-7 rounded-full bg-slate-700 text-white font-bold text-xs flex items-center justify-center shadow-2xs">
+                ${(u.username || 'U').charAt(0).toUpperCase()}
+              </div>
+              <div>
+                <div class="font-bold text-slate-900 flex items-center gap-1.5">
+                  <span>${u.username}</span>
+                  ${isCurrentActive ? '<span class="text-[9px] bg-emerald-100 text-emerald-800 font-bold px-1.5 py-0.2 rounded border border-emerald-200">Active Session</span>' : ''}
+                </div>
+              </div>
+            </div>
+          </td>
+          <td class="py-3 px-3.5">
+            <span class="px-2.5 py-0.5 rounded-full text-[10.5px] font-bold border ${badgeClass}">
+              ${u.role || 'User'}
+            </span>
+          </td>
+          <td class="py-3 px-3.5 max-w-[220px]">
+            ${buyerText}
+          </td>
+          <td class="py-3 px-3.5">
+            ${permBadge}
+          </td>
+          <td class="py-3 px-3.5">
+            ${statusBadge}
+          </td>
+          <td class="py-3 px-3.5 text-right whitespace-nowrap">
+            <div class="inline-flex items-center gap-1">
+              <button onclick="openUserModal('${uId}')" class="p-1.5 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded transition" title="Edit User">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+              </button>
+              <button onclick="toggleUserStatus('${uId}')" class="p-1.5 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded transition" title="Toggle Active / Inactive Status">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+              </button>
+              ${u.username !== 'admin' ? `
+              <button onclick="deleteUser('${uId}', '${u.username}')" class="p-1.5 text-rose-500 hover:text-rose-700 hover:bg-rose-50 rounded transition" title="Delete User">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+              </button>
+              ` : `
+              <span class="p-1.5 text-slate-300 cursor-not-allowed" title="System admin cannot be deleted">🔒</span>
+              `}
+            </div>
+          </td>
         `;
         tbody.appendChild(tr);
       });
+      updateUserCountBadges();
     }
 
-    function openUserModal() {
-      alert('User creation modal. (Users are managed via system accounts).');
+    // Buyer Selection Controls in User Modal
+    function populateBuyerCheckboxesInModal(selectedBuyers = []) {
+      const container = document.getElementById('userModalBuyerCheckboxes');
+      if (!container) return;
+      container.innerHTML = '';
+
+      const allBuyersCheckbox = document.getElementById('userModalAllBuyers');
+      const isAll = (!selectedBuyers || selectedBuyers.length === 0);
+      if (allBuyersCheckbox) allBuyersCheckbox.checked = isAll;
+
+      const buyerSet = new Set(['H&M', 'Zara', 'Next', 'C&A', 'Target', 'PVH', 'Marks & Spencer', 'Tesco', 'Wal-Mart', 'LPP']);
+      (allOrdersData || []).forEach(o => {
+        const b = String(o.buyer || '').trim();
+        if (b) buyerSet.add(b);
+      });
+      (selectedBuyers || []).forEach(b => {
+        if (b) buyerSet.add(b);
+      });
+
+      const sortedBuyers = Array.from(buyerSet).sort();
+      sortedBuyers.forEach(b => {
+        const isChecked = !isAll && selectedBuyers.includes(b);
+        const label = document.createElement('label');
+        label.className = 'inline-flex items-center gap-1.5 text-xs text-slate-700 cursor-pointer bg-white px-2 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-100 transition';
+        label.innerHTML = `
+          <input type="checkbox" name="userModalBuyer" value="${b}" ${isChecked ? 'checked' : ''} onchange="onIndividualBuyerChanged()" class="rounded border-slate-300 text-blue-600 focus:ring-blue-500">
+          <span class="truncate font-medium">${b}</span>
+        `;
+        container.appendChild(label);
+      });
+    }
+
+    function addCustomBuyerToModal() {
+      const input = document.getElementById('userModalCustomBuyerInput');
+      const val = (input?.value || '').trim();
+      if (!val) return;
+
+      const container = document.getElementById('userModalBuyerCheckboxes');
+      const allBuyersCheckbox = document.getElementById('userModalAllBuyers');
+      if (allBuyersCheckbox) allBuyersCheckbox.checked = false;
+
+      // Check if already exists
+      const existing = container.querySelector(`input[value="${val}"]`);
+      if (existing) {
+        existing.checked = true;
+      } else {
+        const label = document.createElement('label');
+        label.className = 'inline-flex items-center gap-1.5 text-xs text-slate-700 cursor-pointer bg-white px-2 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-100 transition';
+        label.innerHTML = `
+          <input type="checkbox" name="userModalBuyer" value="${val}" checked onchange="onIndividualBuyerChanged()" class="rounded border-slate-300 text-blue-600 focus:ring-blue-500">
+          <span class="truncate font-medium">${val}</span>
+        `;
+        container.appendChild(label);
+      }
+      input.value = '';
+    }
+
+    function toggleAllBuyersCheckbox() {
+      const allChecked = document.getElementById('userModalAllBuyers')?.checked;
+      if (allChecked) {
+        document.querySelectorAll('input[name="userModalBuyer"]').forEach(cb => {
+          cb.checked = false;
+        });
+      }
+    }
+
+    function onIndividualBuyerChanged() {
+      const anyChecked = Array.from(document.querySelectorAll('input[name="userModalBuyer"]')).some(cb => cb.checked);
+      const allBuyersCheckbox = document.getElementById('userModalAllBuyers');
+      if (allBuyersCheckbox) {
+        allBuyersCheckbox.checked = !anyChecked;
+      }
+    }
+
+    // Permission Selection Controls in User Modal
+    function populatePermissionsInModal(selectedPerms = []) {
+      const navContainer = document.getElementById('userModalNavPermissions');
+      const actionContainer = document.getElementById('userModalActionPermissions');
+      if (!navContainer || !actionContainer) return;
+
+      navContainer.innerHTML = '';
+      actionContainer.innerHTML = '';
+
+      const isAll = selectedPerms.includes('*');
+
+      systemPermissions.forEach(p => {
+        const isChecked = isAll || selectedPerms.includes(p.id);
+        const label = document.createElement('label');
+        label.className = 'inline-flex items-center gap-2 text-xs text-slate-700 cursor-pointer bg-white px-2.5 py-1.5 rounded-lg border border-slate-200 hover:bg-slate-100 transition';
+        label.innerHTML = `
+          <input type="checkbox" name="userModalPerm" value="${p.id}" ${isChecked ? 'checked' : ''} class="rounded border-slate-300 text-blue-600 focus:ring-blue-500">
+          <span class="truncate font-medium">${p.name}</span>
+        `;
+        if (p.category === 'Navigation Menus') {
+          navContainer.appendChild(label);
+        } else {
+          actionContainer.appendChild(label);
+        }
+      });
+    }
+
+    function selectAllPermissions(selectAll) {
+      document.querySelectorAll('input[name="userModalPerm"]').forEach(cb => {
+        cb.checked = !!selectAll;
+      });
+    }
+
+    function onRoleChanged() {
+      const role = document.getElementById('userModalRole')?.value;
+      if (role === 'Admin') {
+        const allBuyers = document.getElementById('userModalAllBuyers');
+        if (allBuyers) allBuyers.checked = true;
+        toggleAllBuyersCheckbox();
+        selectAllPermissions(true);
+      } else if (role === 'Viewer') {
+        selectAllPermissions(false);
+        // Grant read navigation permissions
+        const viewerPerms = ['menu:data_management', 'menu:order_management', 'menu:knitting_plan', 'menu:dyeing_plan', 'menu:delivery_plan', 'menu:delivery_plan_floor', 'menu:report', 'menu:plan_filter'];
+        document.querySelectorAll('input[name="userModalPerm"]').forEach(cb => {
+          if (viewerPerms.includes(cb.value)) cb.checked = true;
+        });
+      }
+    }
+
+    // Open Modal: Create or Edit
+    function openUserModal(userId = null) {
+      editingUserId = userId;
+      const modal = document.getElementById('userModal');
+      const title = document.getElementById('userModalTitle');
+      const submitText = document.getElementById('userModalSubmitText');
+      const feedback = document.getElementById('userModalFeedback');
+      const usernameInput = document.getElementById('userModalUsername');
+      const passwordInput = document.getElementById('userModalPassword');
+      const passwordReq = document.getElementById('userModalPasswordRequired');
+      const passwordHint = document.getElementById('userModalPasswordHint');
+      const roleSelect = document.getElementById('userModalRole');
+      const statusSelect = document.getElementById('userModalStatus');
+
+      if (feedback) feedback.textContent = '';
+
+      if (userId) {
+        const user = users.find(u => (u._id || u.id) === userId);
+        if (!user) {
+          alert('User not found.');
+          return;
+        }
+        title.textContent = `Edit User: ${user.username}`;
+        submitText.textContent = 'Save Changes';
+        usernameInput.value = user.username;
+        usernameInput.disabled = true;
+        passwordInput.value = '';
+        if (passwordReq) passwordReq.classList.add('hidden');
+        if (passwordHint) passwordHint.classList.remove('hidden');
+        roleSelect.value = user.role || 'Planner';
+        statusSelect.value = user.status || 'Active';
+        populateBuyerCheckboxesInModal(user.allowedBuyers || []);
+        populatePermissionsInModal(user.permissions || []);
+      } else {
+        title.textContent = 'Create New User';
+        submitText.textContent = 'Create User';
+        usernameInput.value = '';
+        usernameInput.disabled = false;
+        passwordInput.value = '';
+        if (passwordReq) passwordReq.classList.remove('hidden');
+        if (passwordHint) passwordHint.classList.add('hidden');
+        roleSelect.value = 'Planner';
+        statusSelect.value = 'Active';
+        populateBuyerCheckboxesInModal([]);
+        populatePermissionsInModal(['menu:data_management', 'menu:source_upload', 'menu:order_management', 'menu:knitting_plan', 'menu:dyeing_plan', 'menu:delivery_plan', 'menu:delivery_plan_floor', 'btn:upload_source_data', 'btn:save_order_plan']);
+      }
+
+      modal.classList.remove('hidden');
+    }
+
+    function closeUserModal() {
+      const modal = document.getElementById('userModal');
+      if (modal) modal.classList.add('hidden');
+      editingUserId = null;
+    }
+
+    async function saveUserModal() {
+      const feedback = document.getElementById('userModalFeedback');
+      const username = (document.getElementById('userModalUsername')?.value || '').trim();
+      const password = (document.getElementById('userModalPassword')?.value || '').trim();
+      const role = document.getElementById('userModalRole')?.value || 'Planner';
+      const status = document.getElementById('userModalStatus')?.value || 'Active';
+
+      if (!username) {
+        if (feedback) feedback.textContent = 'Username is required.';
+        return;
+      }
+      if (!editingUserId && !password) {
+        if (feedback) feedback.textContent = 'Password is required for new user.';
+        return;
+      }
+
+      // Collect allowed buyers
+      let allowedBuyers = [];
+      const isAllBuyers = document.getElementById('userModalAllBuyers')?.checked;
+      if (!isAllBuyers) {
+        document.querySelectorAll('input[name="userModalBuyer"]:checked').forEach(cb => {
+          allowedBuyers.push(cb.value);
+        });
+      }
+
+      // Collect permissions
+      let permissions = [];
+      if (role === 'Admin') {
+        permissions = ['*'];
+      } else {
+        document.querySelectorAll('input[name="userModalPerm"]:checked').forEach(cb => {
+          permissions.push(cb.value);
+        });
+      }
+
+      const submitBtn = document.getElementById('userModalSubmitBtn');
+      if (submitBtn) submitBtn.disabled = true;
+
+      try {
+        const headers = { 'Content-Type': 'application/json' };
+        if (activeToken) headers['Authorization'] = `Bearer ${activeToken}`;
+
+        let url = '/api/auth/users';
+        let method = 'POST';
+        const body = { username, role, allowedBuyers, permissions, status };
+        if (password) body.password = password;
+
+        if (editingUserId) {
+          url = `/api/auth/users/${editingUserId}`;
+          method = 'PUT';
+        }
+
+        const res = await fetch(url, {
+          method,
+          headers,
+          body: JSON.stringify(body)
+        });
+
+        const json = await res.json();
+        if (res.ok && json.success) {
+          closeUserModal();
+          alert(json.message || 'User saved successfully.');
+          await fetchUsers();
+          // If we edited current active user, refresh activeUser
+          if (activeUser && activeUser.username.toLowerCase() === username.toLowerCase()) {
+            activeUser = json.user;
+            localStorage.setItem('erp_active_user', JSON.stringify(activeUser));
+            applyUserAccessControl();
+          }
+        } else {
+          if (feedback) feedback.textContent = json.message || 'Failed to save user.';
+        }
+      } catch (err) {
+        if (feedback) feedback.textContent = 'Network error saving user: ' + err.message;
+      } finally {
+        if (submitBtn) submitBtn.disabled = false;
+      }
+    }
+
+    async function toggleUserStatus(userId) {
+      const user = users.find(u => (u._id || u.id) === userId);
+      if (!user) return;
+
+      const newStatus = user.status === 'Active' ? 'Inactive' : 'Active';
+      try {
+        const headers = { 'Content-Type': 'application/json' };
+        if (activeToken) headers['Authorization'] = `Bearer ${activeToken}`;
+
+        const res = await fetch(`/api/auth/users/${userId}`, {
+          method: 'PUT',
+          headers,
+          body: JSON.stringify({ status: newStatus })
+        });
+        const json = await res.json();
+        if (res.ok && json.success) {
+          user.status = newStatus;
+          renderUsers();
+        } else {
+          alert(json.message || 'Failed to toggle status.');
+        }
+      } catch (err) {
+        alert('Network error updating status.');
+      }
+    }
+
+    async function deleteUser(userId, username) {
+      if (!confirm(`Are you sure you want to permanently delete user "${username}"?`)) {
+        return;
+      }
+
+      try {
+        const headers = {};
+        if (activeToken) headers['Authorization'] = `Bearer ${activeToken}`;
+
+        const res = await fetch(`/api/auth/users/${userId}`, {
+          method: 'DELETE',
+          headers
+        });
+        const json = await res.json();
+        if (res.ok && json.success) {
+          alert(json.message || `User ${username} deleted.`);
+          await fetchUsers();
+        } else {
+          alert(json.message || 'Failed to delete user.');
+        }
+      } catch (err) {
+        alert('Network error deleting user.');
+      }
+    }
+
+    // Switch Active User / Account Modal
+    function openSwitchUserModal() {
+      const modal = document.getElementById('switchUserModal');
+      const listContainer = document.getElementById('switchUserListContainer');
+      if (!modal || !listContainer) return;
+
+      listContainer.innerHTML = '';
+
+      users.forEach(u => {
+        const isCurrent = activeUser && activeUser.username === u.username;
+        const buyerDesc = (u.allowedBuyers && u.allowedBuyers.length > 0)
+          ? `Scope: ${u.allowedBuyers.join(', ')}`
+          : 'Scope: All Buyers (Unrestricted)';
+
+        const card = document.createElement('div');
+        card.className = `p-3 rounded-xl border flex items-center justify-between transition ${isCurrent ? 'bg-emerald-50 border-emerald-300' : 'bg-white border-slate-200 hover:bg-slate-50'}`;
+        card.innerHTML = `
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-full ${isCurrent ? 'bg-emerald-700' : 'bg-slate-800'} text-white font-bold flex items-center justify-center shadow-xs">
+              ${(u.username || 'U').charAt(0).toUpperCase()}
+            </div>
+            <div>
+              <div class="font-extrabold text-slate-900 flex items-center gap-1.5">
+                <span>${u.username}</span>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${u.role === 'Admin' ? 'bg-purple-100 text-purple-700' : 'bg-blue-100 text-blue-700'}">${u.role}</span>
+              </div>
+              <div class="text-[11px] text-slate-500 font-medium">${buyerDesc}</div>
+            </div>
+          </div>
+          <div>
+            ${isCurrent ? `
+              <span class="px-3 py-1 rounded-lg bg-emerald-600 text-white font-bold text-xs flex items-center gap-1">
+                <span>✓</span> Active
+              </span>
+            ` : `
+              <button onclick='switchActiveUser(${JSON.stringify(u)})' class="px-3 py-1 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-200 font-bold text-xs transition">
+                Switch
+              </button>
+            `}
+          </div>
+        `;
+        listContainer.appendChild(card);
+      });
+
+      modal.classList.remove('hidden');
+    }
+
+    function closeSwitchUserModal() {
+      const modal = document.getElementById('switchUserModal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function switchActiveUser(userObj) {
+      activeUser = userObj;
+      localStorage.setItem('erp_active_user', JSON.stringify(userObj));
+      applyUserAccessControl();
+      renderUsers();
+      closeSwitchUserModal();
+      alert(`Active user switched to: ${userObj.username} (${userObj.role})`);
+    }
+
+    async function handleQuickLogin() {
+      const u = (document.getElementById('quickLoginUsername')?.value || '').trim();
+      const p = (document.getElementById('quickLoginPassword')?.value || '').trim();
+      if (!u || !p) {
+        alert('Please enter both username and password.');
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username: u, password: p })
+        });
+        const json = await res.json();
+        if (res.ok && json.success) {
+          activeToken = json.token;
+          activeUser = json.user;
+          localStorage.setItem('erp_jwt_token', activeToken);
+          localStorage.setItem('erp_active_user', JSON.stringify(activeUser));
+          applyUserAccessControl();
+          renderUsers();
+          closeSwitchUserModal();
+          alert(`Successfully logged in as: ${activeUser.username} (${activeUser.role})`);
+        } else {
+          alert(json.message || 'Login failed.');
+        }
+      } catch (err) {
+        alert('Network error during login.');
+      }
+    }
+
+    // Apply User Access Control & Permissions across UI
+    function applyUserAccessControl() {
+      if (!activeUser) {
+        activeUser = {
+          id: 'admin',
+          username: 'admin',
+          role: 'Admin',
+          allowedBuyers: [],
+          permissions: ['*'],
+          status: 'Active'
+        };
+      }
+
+      // Update sidebar card
+      const nameEl = document.getElementById('currentUserDisplay');
+      if (nameEl) nameEl.textContent = `${activeUser.username} (${activeUser.role})`;
+
+      const avatarEl = document.getElementById('currentUserAvatar');
+      if (avatarEl) avatarEl.textContent = (activeUser.username || 'U').charAt(0).toUpperCase();
+
+      const scopeEl = document.getElementById('currentUserScopeDisplay');
+      if (scopeEl) {
+        if (activeUser.role === 'Admin' || !activeUser.allowedBuyers || activeUser.allowedBuyers.length === 0) {
+          scopeEl.textContent = 'All Buyers • Full Scope';
+        } else {
+          scopeEl.textContent = `Buyers: ${activeUser.allowedBuyers.join(', ')}`;
+        }
+      }
+
+      const isFullAdmin = activeUser.role === 'Admin' || (activeUser.permissions && activeUser.permissions.includes('*'));
+
+      // Loop through all elements with data-perm
+      document.querySelectorAll('[data-perm]').forEach(el => {
+        const perm = el.getAttribute('data-perm');
+        if (isFullAdmin) {
+          el.classList.remove('hidden');
+        } else {
+          const hasPerm = Array.isArray(activeUser.permissions) && activeUser.permissions.includes(perm);
+          if (hasPerm) {
+            el.classList.remove('hidden');
+          } else {
+            el.classList.add('hidden');
+          }
+        }
+      });
+
+      // Re-render orders in plan view with restricted buyer scope
+      if (typeof renderPlanView === 'function') {
+        renderPlanView();
+      }
     }
   </script>
 </body>
