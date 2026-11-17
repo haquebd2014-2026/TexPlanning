@@ -299,6 +299,17 @@ sourceDataRecordSchema.index({ recordId: 1 });
 
 const SourceDataRecord = mongoose.models.SourceDataRecord || mongoose.model('SourceDataRecord', sourceDataRecordSchema);
 
+// --- Plan Checklist Setup Schema (Criteria, Start Days, End Days, Status) ---
+const planChecklistSchema = new mongoose.Schema({
+  criteria: { type: String, required: true, trim: true },
+  startDays: { type: Number, default: 0 },
+  endDays: { type: Number, default: 0 },
+  status: { type: String, default: 'Active' },
+  orderIndex: { type: Number, default: 0 }
+}, { timestamps: true });
+
+const PlanChecklist = mongoose.models.PlanChecklist || mongoose.model('PlanChecklist', planChecklistSchema);
+
 // ==========================================
 // 2. AUTHENTICATION & SECURITY MIDDLEWARE
 // ==========================================
@@ -640,6 +651,123 @@ app.get('/api/auth/me', authenticateToken, async (req, res) => {
     return res.status(200).json({ success: true, user });
   } catch (error) {
     return res.status(500).json({ success: false, message: 'Failed to fetch user.', error: error.message });
+  }
+});
+
+// ==========================================
+// 5B. SETUP ROUTES (/api/setup)
+// ==========================================
+
+const DEFAULT_PLAN_CHECKLIST = [
+  { criteria: 'Heatset', startDays: 10, endDays: 7, status: 'Active', orderIndex: 1 },
+  { criteria: 'Peach/brush', startDays: 0, endDays: 0, status: 'Active', orderIndex: 2 },
+  { criteria: 'CPB', startDays: 12, endDays: 9, status: 'Active', orderIndex: 3 },
+  { criteria: 'Singeing', startDays: 7, endDays: 7, status: 'Active', orderIndex: 4 },
+  { criteria: 'Subcontact', startDays: 0, endDays: 0, status: 'Active', orderIndex: 5 },
+  { criteria: 'YD Pre', startDays: 6, endDays: 4, status: 'Active', orderIndex: 6 },
+  { criteria: 'YD Post', startDays: 6, endDays: 4, status: 'Active', orderIndex: 7 },
+  { criteria: 'Mercerized', startDays: 11, endDays: 9, status: 'Active', orderIndex: 8 },
+  { criteria: 'Semibleach', startDays: 6, endDays: 5, status: 'Active', orderIndex: 9 }
+];
+
+// GET /api/setup/plan-checklist - Retrieve all plan checklist setup items
+app.get('/api/setup/plan-checklist', optionalAuth, async (req, res) => {
+  try {
+    let items = await PlanChecklist.find().sort({ orderIndex: 1, createdAt: 1 });
+    if (items.length === 0) {
+      await PlanChecklist.insertMany(DEFAULT_PLAN_CHECKLIST);
+      items = await PlanChecklist.find().sort({ orderIndex: 1, createdAt: 1 });
+    }
+    return res.status(200).json({ success: true, items });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: 'Failed to retrieve plan checklist.', error: error.message });
+  }
+});
+
+// POST /api/setup/plan-checklist - Bulk save / update all plan checklist items
+app.post('/api/setup/plan-checklist', optionalAuth, async (req, res) => {
+  try {
+    const { items } = req.body;
+    if (!Array.isArray(items)) {
+      return res.status(400).json({ success: false, message: 'Invalid payload: items must be an array.' });
+    }
+
+    await PlanChecklist.deleteMany({});
+    const prepared = items.map((it, idx) => ({
+      criteria: String(it.criteria || '').trim() || `Criteria ${idx + 1}`,
+      startDays: Math.max(0, Number(it.startDays) || 0),
+      endDays: Math.max(0, Number(it.endDays) || 0),
+      status: it.status === 'Inactive' ? 'Inactive' : 'Active',
+      orderIndex: idx + 1
+    }));
+
+    const saved = await PlanChecklist.insertMany(prepared);
+    return res.status(200).json({
+      success: true,
+      message: 'Plan checklist setup saved successfully.',
+      items: saved
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: 'Failed to save plan checklist.', error: error.message });
+  }
+});
+
+// POST /api/setup/plan-checklist/item - Add single new criteria row
+app.post('/api/setup/plan-checklist/item', optionalAuth, async (req, res) => {
+  try {
+    const { criteria, startDays, endDays, status } = req.body;
+    if (!criteria || !String(criteria).trim()) {
+      return res.status(400).json({ success: false, message: 'Criteria name is required.' });
+    }
+    const count = await PlanChecklist.countDocuments();
+    const item = new PlanChecklist({
+      criteria: String(criteria).trim(),
+      startDays: Math.max(0, Number(startDays) || 0),
+      endDays: Math.max(0, Number(endDays) || 0),
+      status: status === 'Inactive' ? 'Inactive' : 'Active',
+      orderIndex: count + 1
+    });
+    await item.save();
+    return res.status(201).json({ success: true, message: 'Criteria added successfully.', item });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: 'Failed to add criteria.', error: error.message });
+  }
+});
+
+// PUT /api/setup/plan-checklist/:id - Update single criteria row
+app.put('/api/setup/plan-checklist/:id', optionalAuth, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { criteria, startDays, endDays, status } = req.body;
+
+    const item = await PlanChecklist.findById(id);
+    if (!item) {
+      return res.status(404).json({ success: false, message: 'Criteria not found.' });
+    }
+
+    if (criteria !== undefined) item.criteria = String(criteria).trim();
+    if (startDays !== undefined) item.startDays = Math.max(0, Number(startDays) || 0);
+    if (endDays !== undefined) item.endDays = Math.max(0, Number(endDays) || 0);
+    if (status !== undefined) item.status = status;
+
+    await item.save();
+    return res.status(200).json({ success: true, message: 'Criteria updated successfully.', item });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: 'Failed to update criteria.', error: error.message });
+  }
+});
+
+// DELETE /api/setup/plan-checklist/:id - Delete criteria row
+app.delete('/api/setup/plan-checklist/:id', optionalAuth, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deleted = await PlanChecklist.findByIdAndDelete(id);
+    if (!deleted) {
+      return res.status(404).json({ success: false, message: 'Criteria not found.' });
+    }
+    return res.status(200).json({ success: true, message: `Criteria "${deleted.criteria}" deleted successfully.` });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: 'Failed to delete criteria.', error: error.message });
   }
 });
 
@@ -1688,7 +1816,7 @@ app.use(express.static(__dirname));
 app.get('/api/health', (req, res) => {
   res.status(200).json({
     status: 'online',
-    version: '1.0.3',
+    version: '1.0.4',
     system: 'Unified Textile ERP',
     mode: 'Consolidated Single-File Backend Architecture',
     timestamp: new Date()
@@ -1767,11 +1895,24 @@ async function ensureDefaultUsers() {
   }
 }
 
+async function ensureDefaultPlanChecklist() {
+  try {
+    const count = await PlanChecklist.countDocuments();
+    if (count === 0) {
+      await PlanChecklist.insertMany(DEFAULT_PLAN_CHECKLIST);
+      console.log('[Auto-Seed] Created default Plan Check List criteria from setup chart.');
+    }
+  } catch (err) {
+    console.error('[Auto-Seed] Plan checklist seed error:', err.message);
+  }
+}
+
 if (process.env.NODE_ENV !== 'test') {
   mongoose.connect(MONGO_URI)
     .then(async () => {
       console.log('[Database] MongoDB connected successfully to database');
       await ensureDefaultUsers();
+      await ensureDefaultPlanChecklist();
       app.listen(PORT, () => {
         console.log(`[Server] TexPlanning ERP consolidated backend running on port ${PORT}`);
       });

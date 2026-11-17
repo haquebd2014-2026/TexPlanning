@@ -111,6 +111,9 @@
           <button id="subBtn_setup_dropdowns" data-perm="menu:setup_dropdowns" onclick="switchView('setup_dropdowns')" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-300/60 transition text-left">
             <span>Setup (Dropdowns)</span>
           </button>
+          <button id="subBtn_plan_checklist" data-perm="menu:plan_checklist" onclick="switchView('plan_checklist')" class="w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-300/60 transition text-left">
+            <span>Plan Check List</span>
+          </button>
         </div>
       </div>
 
@@ -583,68 +586,68 @@
                       <th class="py-2 px-2 border border-sky-300 text-center min-w-[95px]">Subcontract</th>
                       <th class="py-2 px-2 border border-sky-300 text-center min-w-[80px]">YD Pre</th>
                       <th class="py-2 px-2 border border-sky-300 text-center min-w-[80px]">YD Post</th>
-                      <th class="py-2 px-2 border border-sky-300 text-center min-w-[75px]">TBC1</th>
-                      <th class="py-2 px-2 border border-sky-300 text-center min-w-[75px]">TBC2</th>
+                      <th class="py-2 px-2 border border-sky-300 text-center min-w-[90px]">Semibleach</th>
+                      <th class="py-2 px-2 border border-sky-300 text-center min-w-[75px]">TBC</th>
                     </tr>
                   </thead>
                   <tbody class="bg-white">
                     <tr class="divide-x divide-slate-200">
                       <td class="p-1 border border-slate-200 text-center">
-                        <select id="cp_cpb" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-white font-semibold text-slate-800 focus:ring-1 focus:ring-blue-500">
+                        <select id="cp_cpb" data-criteria="cpb" onchange="onCheckpointSelectionChanged()" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-white font-semibold text-slate-800 focus:ring-1 focus:ring-blue-500">
                           <option value="No">No</option>
                           <option value="Yes">Yes</option>
                         </select>
                       </td>
                       <td class="p-1 border border-slate-200 text-center">
-                        <select id="cp_heatSet" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-white font-semibold text-slate-800 focus:ring-1 focus:ring-blue-500">
+                        <select id="cp_heatSet" data-criteria="heatset" onchange="onCheckpointSelectionChanged()" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-white font-semibold text-slate-800 focus:ring-1 focus:ring-blue-500">
                           <option value="No">No</option>
                           <option value="Yes">Yes</option>
                         </select>
                       </td>
                       <td class="p-1 border border-slate-200 text-center">
-                        <select id="cp_singeing" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-white font-semibold text-slate-800 focus:ring-1 focus:ring-blue-500">
+                        <select id="cp_singeing" data-criteria="singeing" onchange="onCheckpointSelectionChanged()" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-white font-semibold text-slate-800 focus:ring-1 focus:ring-blue-500">
                           <option value="No">No</option>
                           <option value="Yes">Yes</option>
                         </select>
                       </td>
                       <td class="p-1 border border-slate-200 text-center">
-                        <select id="cp_mercerize" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-white font-semibold text-slate-800 focus:ring-1 focus:ring-blue-500">
+                        <select id="cp_mercerize" data-criteria="mercerize" onchange="onCheckpointSelectionChanged()" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-white font-semibold text-slate-800 focus:ring-1 focus:ring-blue-500">
                           <option value="No">No</option>
                           <option value="Yes">Yes</option>
                         </select>
                       </td>
                       <td class="p-1 border border-slate-200 text-center">
-                        <select id="cp_peachBrush" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-white font-semibold text-slate-800 focus:ring-1 focus:ring-blue-500">
+                        <select id="cp_peachBrush" data-criteria="peachbrush" onchange="onCheckpointSelectionChanged()" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-white font-semibold text-slate-800 focus:ring-1 focus:ring-blue-500">
                           <option value="No">No</option>
                           <option value="Yes">Yes</option>
                         </select>
                       </td>
                       <td class="p-1 border border-slate-200 text-center">
-                        <select id="cp_subcontract" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-white font-semibold text-slate-800 focus:ring-1 focus:ring-blue-500">
+                        <select id="cp_subcontract" data-criteria="subcontract" onchange="onCheckpointSelectionChanged()" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-white font-semibold text-slate-800 focus:ring-1 focus:ring-blue-500">
                           <option value="No">No</option>
                           <option value="Yes">Yes</option>
                         </select>
                       </td>
                       <td class="p-1 border border-slate-200 text-center">
-                        <select id="cp_ydPre" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-white font-semibold text-slate-800 focus:ring-1 focus:ring-blue-500">
+                        <select id="cp_ydPre" data-criteria="ydpre" onchange="onCheckpointSelectionChanged()" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-white font-semibold text-slate-800 focus:ring-1 focus:ring-blue-500">
                           <option value="No">No</option>
                           <option value="Yes">Yes</option>
                         </select>
                       </td>
                       <td class="p-1 border border-slate-200 text-center">
-                        <select id="cp_ydPost" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-white font-semibold text-slate-800 focus:ring-1 focus:ring-blue-500">
+                        <select id="cp_ydPost" data-criteria="ydpost" onchange="onCheckpointSelectionChanged()" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-white font-semibold text-slate-800 focus:ring-1 focus:ring-blue-500">
                           <option value="No">No</option>
                           <option value="Yes">Yes</option>
                         </select>
                       </td>
                       <td class="p-1 border border-slate-200 text-center">
-                        <select id="cp_tbc1" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-white font-semibold text-slate-800 focus:ring-1 focus:ring-blue-500">
+                        <select id="cp_semibleach" data-criteria="semibleach" onchange="onCheckpointSelectionChanged()" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-white font-semibold text-slate-800 focus:ring-1 focus:ring-blue-500">
                           <option value="No">No</option>
                           <option value="Yes">Yes</option>
                         </select>
                       </td>
                       <td class="p-1 border border-slate-200 text-center">
-                        <select id="cp_tbc2" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-white font-semibold text-slate-800 focus:ring-1 focus:ring-blue-500">
+                        <select id="cp_tbc2" data-criteria="tbc" onchange="onCheckpointSelectionChanged()" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center bg-white font-semibold text-slate-800 focus:ring-1 focus:ring-blue-500">
                           <option value="No">No</option>
                           <option value="Yes">Yes</option>
                         </select>
@@ -660,7 +663,12 @@
                   <thead>
                     <tr class="bg-gradient-to-r from-sky-200 via-sky-100 to-blue-200 text-sky-950 font-extrabold text-[12px] border-b border-sky-300">
                       <th colspan="2" class="py-1.5 px-2 border border-sky-300 text-center tracking-wide">YD</th>
-                      <th colspan="2" class="py-1.5 px-2 border border-sky-300 text-center tracking-wide">Knit</th>
+                      <th colspan="2" class="py-1.5 px-2 border border-sky-300 text-center tracking-wide">
+                        <div class="inline-flex items-center justify-center gap-1.5 flex-wrap">
+                          <span>Knit</span>
+                          <span id="knitLeadTimeBadge" class="hidden px-1.5 py-0.2 rounded text-[9.5px] font-extrabold bg-amber-200 text-amber-950 border border-amber-300 shadow-2xs"></span>
+                        </div>
+                      </th>
                       <th colspan="2" class="py-1.5 px-2 border border-sky-300 text-center tracking-wide">Dye</th>
                       <th colspan="2" class="py-1.5 px-2 border border-sky-300 text-center tracking-wide">Floor</th>
                       <th colspan="2" class="py-1.5 px-2 border border-sky-300 text-center tracking-wide">Lock</th>
@@ -687,10 +695,28 @@
                         <input type="date" id="guide_yd_end" onclick="this.showPicker && this.showPicker()" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center cursor-pointer bg-white font-medium focus:ring-1 focus:ring-blue-500">
                       </td>
                       <td class="p-1 border border-slate-200">
-                        <input type="date" id="guide_knit_start" onclick="this.showPicker && this.showPicker()" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center cursor-pointer bg-white font-medium focus:ring-1 focus:ring-blue-500">
+                        <input type="date" id="guide_knit_start" onclick="this.showPicker && this.showPicker()" onchange="onKnitDateManuallyEdited(this)" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center cursor-pointer bg-white font-medium focus:ring-1 focus:ring-blue-500">
                       </td>
                       <td class="p-1 border border-slate-200">
-                        <input type="date" id="guide_knit_end" onclick="this.showPicker && this.showPicker()" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center cursor-pointer bg-white font-medium focus:ring-1 focus:ring-blue-500">
+                        <input type="date" id="guide_knit_end" onclick="this.showPicker && this.showPicker()" onchange="onKnitDateManuallyEdited(this)" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center cursor-pointer bg-white font-medium focus:ring-1 focus:ring-blue-500">
+                      </td>
+                      <td class="p-1 border border-slate-200">
+                        <input type="date" id="guide_dye_start" onclick="this.showPicker && this.showPicker()" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center cursor-pointer bg-white font-medium focus:ring-1 focus:ring-blue-500">
+                      </td>
+                      <td class="p-1 border border-slate-200">
+                        <input type="date" id="guide_dye_end" onclick="this.showPicker && this.showPicker()" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center cursor-pointer bg-white font-medium focus:ring-1 focus:ring-blue-500">
+                      </td>
+                      <td class="p-1 border border-slate-200">
+                        <input type="date" id="guide_floor_start" onclick="this.showPicker && this.showPicker()" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center cursor-pointer bg-white font-medium focus:ring-1 focus:ring-blue-500">
+                      </td>
+                      <td class="p-1 border border-slate-200">
+                        <input type="date" id="guide_floor_end" onclick="this.showPicker && this.showPicker()" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center cursor-pointer bg-white font-medium focus:ring-1 focus:ring-blue-500">
+                      </td>
+                      <td class="p-1 border border-slate-200">
+                        <input type="date" id="guide_lock_start" onclick="this.showPicker && this.showPicker()" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center cursor-pointer bg-white font-medium focus:ring-1 focus:ring-blue-500">
+                      </td>
+                      <td class="p-1 border border-slate-200">
+                        <input type="date" id="guide_lock_end" onclick="this.showPicker && this.showPicker()" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center cursor-pointer bg-white font-medium focus:ring-1 focus:ring-blue-500">
                       </td>
                       <td class="p-1 border border-slate-200">
                         <input type="date" id="guide_dye_start" onclick="this.showPicker && this.showPicker()" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center cursor-pointer bg-white font-medium focus:ring-1 focus:ring-blue-500">
@@ -1087,6 +1113,76 @@
         </div>
       </div>
 
+      <!-- ========================================== -->
+      <!-- VIEW: SETUP - PLAN CHECK LIST             -->
+      <!-- ========================================== -->
+      <div id="viewPlanCheckList" class="hidden space-y-5">
+        <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+          
+          <!-- Header and Action Bar -->
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-4 border-b border-slate-200 gap-3">
+            <div>
+              <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-800 text-[11px] font-bold mb-1">
+                <span>⚙️</span> Setup Configuration
+              </div>
+              <h2 class="text-base font-extrabold text-slate-900 flex items-center gap-2">
+                <span>📋</span> Plan Check List
+              </h2>
+              <p class="text-xs text-slate-500 mt-0.5">
+                Define checkpoint criteria lead times. When any criteria is selected as "Yes" in the Checkpoint &amp; Planning Guide (Knitting, Dyeing, Delivery), Knit Start &amp; End dates will automatically add these additional days.
+              </p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button onclick="addPlanChecklistRow()" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-3.5 py-2 rounded-lg flex items-center gap-1.5 shadow-2xs transition">
+                <span>➕</span> Add Row
+              </button>
+              <button onclick="savePlanChecklistSetup()" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold px-4 py-2 rounded-lg flex items-center gap-1.5 shadow-sm transition">
+                <span>💾</span> Save Setup
+              </button>
+            </div>
+          </div>
+
+          <!-- Table Stats & Actions -->
+          <div class="py-2.5 flex items-center justify-between text-xs border-b border-slate-100">
+            <span id="planChecklistCountBadge" class="bg-slate-100 text-slate-700 font-bold px-2.5 py-1 rounded-full border border-slate-200">9 Criteria Loaded</span>
+            <button onclick="resetPlanChecklistToDefault()" class="text-slate-500 hover:text-slate-800 text-xs font-semibold hover:underline flex items-center gap-1">
+              <span>↺</span> Reset to Standard Defaults
+            </button>
+          </div>
+
+          <!-- Plan Check List Table matching user's chart -->
+          <div class="overflow-x-auto mt-3 border border-slate-300 rounded-xl shadow-2xs max-w-3xl">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr class="bg-[#fef08a] text-slate-900 font-extrabold text-[12.5px] border-b-2 border-slate-300">
+                  <th class="py-2.5 px-3 border-r border-slate-300 w-12 text-center">#</th>
+                  <th class="py-2.5 px-4 border-r border-slate-300 min-w-[200px]">Criteria</th>
+                  <th class="py-2.5 px-4 border-r border-slate-300 text-center w-36">Start (Day)</th>
+                  <th class="py-2.5 px-4 border-r border-slate-300 text-center w-36">End (Day)</th>
+                  <th class="py-2.5 px-4 border-r border-slate-300 text-center w-32">Status</th>
+                  <th class="py-2.5 px-3 text-center w-20">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="planChecklistTableBody" class="divide-y divide-slate-200 font-medium bg-white">
+                <!-- Dynamically populated rows -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Helper Explanatory Callout -->
+          <div class="mt-4 p-3.5 bg-sky-50 border border-sky-200 rounded-xl flex items-start gap-3 text-xs text-sky-900 max-w-3xl">
+            <span class="text-base">💡</span>
+            <div>
+              <div class="font-bold">How Dynamic Lead-Time Calculation Works:</div>
+              <p class="text-[11.5px] text-sky-800 mt-0.5">
+                In the Order Planning view (Knitting Plan, Dyeing Plan, Delivery Plan, Delivery Plan Floor), whenever a Checkpoint (e.g. <b>Heatset</b>, <b>CPB</b>, <b>Singeing</b>, <b>Mercerized</b>, etc.) is marked <b>"Yes"</b>, its active <b>Start (Day)</b> and <b>End (Day)</b> values from this setup are automatically added to the <b>Knit Start</b> and <b>Knit End</b> dates in real-time.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
       <!-- Placeholder View for Other Menus -->
       <div id="viewPlaceholder" class="hidden bg-white rounded-2xl p-10 shadow-sm border border-slate-200 text-center">
         <h3 class="text-base font-bold text-slate-800" id="placeholderTitle">Section Content</h3>
@@ -1413,12 +1509,35 @@
       { id: 'menu:tracking_report', name: 'Tracking Report', category: 'Navigation Menus' },
       { id: 'menu:tracking_filter', name: 'Plan Vs Actual Tracking Filter', category: 'Navigation Menus' },
       { id: 'menu:load_calculation', name: 'Load Calculation', category: 'Navigation Menus' },
+      { id: 'menu:plan_checklist', name: 'Plan Check List (Setup)', category: 'Navigation Menus' },
       { id: 'menu:manage_users', name: 'Manage Users', category: 'Navigation Menus' },
       { id: 'btn:upload_source_data', name: 'Upload Data Button', category: 'Action Buttons' },
       { id: 'btn:delete_source_file', name: 'Delete Uploaded File Button', category: 'Action Buttons' },
       { id: 'btn:save_order_plan', name: 'Save Order Plan Data', category: 'Action Buttons' },
       { id: 'btn:add_additional_data', name: 'Add Additional Data Button', category: 'Action Buttons' }
     ];
+
+    // Plan Check List Criteria Default & State
+    const DEFAULT_PLAN_CHECKLIST = [
+      { criteria: 'Heatset', startDays: 10, endDays: 7, active: true },
+      { criteria: 'Peach/brush', startDays: 0, endDays: 0, active: true },
+      { criteria: 'CPB', startDays: 12, endDays: 9, active: true },
+      { criteria: 'Singeing', startDays: 7, endDays: 7, active: true },
+      { criteria: 'Subcontact', startDays: 0, endDays: 0, active: true },
+      { criteria: 'YD Pre', startDays: 6, endDays: 4, active: true },
+      { criteria: 'YD Post', startDays: 6, endDays: 4, active: true },
+      { criteria: 'Mercerized', startDays: 11, endDays: 9, active: true },
+      { criteria: 'Semibleach', startDays: 6, endDays: 5, active: true }
+    ];
+
+    let planChecklistData = [];
+    try {
+      const savedChecklist = localStorage.getItem('erp_plan_checklist');
+      if (savedChecklist) planChecklistData = JSON.parse(savedChecklist);
+    } catch (e) {}
+    if (!Array.isArray(planChecklistData) || planChecklistData.length === 0) {
+      planChecklistData = JSON.parse(JSON.stringify(DEFAULT_PLAN_CHECKLIST));
+    }
 
     let activeToken = localStorage.getItem('erp_jwt_token') || '';
     let activeUser = null;
@@ -1438,7 +1557,7 @@
 
     let users = [
       { id: '1', username: 'admin', role: 'Admin', allowedBuyers: [], permissions: ['*'], status: 'Active' },
-      { id: '2', username: 'planner', role: 'Planner', allowedBuyers: ['H&M', 'Zara', 'Next'], permissions: ['menu:data_management', 'menu:source_upload', 'menu:order_management', 'menu:knitting_plan', 'menu:dyeing_plan', 'menu:delivery_plan', 'menu:delivery_plan_floor', 'btn:upload_source_data', 'btn:save_order_plan'], status: 'Active' }
+      { id: '2', username: 'planner', role: 'Planner', allowedBuyers: ['H&M', 'Zara', 'Next'], permissions: ['menu:data_management', 'menu:source_upload', 'menu:plan_checklist', 'menu:order_management', 'menu:knitting_plan', 'menu:dyeing_plan', 'menu:delivery_plan', 'menu:delivery_plan_floor', 'btn:upload_source_data', 'btn:save_order_plan'], status: 'Active' }
     ];
 
     let editingUserId = null;
@@ -1449,6 +1568,7 @@
       loadUploadedFiles();
       applyUserAccessControl();
       fetchUsers();
+      fetchPlanChecklist();
     });
 
     // ==========================================
@@ -1931,6 +2051,7 @@
       setVal('cp_subcontract', cp.subcontract);
       setVal('cp_ydPre', cp.ydPre);
       setVal('cp_ydPost', cp.ydPost);
+      setVal('cp_semibleach', cp.semibleach);
       setVal('cp_tbc1', cp.tbc1);
       setVal('cp_tbc2', cp.tbc2);
 
@@ -1941,14 +2062,32 @@
 
       setDate('guide_yd_start', pg.ydStart || gi.taYarnDate || d['T&A Yarn date'] || d['T&A Yarn Date']);
       setDate('guide_yd_end', pg.ydEnd);
-      setDate('guide_knit_start', pg.knitStart || gi.taKnittingStart || d['T&A Knitting Start']);
-      setDate('guide_knit_end', pg.knitEnd || gi.taKnittingEnd || d['T&A Knitting End']);
+
+      const rawKnitStart = pg.knitStart || gi.taKnittingStart || d['T&A Knitting Start'];
+      const rawKnitEnd = pg.knitEnd || gi.taKnittingEnd || d['T&A Knitting End'];
+      const knitStartVal = toISODate(rawKnitStart);
+      const knitEndVal = toISODate(rawKnitEnd);
+
+      const startEl = document.getElementById('guide_knit_start');
+      const endEl = document.getElementById('guide_knit_end');
+      if (startEl) {
+        startEl.dataset.baseDate = knitStartVal;
+        startEl.value = knitStartVal;
+      }
+      if (endEl) {
+        endEl.dataset.baseDate = knitEndVal;
+        endEl.value = knitEndVal;
+      }
+
       setDate('guide_dye_start', pg.dyeStart || gi.taDyeingStart || d['T&A Dyeing Start']);
       setDate('guide_dye_end', pg.dyeEnd || gi.taDyeingEnd || d['T&A Dyeing End']);
       setDate('guide_floor_start', pg.floorStart || gi.taDeliStart || d['T&A Deli. Start']);
       setDate('guide_floor_end', pg.floorEnd || gi.taDeliEnd || d['T&A Deli. End']);
       setDate('guide_lock_start', pg.lockStart || gi.lastShipmentDate || d['Last Shipment Date']);
       setDate('guide_lock_end', pg.lockEnd);
+
+      // Dynamically compute and add checklist lead time days to Knit Start & End dates
+      onCheckpointSelectionChanged();
     }
 
     function extractCheckpointGuide() {
@@ -1965,6 +2104,7 @@
           subcontract: getVal('cp_subcontract'),
           ydPre: getVal('cp_ydPre'),
           ydPost: getVal('cp_ydPost'),
+          semibleach: getVal('cp_semibleach'),
           tbc1: getVal('cp_tbc1'),
           tbc2: getVal('cp_tbc2')
         },
@@ -2893,6 +3033,8 @@
       document.getElementById('viewWelcome').classList.add('hidden');
       document.getElementById('viewManageUsers').classList.add('hidden');
       document.getElementById('viewPlaceholder').classList.add('hidden');
+      const vCheck = document.getElementById('viewPlanCheckList');
+      if (vCheck) vCheck.classList.add('hidden');
     }
 
     function switchView(viewName) {
@@ -2903,6 +3045,12 @@
       } else if (viewName === 'source_file_upload') {
         document.getElementById('viewSourceUpload').classList.remove('hidden');
         loadUploadedFiles();
+      } else if (viewName === 'plan_checklist') {
+        closeOrderManageView();
+        const v = document.getElementById('viewPlanCheckList');
+        if (v) v.classList.remove('hidden');
+        renderPlanChecklistTable();
+        fetchPlanChecklist();
       } else if (viewName === 'manage_users') {
         document.getElementById('viewManageUsers').classList.remove('hidden');
         renderUsers();
@@ -2915,11 +3063,292 @@
           tracking_report: 'Tracking Report',
           tracking_filter: 'Plan Vs Actual Tracking Filter',
           load_calculation: 'Load Calculation',
-          setup_dropdowns: 'Setup (Dropdowns)'
+          setup_dropdowns: 'Setup (Dropdowns)',
+          plan_checklist: 'Plan Check List'
         };
         document.getElementById('placeholderTitle').textContent = titles[viewName] || 'Section';
         document.getElementById('viewPlaceholder').classList.remove('hidden');
       }
+    }
+
+    // ==========================================
+    // SETUP: PLAN CHECK LIST & DYNAMIC LEAD TIME
+    // ==========================================
+
+    async function fetchPlanChecklist() {
+      try {
+        const res = await fetch('/api/setup/plan-checklist');
+        if (res.ok) {
+          const json = await res.json();
+          if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+            planChecklistData = json.data;
+            localStorage.setItem('erp_plan_checklist', JSON.stringify(planChecklistData));
+          }
+        }
+      } catch (err) {
+        console.warn('Could not fetch plan checklist from backend, using local copy:', err);
+      }
+      renderPlanChecklistTable();
+    }
+
+    function renderPlanChecklistTable() {
+      const tbody = document.getElementById('planChecklistTableBody');
+      const badge = document.getElementById('planChecklistCountBadge');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      if (!Array.isArray(planChecklistData) || planChecklistData.length === 0) {
+        planChecklistData = JSON.parse(JSON.stringify(DEFAULT_PLAN_CHECKLIST));
+      }
+
+      if (badge) {
+        const activeCount = planChecklistData.filter(i => i.active !== false).length;
+        badge.textContent = `${planChecklistData.length} Criteria Loaded (${activeCount} Active)`;
+      }
+
+      planChecklistData.forEach((item, idx) => {
+        const tr = document.createElement('tr');
+        tr.className = `hover:bg-amber-50/40 transition border-b border-slate-200 ${item.active === false ? 'opacity-60 bg-slate-50' : 'bg-white'}`;
+
+        const isActive = item.active !== false;
+
+        tr.innerHTML = `
+          <td class="py-2.5 px-3 border-r border-slate-200 text-center font-bold text-slate-500">
+            ${idx + 1}
+          </td>
+          <td class="py-2 px-3 border-r border-slate-200">
+            <input type="text" class="pcl-criteria w-full px-2.5 py-1 text-xs font-bold text-slate-800 border border-slate-300 rounded focus:border-blue-500 focus:bg-white bg-slate-50/60" value="${item.criteria || ''}" placeholder="Criteria Name">
+          </td>
+          <td class="py-2 px-3 border-r border-slate-200 text-center">
+            <input type="number" min="0" max="365" class="pcl-start w-24 mx-auto px-2 py-1 text-xs text-center font-bold text-slate-900 border border-slate-300 rounded focus:border-blue-500 bg-white" value="${item.startDays !== undefined ? item.startDays : 0}">
+          </td>
+          <td class="py-2 px-3 border-r border-slate-200 text-center">
+            <input type="number" min="0" max="365" class="pcl-end w-24 mx-auto px-2 py-1 text-xs text-center font-bold text-slate-900 border border-slate-300 rounded focus:border-blue-500 bg-white" value="${item.endDays !== undefined ? item.endDays : 0}">
+          </td>
+          <td class="py-2 px-3 border-r border-slate-200 text-center">
+            <button type="button" onclick="togglePlanChecklistRowActive(${idx})" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-extrabold transition shadow-2xs ${isActive ? 'bg-emerald-100 text-emerald-800 border border-emerald-300 hover:bg-emerald-200' : 'bg-slate-200 text-slate-600 border border-slate-300 hover:bg-slate-300'}">
+              <span>${isActive ? '●' : '○'}</span>
+              <span>${isActive ? 'Active' : 'Inactive'}</span>
+            </button>
+          </td>
+          <td class="py-2 px-3 text-center">
+            <button type="button" onclick="deletePlanChecklistRow(${idx})" title="Delete Criteria" class="p-1.5 rounded-md text-rose-600 hover:text-white hover:bg-rose-600 border border-rose-200 transition">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+              </svg>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function syncPlanChecklistInputsFromDOM() {
+      const rows = document.querySelectorAll('#planChecklistTableBody tr');
+      const updated = [];
+      rows.forEach((tr, idx) => {
+        const critInput = tr.querySelector('.pcl-criteria');
+        const startInput = tr.querySelector('.pcl-start');
+        const endInput = tr.querySelector('.pcl-end');
+        if (!critInput) return;
+        const prevItem = planChecklistData[idx] || {};
+        updated.push({
+          _id: prevItem._id,
+          criteria: critInput.value.trim(),
+          startDays: parseInt(startInput?.value, 10) || 0,
+          endDays: parseInt(endInput?.value, 10) || 0,
+          active: prevItem.active !== false
+        });
+      });
+      planChecklistData = updated;
+      return updated;
+    }
+
+    function addPlanChecklistRow() {
+      syncPlanChecklistInputsFromDOM();
+      planChecklistData.push({
+        criteria: 'New Criteria',
+        startDays: 0,
+        endDays: 0,
+        active: true
+      });
+      renderPlanChecklistTable();
+      setTimeout(() => {
+        const inputs = document.querySelectorAll('#planChecklistTableBody .pcl-criteria');
+        if (inputs.length > 0) {
+          const last = inputs[inputs.length - 1];
+          last.focus();
+          last.select();
+        }
+      }, 50);
+    }
+
+    function togglePlanChecklistRowActive(idx) {
+      syncPlanChecklistInputsFromDOM();
+      if (planChecklistData[idx]) {
+        planChecklistData[idx].active = !(planChecklistData[idx].active !== false);
+        renderPlanChecklistTable();
+        onCheckpointSelectionChanged();
+      }
+    }
+
+    function deletePlanChecklistRow(idx) {
+      syncPlanChecklistInputsFromDOM();
+      const item = planChecklistData[idx];
+      const name = item?.criteria || `Row #${idx + 1}`;
+      if (!confirm(`Are you sure you want to delete criteria "${name}"?`)) return;
+
+      planChecklistData.splice(idx, 1);
+      renderPlanChecklistTable();
+      savePlanChecklistSetup(false);
+      onCheckpointSelectionChanged();
+    }
+
+    async function savePlanChecklistSetup(showNotice = true) {
+      syncPlanChecklistInputsFromDOM();
+      localStorage.setItem('erp_plan_checklist', JSON.stringify(planChecklistData));
+
+      try {
+        const res = await fetch('/api/setup/plan-checklist', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ items: planChecklistData })
+        });
+        const json = await res.json();
+        if (res.ok && json.success) {
+          if (Array.isArray(json.data)) {
+            planChecklistData = json.data;
+            localStorage.setItem('erp_plan_checklist', JSON.stringify(planChecklistData));
+          }
+          if (showNotice) showUploadToast('Plan Check List setup saved successfully!', 'success');
+        } else {
+          if (showNotice) showUploadToast(json.message || 'Setup saved locally.', 'info');
+        }
+      } catch (err) {
+        if (showNotice) showUploadToast('Saved locally in browser storage.', 'info');
+      }
+
+      renderPlanChecklistTable();
+      onCheckpointSelectionChanged();
+    }
+
+    async function resetPlanChecklistToDefault() {
+      if (!confirm('Reset Plan Check List to the default criteria and lead-time days (Heatset, Peach/brush, CPB, Singeing, Subcontact, YD Pre, YD Post, Mercerized, Semibleach)?')) {
+        return;
+      }
+
+      planChecklistData = JSON.parse(JSON.stringify(DEFAULT_PLAN_CHECKLIST));
+      localStorage.setItem('erp_plan_checklist', JSON.stringify(planChecklistData));
+      renderPlanChecklistTable();
+      await savePlanChecklistSetup(false);
+      showUploadToast('Plan Check List reset to default values.', 'success');
+      onCheckpointSelectionChanged();
+    }
+
+    // Dynamic Lead-Time Calculation Logic for Checkpoints
+    function normalizeCriteriaKey(str) {
+      if (!str) return '';
+      return String(str).toLowerCase().replace(/[^a-z0-9]/g, '');
+    }
+
+    function isCriteriaSelectedYes(criteriaName) {
+      const norm = normalizeCriteriaKey(criteriaName);
+      let selectId = null;
+      if (norm === 'heatset') selectId = 'cp_heatSet';
+      else if (norm === 'peachbrush' || norm === 'peach' || norm === 'brush') selectId = 'cp_peachBrush';
+      else if (norm === 'cpb') selectId = 'cp_cpb';
+      else if (norm === 'singeing') selectId = 'cp_singeing';
+      else if (norm === 'subcontact' || norm === 'subcontract') selectId = 'cp_subcontract';
+      else if (norm === 'ydpre') selectId = 'cp_ydPre';
+      else if (norm === 'ydpost') selectId = 'cp_ydPost';
+      else if (norm === 'mercerized' || norm === 'mercerize') selectId = 'cp_mercerize';
+      else if (norm === 'semibleach' || norm === 'semi' || norm === 'bleach') selectId = 'cp_semibleach';
+      else if (norm === 'tbc1') selectId = 'cp_tbc1';
+      else if (norm === 'tbc2') selectId = 'cp_tbc2';
+
+      if (!selectId) {
+        const customEl = document.getElementById('cp_' + norm);
+        if (customEl) return String(customEl.value).trim().toLowerCase() === 'yes';
+        return false;
+      }
+      const el = document.getElementById(selectId);
+      return el ? String(el.value).trim().toLowerCase() === 'yes' : false;
+    }
+
+    function getActiveChecklistOffsetDays() {
+      let addStart = 0;
+      let addEnd = 0;
+      const appliedCriteria = [];
+
+      (planChecklistData || []).forEach(item => {
+        if (item.active !== false && isCriteriaSelectedYes(item.criteria)) {
+          const s = parseInt(item.startDays, 10) || 0;
+          const e = parseInt(item.endDays, 10) || 0;
+          addStart += s;
+          addEnd += e;
+          appliedCriteria.push(`${item.criteria} (+${s}/+${e}d)`);
+        }
+      });
+
+      return { addStart, addEnd, appliedCriteria };
+    }
+
+    function addDaysToISODate(isoStr, days) {
+      if (!isoStr || !/^\d{4}-\d{2}-\d{2}$/.test(isoStr)) return '';
+      const parts = isoStr.split('-').map(Number);
+      const d = new Date(parts[0], parts[1] - 1, parts[2]);
+      d.setDate(d.getDate() + days);
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${y}-${m}-${day}`;
+    }
+
+    function onCheckpointSelectionChanged() {
+      const { addStart, addEnd, appliedCriteria } = getActiveChecklistOffsetDays();
+
+      const startEl = document.getElementById('guide_knit_start');
+      const endEl = document.getElementById('guide_knit_end');
+      const badgeEl = document.getElementById('knitLeadTimeBadge');
+
+      if (startEl) {
+        const baseStart = startEl.dataset.baseDate || startEl.value;
+        if (!startEl.dataset.baseDate && baseStart) {
+          startEl.dataset.baseDate = baseStart;
+        }
+        if (baseStart) {
+          startEl.value = addDaysToISODate(baseStart, addStart);
+        }
+      }
+
+      if (endEl) {
+        const baseEnd = endEl.dataset.baseDate || endEl.value;
+        if (!endEl.dataset.baseDate && baseEnd) {
+          endEl.dataset.baseDate = baseEnd;
+        }
+        if (baseEnd) {
+          endEl.value = addDaysToISODate(baseEnd, addEnd);
+        }
+      }
+
+      if (badgeEl) {
+        if (addStart > 0 || addEnd > 0) {
+          badgeEl.textContent = `+${addStart}d / +${addEnd}d Checklist Lead Time`;
+          badgeEl.title = `Applied criteria:\n${appliedCriteria.join('\n')}`;
+          badgeEl.classList.remove('hidden');
+        } else {
+          badgeEl.textContent = '';
+          badgeEl.classList.add('hidden');
+        }
+      }
+    }
+
+    function onKnitDateManuallyEdited(input) {
+      if (!input || !input.value) return;
+      const isStart = input.id === 'guide_knit_start';
+      const { addStart, addEnd } = getActiveChecklistOffsetDays();
+      const currentOffset = isStart ? addStart : addEnd;
+      input.dataset.baseDate = addDaysToISODate(input.value, -currentOffset);
     }
 
     // Sidebar and Navigation Helpers
