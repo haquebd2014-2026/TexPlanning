@@ -1542,6 +1542,35 @@ const handleSavePlanManage = async (req, res) => {
     rec.markModified('additionalData');
     await rec.save();
 
+    // Also synchronize additionalData with the corresponding General Data record if separate
+    try {
+      const generalRec = await SourceDataRecord.findOne({
+        category: /general/i,
+        $or: [
+          { recordId: String(orderNo).trim() },
+          { 'data.OrderNo': String(orderNo).trim() },
+          { 'data.Order No': String(orderNo).trim() },
+          { 'data.Booking No.': String(orderNo).trim() },
+          { 'data.Booking No': String(orderNo).trim() }
+        ]
+      });
+      if (generalRec && String(generalRec._id) !== String(rec._id)) {
+        if (!generalRec.additionalData) generalRec.additionalData = {};
+        if (generalInfo !== undefined) generalRec.additionalData.generalInfo = generalInfo;
+        if (checkpointGuide !== undefined) generalRec.additionalData.checkpointGuide = checkpointGuide;
+        if (knittingPlan !== undefined) generalRec.additionalData.knittingPlan = rec.additionalData.knittingPlan;
+        if (dyeingPlan !== undefined) generalRec.additionalData.dyeingPlan = rec.additionalData.dyeingPlan;
+        if (deliveryFloorPlan !== undefined) generalRec.additionalData.deliveryFloorPlan = rec.additionalData.deliveryFloorPlan;
+        if (deliveryLockPlan !== undefined) generalRec.additionalData.deliveryLockPlan = rec.additionalData.deliveryLockPlan;
+        if (deliveryPlan !== undefined) generalRec.additionalData.deliveryPlan = rec.additionalData.deliveryPlan;
+        if (orderStatus !== undefined) generalRec.additionalData.orderStatus = orderStatus;
+        generalRec.markModified('additionalData');
+        await generalRec.save();
+      }
+    } catch (e) {
+      console.warn('Note: General record sync warning:', e.message);
+    }
+
     const orderNo = generalInfo?.bookingNo || generalInfo?.ewoNo || rec.data?.OrderNo || rec.data?.['Order No'] || rec.recordId;
     if (orderNo) {
       const uOrder = await UnifiedOrder.findOne({ orderNo });
@@ -1605,7 +1634,7 @@ app.get('/api/orders/plan-manage/:orderNoOrId', optionalAuth, async (req, res) =
       ]
     };
 
-    const [knittingRecords, dyeingRecords, deliveryRecords] = await Promise.all([
+    const [knittingRecords, dyeingRecords, deliveryRecords, generalRecord] = await Promise.all([
       SourceDataRecord.find({
         category: /knitting\s*plan/i,
         ...orderFilter
@@ -1617,14 +1646,36 @@ app.get('/api/orders/plan-manage/:orderNoOrId', optionalAuth, async (req, res) =
       SourceDataRecord.find({
         category: /delivery\s*plan/i,
         ...orderFilter
-      }).sort({ rowNumber: 1 })
+      }).sort({ rowNumber: 1 }),
+      SourceDataRecord.findOne({
+        category: /general/i,
+        ...orderFilter
+      })
     ]);
+
+    // Merge fullData: start with rec.data, then layer in generalRecord.data so all T&A dates are present
+    const mergedData = { ...(rec?.data || {}) };
+    if (generalRecord?.data) {
+      for (const [k, v] of Object.entries(generalRecord.data)) {
+        if (v !== '' && v !== null && v !== undefined) {
+          mergedData[k] = v;
+        } else if (mergedData[k] === undefined) {
+          mergedData[k] = v;
+        }
+      }
+    }
+
+    const mergedAdditionalData = {
+      ...(generalRecord?.additionalData || {}),
+      ...(rec?.additionalData || {})
+    };
 
     return res.status(200).json({
       success: true,
       orderNo,
-      additionalData: rec?.additionalData || {},
-      fullData: rec?.data || {},
+      additionalData: mergedAdditionalData,
+      fullData: mergedData,
+      generalData: generalRecord?.data || {},
       knittingItems: knittingRecords.map(r => r.data || {}),
       dyeingItems: dyeingRecords.map(r => r.data || {}),
       deliveryItems: deliveryRecords.map(r => r.data || {})
@@ -1817,7 +1868,7 @@ app.use(express.static(__dirname));
 app.get('/api/health', (req, res) => {
   res.status(200).json({
     status: 'online',
-    version: '1.0.4',
+    version: '1.0.5',
     system: 'Unified Textile ERP',
     mode: 'Consolidated Single-File Backend Architecture',
     timestamp: new Date()

@@ -519,11 +519,11 @@
                 </div>
                 <div class="flex items-center justify-between gap-2">
                   <label class="w-32 text-slate-600 font-medium shrink-0">T&A Knitting Start</label>
-                  <input type="text" id="gm_taKnittingStart" class="w-full px-2.5 py-1.5 rounded border border-slate-200 bg-slate-50/50 text-slate-800 text-xs focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-500">
+                  <input type="text" id="gm_taKnittingStart" oninput="onGeneralTaKnitDateChanged()" onchange="onGeneralTaKnitDateChanged()" class="w-full px-2.5 py-1.5 rounded border border-slate-200 bg-slate-50/50 text-slate-800 text-xs focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-500">
                 </div>
                 <div class="flex items-center justify-between gap-2">
                   <label class="w-32 text-slate-600 font-medium shrink-0">T&A Knitting End</label>
-                  <input type="text" id="gm_taKnittingEnd" class="w-full px-2.5 py-1.5 rounded border border-slate-200 bg-slate-50/50 text-slate-800 text-xs focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-500">
+                  <input type="text" id="gm_taKnittingEnd" oninput="onGeneralTaKnitDateChanged()" onchange="onGeneralTaKnitDateChanged()" class="w-full px-2.5 py-1.5 rounded border border-slate-200 bg-slate-50/50 text-slate-800 text-xs focus:outline-none focus:bg-white focus:ring-1 focus:ring-blue-500">
                 </div>
                 <div class="flex items-center justify-between gap-2">
                   <label class="w-32 text-slate-600 font-medium shrink-0">T&A Dyeing Start</label>
@@ -663,10 +663,10 @@
                   <thead>
                     <tr class="bg-gradient-to-r from-sky-200 via-sky-100 to-blue-200 text-sky-950 font-extrabold text-[12px] border-b border-sky-300">
                       <th colspan="2" class="py-1.5 px-2 border border-sky-300 text-center tracking-wide">YD</th>
-                      <th colspan="2" class="py-1.5 px-2 border border-sky-300 text-center tracking-wide">
+                      <th colspan="2" class="py-1.5 px-2 border border-sky-300 text-center tracking-wide bg-[#fef08a] text-slate-900 shadow-xs">
                         <div class="inline-flex items-center justify-center gap-1.5 flex-wrap">
                           <span>Knit</span>
-                          <span id="knitLeadTimeBadge" class="hidden px-1.5 py-0.2 rounded text-[9.5px] font-extrabold bg-amber-200 text-amber-950 border border-amber-300 shadow-2xs"></span>
+                          <span id="knitLeadTimeBadge" class="hidden px-1.5 py-0.2 rounded text-[9.5px] font-extrabold bg-amber-300 text-amber-950 border border-amber-400 shadow-2xs"></span>
                         </div>
                       </th>
                       <th colspan="2" class="py-1.5 px-2 border border-sky-300 text-center tracking-wide">Dye</th>
@@ -676,8 +676,8 @@
                     <tr class="bg-slate-50 text-slate-700 font-semibold text-[11px] border-b border-slate-200">
                       <th class="py-1 px-1.5 border border-slate-200 text-center min-w-[125px]">Start</th>
                       <th class="py-1 px-1.5 border border-slate-200 text-center min-w-[125px]">End</th>
-                      <th class="py-1 px-1.5 border border-slate-200 text-center min-w-[125px]">Start</th>
-                      <th class="py-1 px-1.5 border border-slate-200 text-center min-w-[125px]">End</th>
+                      <th class="py-1 px-1.5 border border-slate-200 text-center min-w-[125px] bg-[#fef08a]/60 text-slate-900 font-bold">Start</th>
+                      <th class="py-1 px-1.5 border border-slate-200 text-center min-w-[125px] bg-[#fef08a]/60 text-slate-900 font-bold">End</th>
                       <th class="py-1 px-1.5 border border-slate-200 text-center min-w-[125px]">Start</th>
                       <th class="py-1 px-1.5 border border-slate-200 text-center min-w-[125px]">End</th>
                       <th class="py-1 px-1.5 border border-slate-200 text-center min-w-[125px]">Start</th>
@@ -694,11 +694,11 @@
                       <td class="p-1 border border-slate-200">
                         <input type="date" id="guide_yd_end" onclick="this.showPicker && this.showPicker()" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center cursor-pointer bg-white font-medium focus:ring-1 focus:ring-blue-500">
                       </td>
-                      <td class="p-1 border border-slate-200">
-                        <input type="date" id="guide_knit_start" onclick="this.showPicker && this.showPicker()" onchange="onKnitDateManuallyEdited(this)" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center cursor-pointer bg-white font-medium focus:ring-1 focus:ring-blue-500">
+                      <td class="p-1 border border-slate-200 bg-[#fef08a]/30">
+                        <input type="date" id="guide_knit_start" onclick="this.showPicker && this.showPicker()" onchange="onKnitDateManuallyEdited(this)" class="w-full px-1.5 py-1 text-xs border border-yellow-300 bg-yellow-50/80 rounded text-center cursor-pointer font-bold text-slate-900 focus:ring-1 focus:ring-blue-500">
                       </td>
-                      <td class="p-1 border border-slate-200">
-                        <input type="date" id="guide_knit_end" onclick="this.showPicker && this.showPicker()" onchange="onKnitDateManuallyEdited(this)" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center cursor-pointer bg-white font-medium focus:ring-1 focus:ring-blue-500">
+                      <td class="p-1 border border-slate-200 bg-[#fef08a]/30">
+                        <input type="date" id="guide_knit_end" onclick="this.showPicker && this.showPicker()" onchange="onKnitDateManuallyEdited(this)" class="w-full px-1.5 py-1 text-xs border border-yellow-300 bg-yellow-50/80 rounded text-center cursor-pointer font-bold text-slate-900 focus:ring-1 focus:ring-blue-500">
                       </td>
                       <td class="p-1 border border-slate-200">
                         <input type="date" id="guide_dye_start" onclick="this.showPicker && this.showPicker()" class="w-full px-1.5 py-1 text-xs border border-slate-200 rounded text-center cursor-pointer bg-white font-medium focus:ring-1 focus:ring-blue-500">
@@ -1922,37 +1922,61 @@
 
     let currentManagingOrder = null;
 
-    function populateGeneralInfoFields(gi, d, order) {
+    // Helper to find value across various casing or punctuation in data dictionary
+    function findDictValue(obj, candidates) {
+      if (!obj || typeof obj !== 'object') return '';
+      for (const c of candidates) {
+        if (obj[c] !== undefined && obj[c] !== null && String(obj[c]).trim() !== '') {
+          return String(obj[c]).trim();
+        }
+      }
+      const cleanCandidates = candidates.map(c => c.toLowerCase().replace(/[^a-z0-9]/g, ''));
+      for (const [k, v] of Object.entries(obj)) {
+        if (v === undefined || v === null || String(v).trim() === '') continue;
+        const cleanK = k.toLowerCase().replace(/[^a-z0-9]/g, '');
+        if (cleanCandidates.includes(cleanK)) {
+          return String(v).trim();
+        }
+      }
+      return '';
+    }
+
+    function populateGeneralInfoFields(gi = {}, d = {}, order = {}) {
+      const getDVal = (candidates, fallback = '') => {
+        const found = findDictValue(d, candidates);
+        return found || fallback;
+      };
+
       // Column 1
-      document.getElementById('gm_ewoNo').value = gi.ewoNo !== undefined ? gi.ewoNo : (d['EWO No.'] || d['EWO No'] || d['OrderNo'] || order.orderNo || '');
-      document.getElementById('gm_bookingNo').value = gi.bookingNo !== undefined ? gi.bookingNo : (d['Booking No.'] || d['Booking No'] || d['OrderNo'] || order.orderNo || '');
-      document.getElementById('gm_bookingDate').value = gi.bookingDate !== undefined ? gi.bookingDate : (d['BookingReceiveDate'] || d['Booking Date'] || order.bookingDate || '');
-      document.getElementById('gm_gmtUnit').value = gi.gmtUnit !== undefined ? gi.gmtUnit : (d['Booking Unit'] || d['Gmt Unit'] || '');
-      document.getElementById('gm_floor').value = gi.floor !== undefined ? gi.floor : (d['Unit'] || d['Floor'] || '');
-      document.getElementById('gm_finalConfirmation').value = gi.finalConfirmation !== undefined ? gi.finalConfirmation : (d['Final Confirmation'] || 'No');
-      document.getElementById('gm_bpStatus').value = gi.bpStatus !== undefined ? gi.bpStatus : (d['BP Status'] || 'Pending');
-      document.getElementById('gm_pmc').value = gi.pmc !== undefined ? gi.pmc : (d['PMC'] || '');
-      document.getElementById('gm_orderStatus').value = gi.orderStatus || order.status || d['Order Status'] || 'On Process';
+      document.getElementById('gm_ewoNo').value = gi.ewoNo !== undefined ? gi.ewoNo : getDVal(['EWO No.', 'EWO No', 'EWONo', 'OrderNo', 'Order No'], order.orderNo || '');
+      document.getElementById('gm_bookingNo').value = gi.bookingNo !== undefined ? gi.bookingNo : getDVal(['Booking No.', 'Booking No', 'BookingNo', 'OrderNo', 'Order No'], order.orderNo || '');
+      document.getElementById('gm_bookingDate').value = gi.bookingDate !== undefined ? gi.bookingDate : getDVal(['BookingReceiveDate', 'Booking Date', 'BookingDate', 'Order Date'], order.bookingDate || '');
+      document.getElementById('gm_gmtUnit').value = gi.gmtUnit !== undefined ? gi.gmtUnit : getDVal(['Booking Unit', 'Gmt Unit', 'Unit']);
+      document.getElementById('gm_floor').value = gi.floor !== undefined ? gi.floor : getDVal(['Floor', 'Unit', 'Factory']);
+      document.getElementById('gm_finalConfirmation').value = gi.finalConfirmation !== undefined ? gi.finalConfirmation : getDVal(['Final Confirmation', 'Confirmation'], 'No');
+      document.getElementById('gm_bpStatus').value = gi.bpStatus !== undefined ? gi.bpStatus : getDVal(['BP Status', 'BPStatus'], 'Pending');
+      document.getElementById('gm_pmc').value = gi.pmc !== undefined ? gi.pmc : getDVal(['PMC', 'PMC Name']);
+      document.getElementById('gm_orderStatus').value = gi.orderStatus || order.status || getDVal(['Order Status', 'Status'], 'On Process');
 
       // Column 2
-      document.getElementById('gm_buyerName').value = gi.buyerName !== undefined ? gi.buyerName : (order.buyer || d['Buyer'] || '');
-      document.getElementById('gm_buyerTeam').value = gi.buyerTeam !== undefined ? gi.buyerTeam : (order.buyerTeam || d['Buyer Team'] || '');
-      document.getElementById('gm_bookedBy').value = gi.bookedBy !== undefined ? gi.bookedBy : (d['BookingBy'] || d['Booked By'] || '');
-      document.getElementById('gm_style').value = gi.style !== undefined ? gi.style : (d['Style'] || '');
-      document.getElementById('gm_orderQty').value = gi.orderQty !== undefined ? gi.orderQty : (d['RequiredQtyKgs'] || d['Order Qty. (Kg)'] || '');
-      document.getElementById('gm_eventDay').value = gi.eventDay !== undefined ? gi.eventDay : (d['Event day'] || d['Event Day'] || '');
-      document.getElementById('gm_firstShipmentDate').value = gi.firstShipmentDate !== undefined ? gi.firstShipmentDate : (d['1st Shipment Date'] || '');
-      document.getElementById('gm_lastShipmentDate').value = gi.lastShipmentDate !== undefined ? gi.lastShipmentDate : (d['Last Shipment Date'] || 'N/A');
-      document.getElementById('gm_taYarnDate').value = gi.taYarnDate !== undefined ? gi.taYarnDate : (d['T&A Yarn date'] || d['T&A Yarn Date'] || '');
+      document.getElementById('gm_buyerName').value = gi.buyerName !== undefined ? gi.buyerName : getDVal(['Buyer', 'Buyer Name'], order.buyer || '');
+      document.getElementById('gm_buyerTeam').value = gi.buyerTeam !== undefined ? gi.buyerTeam : getDVal(['Buyer Team', 'BuyerTeam', 'Team'], order.buyerTeam || '');
+      document.getElementById('gm_bookedBy').value = gi.bookedBy !== undefined ? gi.bookedBy : getDVal(['BookingBy', 'Booked By', 'BookedBy']);
+      document.getElementById('gm_style').value = gi.style !== undefined ? gi.style : getDVal(['Style', 'Style No']);
+      document.getElementById('gm_orderQty').value = gi.orderQty !== undefined ? gi.orderQty : getDVal(['RequiredQtyKgs', 'Order Qty. (Kg)', 'Order Qty', 'OrderQty']);
+      document.getElementById('gm_eventDay').value = gi.eventDay !== undefined ? gi.eventDay : getDVal(['Event day', 'Event Day', 'EventDay']);
+      document.getElementById('gm_firstShipmentDate').value = gi.firstShipmentDate !== undefined ? gi.firstShipmentDate : getDVal(['1st Shipment Date', 'First Shipment Date', '1st Ship Date']);
+      document.getElementById('gm_lastShipmentDate').value = gi.lastShipmentDate !== undefined ? gi.lastShipmentDate : getDVal(['Last Shipment Date', 'Last Ship Date'], 'N/A');
+      document.getElementById('gm_taYarnDate').value = gi.taYarnDate !== undefined ? gi.taYarnDate : getDVal(['T&A Yarn date', 'T&A Yarn Date', 'T&A YarnDate', 'Yarn Date']);
 
       // Column 3
-      document.getElementById('gm_taDeliStart').value = gi.taDeliStart !== undefined ? gi.taDeliStart : (d['T&A Deli. Start'] || '');
-      document.getElementById('gm_taDeliEnd').value = gi.taDeliEnd !== undefined ? gi.taDeliEnd : (d['T&A Deli. End'] || '');
-      document.getElementById('gm_taKnittingStart').value = gi.taKnittingStart !== undefined ? gi.taKnittingStart : (d['T&A Knitting Start'] || '');
-      document.getElementById('gm_taKnittingEnd').value = gi.taKnittingEnd !== undefined ? gi.taKnittingEnd : (d['T&A Knitting End'] || '');
-      document.getElementById('gm_taDyeingStart').value = gi.taDyeingStart !== undefined ? gi.taDyeingStart : (d['T&A Dyeing Start'] || '');
-      document.getElementById('gm_taDyeingEnd').value = gi.taDyeingEnd !== undefined ? gi.taDyeingEnd : (d['T&A Dyeing End'] || '');
-      document.getElementById('gm_fabricNotes').value = gi.fabricNotes !== undefined ? gi.fabricNotes : (d['Fabric Notes'] || d['PMC Notes'] || '');
+      document.getElementById('gm_taDeliStart').value = gi.taDeliStart !== undefined ? gi.taDeliStart : getDVal(['T&A Deli. Start', 'T&A Deli Start', 'T&A Delivery Start', 'Deli Start']);
+      document.getElementById('gm_taDeliEnd').value = gi.taDeliEnd !== undefined ? gi.taDeliEnd : getDVal(['T&A Deli. End', 'T&A Deli End', 'T&A Delivery End', 'Deli End']);
+      document.getElementById('gm_taKnittingStart').value = gi.taKnittingStart !== undefined ? gi.taKnittingStart : getDVal(['T&A Knitting Start', 'T&A Knit Start', 'T&A Knitting start', 'Knitting Start']);
+      document.getElementById('gm_taKnittingEnd').value = gi.taKnittingEnd !== undefined ? gi.taKnittingEnd : getDVal(['T&A Knitting End', 'T&A Knit End', 'T&A Knitting end', 'Knitting End']);
+      document.getElementById('gm_taDyeingStart').value = gi.taDyeingStart !== undefined ? gi.taDyeingStart : getDVal(['T&A Dyeing Start', 'T&A Dye Start', 'Dyeing Start']);
+      document.getElementById('gm_taDyeingEnd').value = gi.taDyeingEnd !== undefined ? gi.taDyeingEnd : getDVal(['T&A Dyeing End', 'T&A Dye End', 'Dyeing End']);
+      document.getElementById('gm_fabricNotes').value = gi.fabricNotes !== undefined ? gi.fabricNotes : getDVal(['Fabric Notes', 'PMC Notes', 'Notes', 'Remarks']);
     }
 
     async function openOrderManageView(orderNo) {
@@ -1962,7 +1986,7 @@
         return;
       }
       currentManagingOrder = order;
-      const d = order.fullData || {};
+      let d = order.fullData || {};
       let add = order.additionalData || {};
       let gi = add.generalInfo || {};
 
@@ -1991,14 +2015,17 @@
         const res = await fetch(`/api/orders/plan-manage/${encodeURIComponent(orderNo)}`);
         if (res.ok) {
           const resJson = await res.json();
+          if (resJson.fullData && Object.keys(resJson.fullData).length > 0) {
+            d = { ...d, ...resJson.fullData };
+            order.fullData = d;
+          }
           if (resJson.additionalData && Object.keys(resJson.additionalData).length > 0) {
             add = resJson.additionalData;
             order.additionalData = add;
-            if (add.generalInfo) {
-              populateGeneralInfoFields(add.generalInfo, d, order);
-            }
+            gi = add.generalInfo || gi;
           }
-          populateCheckpointGuideFields(add.checkpointGuide, d, add.generalInfo || gi);
+          populateGeneralInfoFields(gi, d, order);
+          populateCheckpointGuideFields(add.checkpointGuide, d, gi);
           renderKnittingPlanTable(add.knittingPlan, resJson.knittingItems, d);
           renderDyeingPlanTable(add.dyeingPlan, resJson.dyeingItems, d);
           renderDeliveryFloorPlanTable(add.deliveryFloorPlan || add.deliveryPlan, resJson.deliveryItems, d);
@@ -2010,6 +2037,7 @@
       }
 
       // Fallback if network or endpoint not ready
+      populateGeneralInfoFields(gi, d, order);
       populateCheckpointGuideFields(add.checkpointGuide, d, gi);
       renderKnittingPlanTable(add.knittingPlan, [], d);
       renderDyeingPlanTable(add.dyeingPlan, [], d);
@@ -2060,33 +2088,35 @@
         if (el) el.value = toISODate(val);
       };
 
-      setDate('guide_yd_start', pg.ydStart || gi.taYarnDate || d['T&A Yarn date'] || d['T&A Yarn Date']);
+      setDate('guide_yd_start', pg.ydStart || gi.taYarnDate || document.getElementById('gm_taYarnDate')?.value || findDictValue(d, ['T&A Yarn date', 'T&A Yarn Date']));
       setDate('guide_yd_end', pg.ydEnd);
 
-      const rawKnitStart = pg.knitStart || gi.taKnittingStart || d['T&A Knitting Start'];
-      const rawKnitEnd = pg.knitEnd || gi.taKnittingEnd || d['T&A Knitting End'];
-      const knitStartVal = toISODate(rawKnitStart);
-      const knitEndVal = toISODate(rawKnitEnd);
+      // By default, extract baseline T&A Knit Start & End date from uploaded general info T&A Knitting start & End column
+      const taKnitStartRaw = gi.taKnittingStart || document.getElementById('gm_taKnittingStart')?.value || findDictValue(d, ['T&A Knitting Start', 'T&A Knit Start', 'Knitting Start']);
+      const taKnitEndRaw = gi.taKnittingEnd || document.getElementById('gm_taKnittingEnd')?.value || findDictValue(d, ['T&A Knitting End', 'T&A Knit End', 'Knitting End']);
+
+      const baseKnitStart = toISODate(taKnitStartRaw);
+      const baseKnitEnd = toISODate(taKnitEndRaw);
 
       const startEl = document.getElementById('guide_knit_start');
       const endEl = document.getElementById('guide_knit_end');
       if (startEl) {
-        startEl.dataset.baseDate = knitStartVal;
-        startEl.value = knitStartVal;
+        startEl.dataset.baseDate = baseKnitStart;
+        startEl.value = baseKnitStart;
       }
       if (endEl) {
-        endEl.dataset.baseDate = knitEndVal;
-        endEl.value = knitEndVal;
+        endEl.dataset.baseDate = baseKnitEnd;
+        endEl.value = baseKnitEnd;
       }
 
-      setDate('guide_dye_start', pg.dyeStart || gi.taDyeingStart || d['T&A Dyeing Start']);
-      setDate('guide_dye_end', pg.dyeEnd || gi.taDyeingEnd || d['T&A Dyeing End']);
-      setDate('guide_floor_start', pg.floorStart || gi.taDeliStart || d['T&A Deli. Start']);
-      setDate('guide_floor_end', pg.floorEnd || gi.taDeliEnd || d['T&A Deli. End']);
-      setDate('guide_lock_start', pg.lockStart || gi.lastShipmentDate || d['Last Shipment Date']);
+      setDate('guide_dye_start', pg.dyeStart || gi.taDyeingStart || document.getElementById('gm_taDyeingStart')?.value || findDictValue(d, ['T&A Dyeing Start', 'Dyeing Start']));
+      setDate('guide_dye_end', pg.dyeEnd || gi.taDyeingEnd || document.getElementById('gm_taDyeingEnd')?.value || findDictValue(d, ['T&A Dyeing End', 'Dyeing End']));
+      setDate('guide_floor_start', pg.floorStart || gi.taDeliStart || document.getElementById('gm_taDeliStart')?.value || findDictValue(d, ['T&A Deli. Start', 'T&A Deli Start', 'Deli Start']));
+      setDate('guide_floor_end', pg.floorEnd || gi.taDeliEnd || document.getElementById('gm_taDeliEnd')?.value || findDictValue(d, ['T&A Deli. End', 'T&A Deli End', 'Deli End']));
+      setDate('guide_lock_start', pg.lockStart || gi.lastShipmentDate || document.getElementById('gm_lastShipmentDate')?.value || findDictValue(d, ['Last Shipment Date']));
       setDate('guide_lock_end', pg.lockEnd);
 
-      // Dynamically compute and add checklist lead time days to Knit Start & End dates
+      // If any criteria is "Yes", add that extra date with T&A date
       onCheckpointSelectionChanged();
     }
 
@@ -3327,23 +3357,32 @@
       const endEl = document.getElementById('guide_knit_end');
       const badgeEl = document.getElementById('knitLeadTimeBadge');
 
+      // T&A Knitting dates from General Info as the default foundation
+      const generalStart = toISODate(document.getElementById('gm_taKnittingStart')?.value);
+      const generalEnd = toISODate(document.getElementById('gm_taKnittingEnd')?.value);
+
+      const baseStart = startEl?.dataset.baseDate || generalStart;
+      const baseEnd = endEl?.dataset.baseDate || generalEnd;
+
       if (startEl) {
-        const baseStart = startEl.dataset.baseDate || startEl.value;
         if (!startEl.dataset.baseDate && baseStart) {
           startEl.dataset.baseDate = baseStart;
         }
         if (baseStart) {
           startEl.value = addDaysToISODate(baseStart, addStart);
+        } else {
+          startEl.value = '';
         }
       }
 
       if (endEl) {
-        const baseEnd = endEl.dataset.baseDate || endEl.value;
         if (!endEl.dataset.baseDate && baseEnd) {
           endEl.dataset.baseDate = baseEnd;
         }
         if (baseEnd) {
           endEl.value = addDaysToISODate(baseEnd, addEnd);
+        } else {
+          endEl.value = '';
         }
       }
 
@@ -3357,6 +3396,20 @@
           badgeEl.classList.add('hidden');
         }
       }
+    }
+
+    function onGeneralTaKnitDateChanged() {
+      const startVal = toISODate(document.getElementById('gm_taKnittingStart')?.value);
+      const endVal = toISODate(document.getElementById('gm_taKnittingEnd')?.value);
+      const startEl = document.getElementById('guide_knit_start');
+      const endEl = document.getElementById('guide_knit_end');
+      if (startEl) {
+        startEl.dataset.baseDate = startVal;
+      }
+      if (endEl) {
+        endEl.dataset.baseDate = endVal;
+      }
+      onCheckpointSelectionChanged();
     }
 
     function onKnitDateManuallyEdited(input) {
