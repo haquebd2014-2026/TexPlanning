@@ -3080,8 +3080,12 @@
         const res = await fetch('/api/setup/plan-checklist');
         if (res.ok) {
           const json = await res.json();
-          if (json.success && Array.isArray(json.data) && json.data.length > 0) {
-            planChecklistData = json.data;
+          const list = json.items || json.data;
+          if (json.success && Array.isArray(list) && list.length > 0) {
+            planChecklistData = list.map(it => ({
+              ...it,
+              active: it.status !== 'Inactive' && it.active !== false
+            }));
             localStorage.setItem('erp_plan_checklist', JSON.stringify(planChecklistData));
           }
         }
@@ -3208,16 +3212,28 @@
       syncPlanChecklistInputsFromDOM();
       localStorage.setItem('erp_plan_checklist', JSON.stringify(planChecklistData));
 
+      const payload = planChecklistData.map((it, idx) => ({
+        criteria: it.criteria,
+        startDays: it.startDays,
+        endDays: it.endDays,
+        status: (it.active !== false && it.status !== 'Inactive') ? 'Active' : 'Inactive',
+        orderIndex: idx + 1
+      }));
+
       try {
         const res = await fetch('/api/setup/plan-checklist', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ items: planChecklistData })
+          body: JSON.stringify({ items: payload })
         });
         const json = await res.json();
         if (res.ok && json.success) {
-          if (Array.isArray(json.data)) {
-            planChecklistData = json.data;
+          const list = json.items || json.data;
+          if (Array.isArray(list) && list.length > 0) {
+            planChecklistData = list.map(it => ({
+              ...it,
+              active: it.status !== 'Inactive' && it.active !== false
+            }));
             localStorage.setItem('erp_plan_checklist', JSON.stringify(planChecklistData));
           }
           if (showNotice) showUploadToast('Plan Check List setup saved successfully!', 'success');

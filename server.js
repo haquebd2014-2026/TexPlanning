@@ -678,7 +678,7 @@ app.get('/api/setup/plan-checklist', optionalAuth, async (req, res) => {
       await PlanChecklist.insertMany(DEFAULT_PLAN_CHECKLIST);
       items = await PlanChecklist.find().sort({ orderIndex: 1, createdAt: 1 });
     }
-    return res.status(200).json({ success: true, items });
+    return res.status(200).json({ success: true, items, data: items });
   } catch (error) {
     return res.status(500).json({ success: false, message: 'Failed to retrieve plan checklist.', error: error.message });
   }
@@ -705,7 +705,8 @@ app.post('/api/setup/plan-checklist', optionalAuth, async (req, res) => {
     return res.status(200).json({
       success: true,
       message: 'Plan checklist setup saved successfully.',
-      items: saved
+      items: saved,
+      data: saved
     });
   } catch (error) {
     return res.status(500).json({ success: false, message: 'Failed to save plan checklist.', error: error.message });
